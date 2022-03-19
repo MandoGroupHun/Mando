@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using MandoWebApp.Options;
 using Microsoft.Extensions.Options;
+using MandoWebApp.Data;
 
 namespace MandoWebApp.Areas.Identity.Pages.Account
 {
@@ -26,11 +27,13 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RegistrationOptions _registrationOptions;
+        private readonly ApplicationDbContext _dbContext;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext dbContext,
             ILogger<RegisterModel> logger,
             IOptions<RegistrationOptions> registrationOptions,
             IEmailSender emailSender)
@@ -39,6 +42,7 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
+            _dbContext = dbContext;
             _logger = logger;
             _registrationOptions = registrationOptions.Value;
             _emailSender = emailSender;
@@ -56,6 +60,7 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string ReturnUrl { get; set; }
+        public Invite Invite { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -98,8 +103,13 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string inviteId = null)
         {
+            if (inviteId != null)
+            {
+                Invite = _dbContext.Invites.FirstOrDefault(invite => invite.InviteId.ToString().ToLower() == inviteId.ToLower());
+            }
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
