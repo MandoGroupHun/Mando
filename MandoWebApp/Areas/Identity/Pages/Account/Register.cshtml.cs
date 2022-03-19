@@ -4,6 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using MandoWebApp.Models;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using MandoWebApp.Options;
 using Microsoft.Extensions.Options;
 using MandoWebApp.Data;
+using MandoWebApp.Services;
 
 namespace MandoWebApp.Areas.Identity.Pages.Account
 {
@@ -27,13 +29,13 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RegistrationOptions _registrationOptions;
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IInviteManager _inviteManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
-            ApplicationDbContext dbContext,
+            IInviteManager inviteManager,
             ILogger<RegisterModel> logger,
             IOptions<RegistrationOptions> registrationOptions,
             IEmailSender emailSender)
@@ -42,7 +44,7 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
-            _dbContext = dbContext;
+            _inviteManager = inviteManager;
             _logger = logger;
             _registrationOptions = registrationOptions.Value;
             _emailSender = emailSender;
@@ -105,17 +107,23 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null, string inviteId = null)
         {
-            if (inviteId != null)
-            {
-                Invite = _dbContext.Invites.FirstOrDefault(invite => invite.InviteId.ToString().ToLower() == inviteId.ToLower());
-            }
+            Invite = _inviteManager.GetInvite(inviteId);
 
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string inviteId = null)
         {
+            Invite = _inviteManager.GetInvite(inviteId);
+
+            if (Invite is null || Invite.Status == InviteStatus.Claimed || Input.Email != Invite.Email)
+            {
+                _logger.LogWarning($"Someone with email {Input.Email} tried to claim invite {JsonSerializer.Serialize(Invite)}");
+
+                return BadRequest("Invalid invite");
+            }
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -129,6 +137,8 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _inviteManager.UpdateInviteStatusAsync(inviteId, InviteStatus.Claimed);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

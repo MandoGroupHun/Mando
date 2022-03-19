@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Options;
+using MandoWebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,9 @@ builder.Services.AddAuthentication()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddOptions<RegistrationOptions>().BindConfiguration("Registration");
+RegisterOptions(builder);
+
+RegisterServices(builder);
 
 var app = builder.Build();
 
@@ -55,3 +58,13 @@ app.MapRazorPages();
 app.MapFallbackToFile("index.html");;
 
 app.Run();
+
+static void RegisterOptions(WebApplicationBuilder builder)
+{
+    builder.Services.AddOptions<RegistrationOptions>().BindConfiguration("Registration");
+}
+
+static void RegisterServices(WebApplicationBuilder builder)
+{
+    builder.Services.AddTransient<IInviteManager, InviteManager>();
+}
