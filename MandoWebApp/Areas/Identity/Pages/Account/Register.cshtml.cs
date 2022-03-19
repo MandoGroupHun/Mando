@@ -4,6 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using MandoWebApp.Models;
@@ -12,6 +13,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using MandoWebApp.Options;
+using Microsoft.Extensions.Options;
+using MandoWebApp.Data;
+using MandoWebApp.Services;
 
 namespace MandoWebApp.Areas.Identity.Pages.Account
 {
@@ -23,20 +28,28 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RegistrationOptions _registrationOptions;
+        private readonly IInviteManager _inviteManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
+            IInviteManager inviteManager,
             ILogger<RegisterModel> logger,
+            IOptions<RegistrationOptions> registrationOptions,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
+            _inviteManager = inviteManager;
             _logger = logger;
+            _registrationOptions = registrationOptions.Value;
             _emailSender = emailSender;
+
+            IsInviteRequired = _registrationOptions.IsInviteRequired;
         }
 
         /// <summary>
@@ -51,6 +64,8 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string ReturnUrl { get; set; }
+        public Invite Invite { get; set; }
+        public bool IsInviteRequired { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -93,15 +108,25 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null, string inviteId = null)
         {
+            Invite = _inviteManager.GetInvite(inviteId);
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, string inviteId = null)
         {
+            Invite = _inviteManager.GetInvite(inviteId);
+
+            if (IsInviteRequired && (Invite is null || Invite.Status == InviteStatus.Claimed || Input.Email != Invite.Email))
+            {
+                _logger.LogWarning($"Someone with email {Input.Email} tried to claim invite {JsonSerializer.Serialize(Invite)}");
+
+                return BadRequest("Invalid invite");
+            }
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -115,6 +140,8 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _inviteManager.UpdateInviteStatusAsync(inviteId, InviteStatus.Claimed);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
