@@ -9,9 +9,9 @@
 <div class="row">
     <div class="col-md-4">
         @{
-            if (Model.Invite != null)
+            if (!Model.IsInviteRequired || Model.Invite != null)
             {
-                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" asp-route-inviteId="@Model.Invite.InviteId" method="post">
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" asp-route-inviteId="@Model.Invite?.InviteId" method="post">
                     <h2>Create a new account.</h2>
                     <hr />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

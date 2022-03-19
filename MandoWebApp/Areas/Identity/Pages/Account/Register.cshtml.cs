@@ -48,6 +48,8 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
             _logger = logger;
             _registrationOptions = registrationOptions.Value;
             _emailSender = emailSender;
+
+            IsInviteRequired = _registrationOptions.IsInviteRequired;
         }
 
         /// <summary>
@@ -63,6 +65,7 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
         /// </summary>
         public string ReturnUrl { get; set; }
         public Invite Invite { get; set; }
+        public bool IsInviteRequired { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -117,7 +120,7 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
         {
             Invite = _inviteManager.GetInvite(inviteId);
 
-            if (Invite is null || Invite.Status == InviteStatus.Claimed || Input.Email != Invite.Email)
+            if (IsInviteRequired && (Invite is null || Invite.Status == InviteStatus.Claimed || Input.Email != Invite.Email))
             {
                 _logger.LogWarning($"Someone with email {Input.Email} tried to claim invite {JsonSerializer.Serialize(Invite)}");
 

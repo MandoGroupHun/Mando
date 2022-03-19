@@ -2,6 +2,6 @@
 {
     public class RegistrationOptions
     {
-        public bool RestrictToInvite { get; set; }
+        public bool IsInviteRequired { get; set; }
     }
 }

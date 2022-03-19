@@ -24,6 +24,11 @@ namespace MandoWebApp.Services
 
         public async Task<Result> UpdateInviteStatusAsync(string inviteId, InviteStatus status)
         {
+            if (inviteId == null)
+            {
+                return Result.Success();
+            }
+
             var invite = GetInvite(inviteId);
 
             if (invite == null)
