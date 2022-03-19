@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using MandoWebApp.Options;
+using Microsoft.Extensions.Options;
 
 namespace MandoWebApp.Areas.Identity.Pages.Account
 {
@@ -23,12 +25,14 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RegistrationOptions _registrationOptions;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
+            IOptions<RegistrationOptions> registrationOptions,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -36,6 +40,7 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _registrationOptions = registrationOptions.Value;
             _emailSender = emailSender;
         }
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
+using MandoWebApp.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddOptions<RegistrationOptions>().BindConfiguration("Registration");
 
 var app = builder.Build();
 
