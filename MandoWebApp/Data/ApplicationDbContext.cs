@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+﻿using MandoWebApp.Models;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Duende.IdentityServer.EntityFramework.Options;
-using MandoWebApp.Models;
 
-namespace MandoWebApp.Data;
-
-public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+namespace MandoWebApp.Data
 {
-    public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
-        : base(options, operationalStoreOptions)
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
-        db_schema
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
