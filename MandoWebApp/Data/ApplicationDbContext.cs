@@ -13,4 +13,6 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
         
     }
+
+    public DbSet<Invite> Invites { get; set; }
 }
