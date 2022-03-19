@@ -11,6 +11,20 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
         : base(options, operationalStoreOptions)
     {
-        
+        db_schema
+        public ApplicationDbContext(
+            DbContextOptions options,
+            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+        {
+        }
+        public DbSet<Building> Buildings { get; set; }
+        public DbSet<Storage> Storages { get; set; }
+
+        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Building>().ToTable("Building");
+            modelBuilder.Entity<Storage>().ToTable("Storage");
+        }
+        */
     }
 }
