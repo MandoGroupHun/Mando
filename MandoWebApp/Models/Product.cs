@@ -7,28 +7,29 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandoWebApp.Models
 {
-    [Table("Building")]
-    public class Building
+    [Table("Product")]
+    public class Product
     {
         public int ID { get; set; }
 
-        [Column(TypeName = "varchar(100)")]
+        [Column(TypeName = "varchar(150)")]
         public string HU_Name { get; set; }
 
-        [Column(TypeName = "varchar(100)")]
+        [Column(TypeName = "varchar(150)")]
         public string? EN_Name { get; set; }
-
-        public int Zip { get; set; }
         
         [Column(TypeName = "varchar(50)")]
-        public string Address1 { get; set; }
-
-        [Column(TypeName = "varchar(500)")]
-        public string? HU_Description { get; set; }
+        public string Category { get; set; }
         
-        [Column(TypeName = "varchar(500)")]
-        public string? EN_Description { get; set; }
+        public int UnitID { get; set; }
+        public SizeType? SizeType { get; set; }
         public ICollection<Building_Product> Building_Products { get; set; }
-        
+    }
+
+    public enum SizeType
+    {
+        Numbered, //32, 36, 44
+        TShirt, //S, M, L, XL
+        Child // 126, 134
     }
 }
