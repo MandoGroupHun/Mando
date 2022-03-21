@@ -1,0 +1,30 @@
+<h1 id="tableLabel">Invites</h1>
+
+<p *ngIf="!invites"><em>Loading...</em></p>
+<div *ngIf="invites">
+  <form class="mt-4" (ngSubmit)="createInvite()" #newInviteForm="ngForm">
+    <label class="col-md-1">Email: </label>
+    <input class="col-md-5" type="email" [(ngModel)]="inviteEmail" name="email"/>
+    <button class="btn btn-primary col-md-3 offset-md-3" type="submit">New Invite</button>
+  </form>
+  <hr />
+  <h2>Pending Invites</h2>
+  <div>
+    <table class='table table-striped' aria-labelledby="tableLabel">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Created at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let invite of invites">
+          <td>{{ invite.email }}</td>
+          <td>{{ invite.status }}</td>
+          <td>{{ invite.createdAt }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

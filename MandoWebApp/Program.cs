@@ -4,6 +4,7 @@ using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Options;
 using MandoWebApp.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,11 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddRazorPages();
 
 RegisterOptions(builder);
@@ -55,7 +60,7 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-app.MapFallbackToFile("index.html");;
+app.MapFallbackToFile("index.html");
 
 app.Run();
 

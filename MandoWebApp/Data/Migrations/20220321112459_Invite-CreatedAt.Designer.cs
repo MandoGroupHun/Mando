@@ -4,6 +4,7 @@ using MandoWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MandoWebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220321112459_Invite-CreatedAt")]
+    partial class InviteCreatedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,64 +230,6 @@ namespace MandoWebApp.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("MandoWebApp.Models.Building", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("Address1")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("ENDescription")
-                        .HasColumnType("varchar(500)")
-                        .HasColumnName("EN_Description");
-
-                    b.Property<string>("ENName")
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("EN_Name");
-
-                    b.Property<string>("HUDescription")
-                        .HasColumnType("varchar(500)")
-                        .HasColumnName("HU_Description");
-
-                    b.Property<string>("HUName")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("HU_Name");
-
-                    b.Property<int>("Zip")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Building");
-                });
-
-            modelBuilder.Entity("MandoWebApp.Models.BuildingProduct", b =>
-                {
-                    b.Property<int>("BuildingID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Size")
-                        .HasColumnType("varchar(3)");
-
-                    b.HasKey("BuildingID", "ProductID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("Map_Building_Product");
-                });
-
             modelBuilder.Entity("MandoWebApp.Models.Invite", b =>
                 {
                     b.Property<Guid>("InviteId")
@@ -305,74 +249,7 @@ namespace MandoWebApp.Data.Migrations
 
                     b.HasKey("InviteId");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.ToTable("Invite");
-                });
-
-            modelBuilder.Entity("MandoWebApp.Models.Product", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("ENName")
-                        .HasColumnType("varchar(150)")
-                        .HasColumnName("EN_Name");
-
-                    b.Property<string>("HUName")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)")
-                        .HasColumnName("HU_Name");
-
-                    b.Property<int?>("SizeType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnitID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("UnitID");
-
-                    b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("MandoWebApp.Models.Unit", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("ENName")
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("EN_Name");
-
-                    b.Property<string>("HUName")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("HU_Name");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Unit");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            ENName = "Piece",
-                            HUName = "Darab"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -512,30 +389,6 @@ namespace MandoWebApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MandoWebApp.Models.BuildingProduct", b =>
-                {
-                    b.HasOne("MandoWebApp.Models.Building", null)
-                        .WithMany("BuildingProducts")
-                        .HasForeignKey("BuildingID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MandoWebApp.Models.Product", null)
-                        .WithMany("BuildingProducts")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MandoWebApp.Models.Product", b =>
-                {
-                    b.HasOne("MandoWebApp.Models.Unit", null)
-                        .WithMany("Products")
-                        .HasForeignKey("UnitID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -585,21 +438,6 @@ namespace MandoWebApp.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("MandoWebApp.Models.Building", b =>
-                {
-                    b.Navigation("BuildingProducts");
-                });
-
-            modelBuilder.Entity("MandoWebApp.Models.Product", b =>
-                {
-                    b.Navigation("BuildingProducts");
-                });
-
-            modelBuilder.Entity("MandoWebApp.Models.Unit", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
