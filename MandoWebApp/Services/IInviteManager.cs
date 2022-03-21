@@ -8,6 +8,6 @@ namespace MandoWebApp.Services
         public Invite? GetInvite(string inviteId);
         public Task<Result> UpdateInviteStatusAsync(string inviteId, InviteStatus status);
         public Task<List<Invite>> GetPendingInvites(int maxCount, DateTime? since = null);
-        public Task AddInvite(Invite newInvite);
+        public Task<Result<bool>> AddInvite(Invite newInvite);
     }
 }

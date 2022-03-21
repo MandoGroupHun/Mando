@@ -1,4 +1,5 @@
-﻿using MandoWebApp.Models;
+﻿using CSharpFunctionalExtensions;
+using MandoWebApp.Models;
 using MandoWebApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,11 +27,15 @@ public class InviteController : ControllerBase
     }
 
     [HttpPost]
-    public Task Post([FromBody] Invite newInvite)
+    public async Task<IActionResult> Post([FromBody] Invite newInvite)
     {
         newInvite.Status = InviteStatus.New;
         newInvite.CreatedAt = DateTime.UtcNow;
 
-        return _inviteService.AddInvite(newInvite);
+        var addResult = await _inviteService.AddInvite(newInvite);
+
+        return addResult.IsSuccess
+            ? Ok(addResult.Value)
+            : BadRequest(addResult.Error);
     }
 }

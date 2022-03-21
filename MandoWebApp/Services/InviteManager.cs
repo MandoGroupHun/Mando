@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace MandoWebApp.Services
@@ -8,16 +9,39 @@ namespace MandoWebApp.Services
     public class InviteManager : IInviteManager
     {
         private readonly ApplicationDbContext _dbContext;
-        public InviteManager(ApplicationDbContext dbContext)
+        private readonly ILogger<InviteManager> _logger;
+
+        public InviteManager(ApplicationDbContext dbContext, ILogger<InviteManager> logger)
         {
+            _logger = logger;
             _dbContext = dbContext;
         }
 
-        public Task AddInvite(Invite newInvite)
+        /// <summary>
+        /// Adds a new invite
+        /// </summary>
+        /// <param name="newInvite"></param>
+        /// <returns>Return result value is true if a new invite has been added and false if it was already added</returns>
+        public async Task<Result<bool>> AddInvite(Invite newInvite)
         {
-            _dbContext.Add(newInvite);
+            try
+            {
+                _dbContext.Add(newInvite);
 
-            return _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (SqlException ex) when (ex.Message.Contains("duplicate key"))
+            {
+                return Result.Success(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception during creation of new invite");
+
+                return Result.Failure<bool>("Error during invite creation");
+            }
+
+            return Result.Success(true);
         }
 
         public Invite? GetInvite(string inviteId)
