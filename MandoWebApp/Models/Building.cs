@@ -21,7 +21,7 @@ namespace MandoWebApp.Models
         [Column(name: "HU_Description", TypeName = "varchar(500)")]
         public string? HUDescription { get; set; }
         
-        [Column(name: "En_Description", TypeName = "varchar(500)")]
+        [Column(name: "EN_Description", TypeName = "varchar(500)")]
         public string? ENDescription { get; set; }
         public ICollection<BuildingProduct> BuildingProducts { get; set; }
         

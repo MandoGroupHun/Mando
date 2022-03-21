@@ -21,6 +21,8 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
             .HasKey(c => new { c.BuildingID, c.ProductID });
 
         builder.Entity<Unit>().HasData(new Unit { ID = 1, HUName = "Darab", ENName = "Piece" });
+
+        builder.Entity<Invite>().HasIndex(i => i.Email).IsUnique();
     }
 
     public DbSet<Building> Buildings { get; set; }
