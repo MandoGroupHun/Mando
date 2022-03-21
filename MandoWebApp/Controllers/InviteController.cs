@@ -7,7 +7,7 @@ namespace MandoWebApp.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("invites")]
+[Route("[controller]")]
 public class InviteController : ControllerBase
 {
     private readonly ILogger<InviteController> _logger;
