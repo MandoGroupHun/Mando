@@ -13,6 +13,13 @@ namespace MandoWebApp.Services
             _dbContext = dbContext;
         }
 
+        public Task AddInvite(Invite newInvite)
+        {
+            _dbContext.Add(newInvite);
+
+            return _dbContext.SaveChangesAsync();
+        }
+
         public Invite? GetInvite(string inviteId)
         {
             if (inviteId == null)

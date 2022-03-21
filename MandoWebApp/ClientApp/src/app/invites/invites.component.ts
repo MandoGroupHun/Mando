@@ -6,12 +6,24 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './invites.component.html'
 })
 export class InvitesComponent {
+  public inviteEmail: string | undefined = undefined;
   public invites: Invite[] = [];
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<Invite[]>(baseUrl + 'invite').subscribe(result => {
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+
+    this.loadInvites();
+  }
+
+  private loadInvites(): void {
+    this.http.get<Invite[]>(this.baseUrl + 'invite').subscribe(result => {
       this.invites = result;
     }, error => console.error(error));
+  }
+
+  public createInvite(): void {
+    this.http.post(this.baseUrl + 'invite', { email: this.inviteEmail })
+      .subscribe(() => this.loadInvites()
+        , error => console.error(error))
   }
 }
 

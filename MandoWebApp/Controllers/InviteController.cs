@@ -24,4 +24,13 @@ public class InviteController : ControllerBase
     {
         return _inviteService.GetPendingInvites(50);
     }
+
+    [HttpPost]
+    public Task Post([FromBody] Invite newInvite)
+    {
+        newInvite.Status = InviteStatus.New;
+        newInvite.CreatedAt = DateTime.UtcNow;
+
+        return _inviteService.AddInvite(newInvite);
+    }
 }
