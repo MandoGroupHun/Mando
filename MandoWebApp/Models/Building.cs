@@ -1,8 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandoWebApp.Models
@@ -12,23 +7,23 @@ namespace MandoWebApp.Models
     {
         public int ID { get; set; }
 
-        [Column(TypeName = "varchar(100)")]
-        public string HU_Name { get; set; }
+        [Column(name: "HU_Name", TypeName = "varchar(100)")]
+        public string HUName { get; set; }
 
-        [Column(TypeName = "varchar(100)")]
-        public string? EN_Name { get; set; }
+        [Column(name: "EN_Name", TypeName = "varchar(100)")]
+        public string? ENName { get; set; }
 
         public int Zip { get; set; }
         
         [Column(TypeName = "varchar(50)")]
         public string Address1 { get; set; }
 
-        [Column(TypeName = "varchar(500)")]
-        public string? HU_Description { get; set; }
+        [Column(name: "HU_Description", TypeName = "varchar(500)")]
+        public string? HUDescription { get; set; }
         
-        [Column(TypeName = "varchar(500)")]
-        public string? EN_Description { get; set; }
-        public ICollection<Building_Product> Building_Products { get; set; }
+        [Column(name: "En_Description", TypeName = "varchar(500)")]
+        public string? ENDescription { get; set; }
+        public ICollection<BuildingProduct> BuildingProducts { get; set; }
         
     }
 }

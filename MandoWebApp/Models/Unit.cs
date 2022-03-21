@@ -1,9 +1,4 @@
 //using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandoWebApp.Models
@@ -13,11 +8,11 @@ namespace MandoWebApp.Models
     {
         public int ID { get; set; }
 
-        [Column(TypeName = "varchar(20)")]
-        public string HU_Name { get; set; }
+        [Column(name: "HU_Name", TypeName = "varchar(20)")]
+        public string HUName { get; set; }
 
-        [Column(TypeName = "varchar(20)")]
-        public string? EN_Name { get; set; }
+        [Column(name: "EN_Name", TypeName = "varchar(20)")]
+        public string? ENName { get; set; }
 
         public ICollection<Product> Products { get; set; }
     }

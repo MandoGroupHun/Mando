@@ -1,14 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandoWebApp.Models
 {
     [Table("Map_Building_Product")]
-    public class Building_Product
+    public class BuildingProduct
     {
         public int BuildingID { get; set; }
 
@@ -18,7 +13,5 @@ namespace MandoWebApp.Models
 
         [Column(TypeName = "varchar(3)")]
         public string? Size { get; set; }
-
     }
-
 }
