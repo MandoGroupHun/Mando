@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MandoWebApp.Services
 {
@@ -20,6 +21,22 @@ namespace MandoWebApp.Services
             }
 
             return _dbContext.Invites.FirstOrDefault(invite => invite.InviteId.ToString().ToLower() == inviteId.ToLower());
+        }
+
+        public Task<List<Invite>> GetPendingInvites(int maxCount, DateTime? since = null)
+        {
+            var invitesQuery = _dbContext.Invites
+                .Where(i => i.Status == InviteStatus.New || i.Status == InviteStatus.Sent);
+
+            if (since != null)
+            {
+                invitesQuery = invitesQuery.Where(i => i.CreatedAt >= since);
+            }
+
+            return invitesQuery
+                .OrderByDescending(i => i.CreatedAt)
+                .Take(maxCount)
+                .ToListAsync();
         }
 
         public async Task<Result> UpdateInviteStatusAsync(string inviteId, InviteStatus status)

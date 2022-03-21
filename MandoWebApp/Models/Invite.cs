@@ -12,6 +12,8 @@ namespace MandoWebApp.Models
 
         [Column(TypeName = "nvarchar(10)")]
         public InviteStatus Status { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 
     public enum InviteStatus
