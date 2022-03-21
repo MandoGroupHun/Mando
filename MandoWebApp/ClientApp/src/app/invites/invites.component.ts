@@ -2,10 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-fetch-data',
-  templateUrl: './fetch-data.component.html'
+  selector: 'app-invites',
+  templateUrl: './invites.component.html'
 })
-export class InviteComponent {
+export class InvitesComponent {
   public invites: Invite[] = [];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
