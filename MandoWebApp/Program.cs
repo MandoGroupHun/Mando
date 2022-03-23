@@ -5,6 +5,8 @@ using MandoWebApp.Models;
 using MandoWebApp.Options;
 using MandoWebApp.Services;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MandoWebApp.Services.EmailSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,9 +69,11 @@ app.Run();
 static void RegisterOptions(WebApplicationBuilder builder)
 {
     builder.Services.AddOptions<RegistrationOptions>().BindConfiguration("Registration");
+    builder.Services.AddOptions<EmailOptions>().BindConfiguration("Email");
 }
 
 static void RegisterServices(WebApplicationBuilder builder)
 {
     builder.Services.AddTransient<IInviteManager, InviteManager>();
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
 }
