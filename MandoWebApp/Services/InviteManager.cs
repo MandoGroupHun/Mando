@@ -30,7 +30,7 @@ namespace MandoWebApp.Services
 
                 await _dbContext.SaveChangesAsync();
             }
-            catch (SqlException ex) when (ex.Message.Contains("duplicate key"))
+            catch (DbUpdateException ex) when (ex.InnerException is SqlException inner && inner.Message.Contains("duplicate key"))
             {
                 return Result.Success(false);
             }
