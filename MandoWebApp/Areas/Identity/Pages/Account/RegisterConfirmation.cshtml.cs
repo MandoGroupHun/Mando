@@ -6,7 +6,6 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using MandoWebApp.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -19,13 +18,11 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _sender;
         private readonly EmailOptions _emailOptions;
 
-        public RegisterConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender sender, IOptions<EmailOptions> emailOptions)
+        public RegisterConfirmationModel(UserManager<ApplicationUser> userManager, IOptions<EmailOptions> emailOptions)
         {
             _userManager = userManager;
-            _sender = sender;
             _emailOptions = emailOptions.Value;
         }
 
