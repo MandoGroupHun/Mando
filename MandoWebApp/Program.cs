@@ -8,7 +8,6 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MandoWebApp.Services.EmailSender;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,7 +77,7 @@ app.Run();
 
 static void RegisterOptions(WebApplicationBuilder builder)
 {
-    builder.Services.AddOptions<RegistrationOptions>().BindConfiguration("Registration");
+    builder.Services.AddOptions<MandoAuthOptions>().BindConfiguration("Authentication");
     builder.Services.AddOptions<EmailOptions>().BindConfiguration("Email");
 }
 

@@ -4,5 +4,5 @@ namespace MandoWebApp.Models;
 
 public class ApplicationUser : IdentityUser
 {
-    
+    public bool? IsTestUser { get; set; }
 }
