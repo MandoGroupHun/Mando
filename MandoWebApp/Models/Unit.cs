@@ -15,5 +15,8 @@ namespace MandoWebApp.Models
         public string? ENName { get; set; }
 
         public ICollection<Product> Products { get; set; }
+
+        [NotMapped]
+        public string Name => HUName; // TODO implement language switch here
     }
 }
