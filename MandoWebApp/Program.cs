@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MandoWebApp.Services.EmailSender;
 using Microsoft.AspNetCore.Identity;
+using MandoWebApp.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,6 +84,7 @@ static void RegisterOptions(WebApplicationBuilder builder)
 
 static void RegisterServices(WebApplicationBuilder builder)
 {
+    builder.Services.AddTransient<IClaimsTransformation, RoleClaimsTransformation>();
     builder.Services.AddTransient<IInviteManager, InviteManager>();
     builder.Services.AddTransient<IEmailSender, EmailSender>();
 }
