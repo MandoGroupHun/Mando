@@ -1,7 +1,5 @@
 ﻿using MandoWebApp.Data;
-using MandoWebApp.Models;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -9,8 +7,6 @@ namespace MandoWebApp.Services.Authentication
 {
     public class RoleClaimsTransformation : IClaimsTransformation
     {
-        private const string RoleClaimType = "role";
-
         private readonly ApplicationDbContext _dbContext;
 
         public RoleClaimsTransformation(ApplicationDbContext dbContext)
@@ -31,11 +27,11 @@ namespace MandoWebApp.Services.Authentication
                 .Where(ur => ur.UserId == userId)
                 .Join(_dbContext.Roles, ur => ur.RoleId, r => r.Id, (_, role) => role.Name).ToListAsync();
 
-            var newClaims = roles.Where(role => !principal.IsInRole(role)).Select(role => new Claim(RoleClaimType, role));
+            var newClaims = roles.Where(role => !principal.IsInRole(role)).Select(role => new Claim(Roles.ClaimType, role));
 
             if (newClaims.Any())
             {
-                principal.AddIdentity(new ClaimsIdentity(newClaims, authenticationType: default, nameType: default, roleType: RoleClaimType));
+                principal.AddIdentity(new ClaimsIdentity(newClaims, authenticationType: default, nameType: default, roleType: Roles.ClaimType));
             }
 
             return principal;

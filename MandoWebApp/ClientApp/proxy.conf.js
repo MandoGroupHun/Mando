@@ -7,6 +7,7 @@ const PROXY_CONFIG = [
   {
     context: [
       "/invite",
+      "/role",
       "/_configuration",
       "/.well-known",
       "/Identity",

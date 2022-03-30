@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace MandoWebApp.Controllers;
 
 [Authorize(Roles = $"{Roles.Manager},{Roles.Administrator}")]
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class InviteController : ControllerBase
