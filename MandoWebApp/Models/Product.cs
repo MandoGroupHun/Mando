@@ -19,6 +19,9 @@ namespace MandoWebApp.Models
         public int UnitID { get; set; }
         public SizeType? SizeType { get; set; }
         public ICollection<BuildingProduct> BuildingProducts { get; set; }
+
+        [NotMapped]
+        public string Name => HUName; // TODO implement language switch here
     }
 
     public enum SizeType

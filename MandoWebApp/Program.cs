@@ -7,9 +7,11 @@ using MandoWebApp.Services;
 using MandoWebApp.Services.EmailSender;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using MandoWebApp.Services.ProductService;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using MandoWebApp.Services.UserManangement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -94,4 +96,6 @@ static void RegisterServices(WebApplicationBuilder builder)
 {
     builder.Services.AddTransient<IInviteManager, InviteManager>();
     builder.Services.AddTransient<IEmailSender, EmailSender>();
+    builder.Services.AddTransient<IProductService, ProductService>();
+    builder.Services.AddTransient<IUserManagementService, UserManagementService>();
 }
