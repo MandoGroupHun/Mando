@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
+import { extractFirstErrorMessage } from '../utilities/error-util';
 
 @Component({
   selector: 'app-invites',
@@ -43,8 +44,4 @@ interface Invite {
   email: string;
   status: string;
   createdAt: string;
-}
-
-function extractFirstErrorMessage(error: HttpErrorResponse) {
-  return error.error.errors[Object.keys(error.error.errors)[0]];
 }

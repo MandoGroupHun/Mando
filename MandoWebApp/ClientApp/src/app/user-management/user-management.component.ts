@@ -2,6 +2,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
+import { arrayEquals } from '../utilities/array-util';
 
 @Component({
   selector: 'app-user-management',
@@ -10,9 +11,10 @@ import { MessageService } from 'primeng/api';
 })
 export class UserManagementComponent {
   public userManagement: UserManagement | null = null;
+  public userManagementSnapshot: UserManagement | null = null;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService) {
-    this.loadInvites();
+    this.loadUsers();
   }
 
   public getUsers(): UserManagementItem[] {
@@ -23,9 +25,16 @@ export class UserManagementComponent {
     return this.userManagement ? this.userManagement.allRoles : [];
   }
 
-  private loadInvites(): void {
+  public isChanged(user: UserManagementItem): boolean {
+    var snapshot = this.userManagementSnapshot?.users.find(u => u.id == user.id);
+
+    return arrayEquals(user.roles, snapshot?.roles);
+  }
+
+  private loadUsers(): void {
     this.http.get<UserManagement>(this.baseUrl + 'usermanagement').subscribe(result => {
       this.userManagement = result;
+      this.userManagementSnapshot = JSON.parse(JSON.stringify(result));
     }, error => console.error(error));
   }
 
@@ -54,8 +63,4 @@ interface UserManagementItem {
   id: string;
   name: string;
   roles: string[];
-}
-
-function extractFirstErrorMessage(error: HttpErrorResponse) {
-  return error.error.errors[Object.keys(error.error.errors)[0]];
 }
