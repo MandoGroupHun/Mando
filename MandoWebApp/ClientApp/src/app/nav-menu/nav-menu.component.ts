@@ -20,7 +20,7 @@ export class NavMenuComponent {
     });
   }
 
-  public showInvites(): boolean {
+  public isPriviliged(): boolean {
     return isInRole(this.user, 'Administrator') || isInRole(this.user, 'Manager');
   }
 

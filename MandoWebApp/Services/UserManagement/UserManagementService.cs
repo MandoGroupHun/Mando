@@ -23,10 +23,13 @@ namespace MandoWebApp.Services.UserManangement
         public async Task<List<UserManagementItem>> GetUsersAsync()
         {
             var units = await _dbContext.UserRoles
-                .Join(_dbContext.Roles, ur => ur.RoleId, r => r.Id, (userRole, role) => new { role.Name, userRole.UserId }).ToListAsync();
+                .Join(_dbContext.Roles, ur => ur.RoleId, r => r.Id, (userRole, role) => 
+                    new { role.Name, userRole.UserId })
+                .ToListAsync();
 
             return units.GroupBy(ur => ur.UserId)
-                .Join(_userManager.Users, ur => ur.Key, r => r.Id, (userRoles, user) => new UserManagementItem(user.Id, user.UserName, userRoles.Select(ur => ur.Name)))
+                .Join(_userManager.Users, ur => ur.Key, r => r.Id, (userRoles, user) => 
+                    new UserManagementItem(user.Id, user.UserName, userRoles.Select(ur => ur.Name)))
                 .ToList();
         }
 

@@ -1,0 +1,23 @@
+<h1 id="tableLabel">Users</h1>
+<p-toast></p-toast>
+
+
+<p [hidden]="users"><em>Loading...</em></p>
+<div [hidden]="!users">
+  <div>
+    <p-table [value]="users">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Roles</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.name }}</td> 
+          <td>{{ user.roles }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

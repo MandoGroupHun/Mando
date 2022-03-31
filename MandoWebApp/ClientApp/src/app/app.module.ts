@@ -20,6 +20,7 @@ import { AddProductBuildingComponent } from './products/add-product-building.com
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { UserManagementComponent } from './user-management/user-management.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     HomeComponent,
     CounterComponent,
     InvitesComponent,
+    UserManagementComponent,
     AddProductBuildingComponent
   ],
   imports: [
@@ -48,6 +50,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
+      { path: 'usermanagement', component: UserManagementComponent, canActivate: [AuthorizeGuard] },
       { path: 'products', component: AddProductBuildingComponent, canActivate: [AuthorizeGuard] },
     ])
   ],
