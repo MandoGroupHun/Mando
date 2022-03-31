@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { arrayEquals } from '../utilities/array-util';
+import { extractFirstErrorMessage } from '../utilities/error-util';
 
 @Component({
   selector: 'app-user-management',
@@ -26,7 +27,7 @@ export class UserManagementComponent {
   }
 
   public isChanged(user: UserManagementItem): boolean {
-    var snapshot = this.userManagementSnapshot?.users.find(u => u.id == user.id);
+    var snapshot = this.userManagementSnapshot?.users.find(u => u.id === user.id);
 
     return arrayEquals(user.roles, snapshot?.roles);
   }
@@ -38,20 +39,20 @@ export class UserManagementComponent {
     }, error => console.error(error));
   }
 
-  //public createInvite(): void {
-  //  this.http.post<boolean>(this.baseUrl + 'invite', { email: this.inviteEmail })
-  //    .subscribe(newAdded => {
-  //      if (newAdded) {
-  //        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Invite successfully sent!' });
-  //        this.loadInvites();
-  //      }
-  //      else {
-  //        this.messageService.add({ severity: 'warn', summary: 'Duplicate invite', detail: 'This email has already received an invite!' });
-  //      }
-  //    }, (error: HttpErrorResponse) => {
-  //      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to send an invite to this email. Details: ' + extractFirstErrorMessage(error) });
-  //    });
-  //}
+  public updateUser(user: UserManagementItem): void {
+    this.http.post<any>(this.baseUrl + 'usermanagement', user)
+      .subscribe(() => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User updated!' });
+
+        const snapshot = this.userManagementSnapshot?.users.find(u => u.id === user.id);
+
+        const index = this.userManagementSnapshot?.users.indexOf(snapshot!);
+
+        this.userManagementSnapshot?.users.splice(index!, 1, JSON.parse(JSON.stringify(user)));
+      }, (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to update the user. Details: ' + extractFirstErrorMessage(error) });
+      });
+  }
 }
 
 interface UserManagement {

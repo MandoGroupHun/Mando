@@ -32,15 +32,38 @@ namespace MandoWebApp.Services.UserManangement
 
             var userRoles = units.GroupBy(ur => ur.UserId)
                 .Join(_userManager.Users, ur => ur.Key, r => r.Id, (userRoles, user) => 
-                    new UserManagementItem(user.Id, user.UserName, userRoles.Select(ur => ur.Name)))
+                    new UserManagementItem(user.Id, user.UserName, userRoles.Select(ur => ur.Name).ToList()))
                 .ToList();
 
             return new UserManagement(_roleManager.Roles.Select(r => r.Name), userRoles);
         }
 
-        public Task<Result> UpdateRolesAsync(UserManagementItem updatedUser)
+        public async Task<Result> UpdateRolesAsync(UserManagementItem updatedUser)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _userManager.FindByIdAsync(updatedUser.Id);
+
+                if (user == null)
+                {
+                    return Result.Failure("Invalid user");
+                }
+
+                var currentRoles = await _userManager.GetRolesAsync(user);
+                var newRoles = updatedUser.Roles.Except(currentRoles);
+                var rolesToRemove = currentRoles.Except(updatedUser.Roles);
+
+                await _userManager.AddToRolesAsync(user, newRoles);
+                await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error duuring role update");
+
+                return Result.Failure("Error during role update");
+            }
+
+            return Result.Success();
         }
     }
 }
