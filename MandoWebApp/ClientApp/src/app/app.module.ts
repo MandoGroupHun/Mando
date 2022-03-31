@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -17,6 +16,11 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddProductBuildingComponent } from './products/add-product-building.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +28,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    InvitesComponent
+    InvitesComponent,
+    AddProductBuildingComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -36,10 +41,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ButtonModule,
     TableModule,
     ToastModule,
+    AutoCompleteModule,
+    DropdownModule,
+    InputNumberModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
+      { path: 'products', component: AddProductBuildingComponent, canActivate: [AuthorizeGuard] },
     ])
   ],
   providers: [
