@@ -6,7 +6,7 @@ namespace MandoWebApp.Services.UserManangement
 {
     public interface IUserManagementService
     {
-        Task<List<UserManagementItem>> GetUsersAsync();
+        Task<UserManagement> GetUsersAndRoles();
         Task<Result> UpdateRolesAsync(UserManagementItem updatedUser);
     }
 }

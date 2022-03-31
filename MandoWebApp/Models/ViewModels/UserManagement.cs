@@ -1,5 +1,17 @@
 ﻿namespace MandoWebApp.Models.ViewModels
 {
+    public class UserManagement
+    {
+        public List<string> AllRoles { get; set; }
+        public List<UserManagementItem> Users { get; set; }
+
+        public UserManagement(IEnumerable<string> roles, IEnumerable<UserManagementItem> users)
+        {
+            AllRoles = roles.ToList();
+            Users = users.ToList();
+        }
+    }
+
     public class UserManagementItem
     {
         public string Id { get; set; }

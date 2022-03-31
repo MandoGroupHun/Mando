@@ -18,9 +18,9 @@ namespace MandoWebApp.Controllers
         }
 
         [HttpGet]
-        public Task<List<UserManagementItem>> Get()
+        public Task<UserManagement> Get()
         {
-            return _userManagementService.GetUsersAsync();
+            return _userManagementService.GetUsersAndRoles();
         }
     }
 }

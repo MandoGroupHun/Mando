@@ -9,15 +9,23 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService]
 })
 export class UserManagementComponent {
-  public users: UserManagementItem[] = [];
+  public userManagement: UserManagement | null = null;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService) {
     this.loadInvites();
   }
 
+  public getUsers(): UserManagementItem[] {
+    return this.userManagement ? this.userManagement.users : [];
+  }
+
+  public getRoles(): string[] {
+    return this.userManagement ? this.userManagement.allRoles : [];
+  }
+
   private loadInvites(): void {
-    this.http.get<UserManagementItem[]>(this.baseUrl + 'usermanagement').subscribe(result => {
-      this.users = result;
+    this.http.get<UserManagement>(this.baseUrl + 'usermanagement').subscribe(result => {
+      this.userManagement = result;
     }, error => console.error(error));
   }
 
@@ -35,6 +43,11 @@ export class UserManagementComponent {
   //      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to send an invite to this email. Details: ' + extractFirstErrorMessage(error) });
   //    });
   //}
+}
+
+interface UserManagement {
+  allRoles: string[]
+  users: UserManagementItem[];
 }
 
 interface UserManagementItem {

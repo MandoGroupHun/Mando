@@ -2,20 +2,22 @@
 <p-toast></p-toast>
 
 
-<p [hidden]="users"><em>Loading...</em></p>
-<div [hidden]="!users">
+<p *ngIf="!userManagement"><em>Loading...</em></p>
+<div *ngIf="userManagement">
   <div>
-    <p-table [value]="users">
+    <p-table [value]="getUsers()">
       <ng-template pTemplate="header">
         <tr>
           <th>Name</th>
-          <th>Roles</th>
+          <th *ngFor="let role of getRoles()">{{ role }}</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
         <tr>
-          <td>{{ user.name }}</td> 
-          <td>{{ user.roles }}</td>
+          <td>{{ user.name }}</td>
+          <td *ngFor="let role of getRoles()">
+            <p-checkbox name="is-in-role" value="{{ role }}" [(ngModel)]="user.roles"></p-checkbox>
+          </td>
         </tr>
       </ng-template>
     </p-table>

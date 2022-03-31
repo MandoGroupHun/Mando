@@ -11,26 +11,31 @@ namespace MandoWebApp.Services.UserManangement
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<UserManagementService> _logger;
 
-        public UserManagementService(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, ILogger<UserManagementService> logger)
+        public UserManagementService(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager, ILogger<UserManagementService> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
-        public async Task<List<UserManagementItem>> GetUsersAsync()
+        public async Task<UserManagement> GetUsersAndRoles()
         {
             var units = await _dbContext.UserRoles
                 .Join(_dbContext.Roles, ur => ur.RoleId, r => r.Id, (userRole, role) => 
                     new { role.Name, userRole.UserId })
                 .ToListAsync();
 
-            return units.GroupBy(ur => ur.UserId)
+            var userRoles = units.GroupBy(ur => ur.UserId)
                 .Join(_userManager.Users, ur => ur.Key, r => r.Id, (userRoles, user) => 
                     new UserManagementItem(user.Id, user.UserName, userRoles.Select(ur => ur.Name)))
                 .ToList();
+
+            return new UserManagement(_roleManager.Roles.Select(r => r.Name), userRoles);
         }
 
         public Task<Result> UpdateRolesAsync(UserManagementItem updatedUser)

@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddProductBuildingComponent } from './products/add-product-building.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
+import { CheckboxModule } from 'primeng/checkbox';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { UserManagementComponent } from './user-management/user-management.component';
 
@@ -41,6 +42,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
     ApiAuthorizationModule,
     InputTextModule,
     ButtonModule,
+    CheckboxModule,
     TableModule,
     ToastModule,
     AutoCompleteModule,
