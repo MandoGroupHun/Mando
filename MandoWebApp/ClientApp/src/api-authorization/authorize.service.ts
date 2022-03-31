@@ -30,7 +30,6 @@ export enum AuthenticationResultStatus {
   Fail
 }
 
-
 export function isInRole(user: Profile | null, role: string) {
   if (!user) {
     return false;
@@ -55,10 +54,6 @@ export class AuthorizeService {
 
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
-  }
-
-  public getRoles(): Observable<string[]> {
-    return this.getUserFromStorage().pipe(map(user => !!user ? (user["role"] ?? []) as string[] : []));
   }
 
   public getUser(): Observable<Profile | null> {
