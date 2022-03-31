@@ -1,14 +1,15 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.EntityFrameworkCore;
+using Duende.IdentityServer.Models;
+using MandoWebApp;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Options;
 using MandoWebApp.Services;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using MandoWebApp.Services.EmailSender;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using MandoWebApp.Services.Authentication;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,12 +26,19 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
         options.SignIn.RequireConfirmedEmail = true;
         options.SignIn.RequireConfirmedAccount = true;
+
+        options.ClaimsIdentity.RoleClaimType = Roles.ClaimType;
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(opts =>
+    {
+        opts.IdentityResources.Add(new IdentityResource("roles", new[] { Roles.ClaimType }));
+
+        opts.Clients.First().AllowedScopes.Add("roles");
+    });
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
@@ -84,7 +92,6 @@ static void RegisterOptions(WebApplicationBuilder builder)
 
 static void RegisterServices(WebApplicationBuilder builder)
 {
-    builder.Services.AddTransient<IClaimsTransformation, RoleClaimsTransformation>();
     builder.Services.AddTransient<IInviteManager, InviteManager>();
     builder.Services.AddTransient<IEmailSender, EmailSender>();
 }
