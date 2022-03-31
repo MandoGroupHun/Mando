@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { User, UserManager } from 'oidc-client';
+import { Profile, User, UserManager, UserSettings } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
@@ -30,8 +30,17 @@ export enum AuthenticationResultStatus {
   Fail
 }
 
-export interface IUser {
-  name?: string;
+
+export function isInRole(user: Profile | null, role: string) {
+  if (!user) {
+    return false;
+  }
+
+  var roles = user['role'];
+
+  return !roles
+    ? false
+    : (roles as string[]).includes(role);
 }
 
 @Injectable({
@@ -40,38 +49,23 @@ export interface IUser {
 export class AuthorizeService {
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
-
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
-
   private popUpDisabled = true;
   private userManager?: UserManager;
-  private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
-  private roleSubject: BehaviorSubject<string[] | null> = new BehaviorSubject<string[] | null>(null);
+  public userSubject: BehaviorSubject<Profile | null> = new BehaviorSubject<Profile | null>(null);
 
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
   }
 
-  public getUser(): Observable<IUser | null> {
+  public getRoles(): Observable<string[]> {
+    return this.getUserFromStorage().pipe(map(user => !!user ? (user["role"] ?? []) as string[] : []));
+  }
+
+  public getUser(): Observable<Profile | null> {
     return concat(
       this.userSubject.pipe(take(1), filter(u => !!u)),
       this.getUserFromStorage().pipe(filter(u => !!u), tap(u => this.userSubject.next(u))),
       this.userSubject.asObservable());
-  }
-
-  public async loadUserRoles(): Promise<any> {
-    var authSub = this.isAuthenticated()
-      .subscribe(async isAuthenticated => {
-          var roles = await (isAuthenticated
-            ? this.http.get<string[]>(this.baseUrl + 'role/own').toPromise()
-            : Promise.resolve(null));
-
-        this.roleSubject.next(roles);
-
-        });
-
-    authSub.unsubscribe();
-    return Promise.resolve();
   }
 
   public getAccessToken(): Observable<string | null> {
@@ -131,7 +125,6 @@ export class AuthorizeService {
       await this.ensureUserManagerInitialized();
       const user = await this.userManager!.signinCallback(url);
       this.userSubject.next(user && user.profile);
-      await this.loadUserRoles();
       return this.success(user && user.state);
     } catch (error) {
       console.log('There was an error signing in: ', error);
@@ -210,7 +203,7 @@ export class AuthorizeService {
     });
   }
 
-  private getUserFromStorage(): Observable<IUser | null> {
+  private getUserFromStorage(): Observable<Profile | null> {
     return from(this.ensureUserManagerInitialized())
       .pipe(
         mergeMap(() => this.userManager!.getUser()),

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
+import { Profile } from 'oidc-client';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AuthorizeService, isInRole } from '../../api-authorization/authorize.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -9,10 +11,17 @@ import { AuthorizeService, IUser } from '../../api-authorization/authorize.servi
 })
 export class NavMenuComponent {
   isExpanded = false;
-  public user: Observable<IUser | null>;
+  public user: Profile | null = null;
 
-  constructor(public userManager: AuthorizeService) {
-    this.user = userManager.getUser();
+  constructor(public authorizeService: AuthorizeService) {
+
+    authorizeService.getUser().subscribe(user => {
+      this.user = user;
+    });
+  }
+
+  public showInvites(): boolean {
+    return isInRole(this.user, 'Administrator') || isInRole(this.user, 'Manager');
   }
 
   collapse() {

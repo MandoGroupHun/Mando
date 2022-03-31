@@ -32,7 +32,7 @@
               >Counter</a
             >
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="user | async">
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="showInvites()">
             <a class="nav-link text-dark" [routerLink]="['/invites']"
               >Invites</a
             >
