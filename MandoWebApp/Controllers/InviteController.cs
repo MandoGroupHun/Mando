@@ -1,12 +1,11 @@
-﻿using CSharpFunctionalExtensions;
-using MandoWebApp.Models;
+﻿using MandoWebApp.Models;
 using MandoWebApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MandoWebApp.Controllers;
 
-[Authorize]
+[Authorize(Roles = $"{Roles.Manager},{Roles.Administrator}")]
 [ApiController]
 [Route("[controller]")]
 public class InviteController : ControllerBase

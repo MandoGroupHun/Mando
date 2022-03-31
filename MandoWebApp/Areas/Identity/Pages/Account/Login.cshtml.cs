@@ -15,18 +15,18 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly MandoAuthOptions _authOptions;
 
-        public LoginModel(IUserStore<ApplicationUser> userStore,
+        public LoginModel(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IOptions<MandoAuthOptions> authOptions,
             ILogger<LoginModel> logger)
 
         {
-            _userStore = userStore;
+            _userManager = userManager;
             _authOptions = authOptions.Value;
             _signInManager = signInManager;
             _logger = logger;
@@ -113,15 +113,12 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                if (!_authOptions.AllowTestUsers)
-                {
-                    var user = await _userStore.FindByNameAsync(Input.Email.ToUpperInvariant(), CancellationToken.None);
+                var user = await _userManager.FindByEmailAsync(Input.Email.ToUpperInvariant());
 
-                    if (user?.IsTestUser == true)
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
+                if (!_authOptions.AllowTestUsers && user?.IsTestUser == true)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
                 }
 
                 // This doesn't count login failures towards account lockout
