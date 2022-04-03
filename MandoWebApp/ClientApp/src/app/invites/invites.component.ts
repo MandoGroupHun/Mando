@@ -1,15 +1,18 @@
 import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
+import { extractFirstErrorMessage } from '../utilities/error-util';
 
 @Component({
   selector: 'app-invites',
-  templateUrl: './invites.component.html'
+  templateUrl: './invites.component.html',
+  providers: [MessageService]
 })
 export class InvitesComponent {
   public inviteEmail: string | undefined = undefined;
   public invites: Invite[] = [];
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService) {
 
     this.loadInvites();
   }
@@ -21,9 +24,18 @@ export class InvitesComponent {
   }
 
   public createInvite(): void {
-    this.http.post(this.baseUrl + 'invite', { email: this.inviteEmail })
-      .subscribe(() => this.loadInvites()
-        , error => console.error(error))
+    this.http.post<boolean>(this.baseUrl + 'invite', { email: this.inviteEmail })
+      .subscribe(newAdded => {
+        if (newAdded) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Invite successfully sent!' });
+          this.loadInvites();
+        }
+        else {
+          this.messageService.add({ severity: 'warn', summary: 'Duplicate invite', detail: 'This email has already received an invite!' });
+        }
+      }, (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to send an invite to this email. Details: ' + extractFirstErrorMessage(error) });
+      });
   }
 }
 

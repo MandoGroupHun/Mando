@@ -4,20 +4,30 @@
 
 using System.ComponentModel.DataAnnotations;
 using MandoWebApp.Models;
+using MandoWebApp.Options;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace MandoWebApp.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly MandoAuthOptions _authOptions;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IOptions<MandoAuthOptions> authOptions,
+            ILogger<LoginModel> logger)
+
         {
+            _userManager = userManager;
+            _authOptions = authOptions.Value;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -103,6 +113,14 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByEmailAsync(Input.Email.ToUpperInvariant());
+
+                if (!_authOptions.AllowTestUsers && user?.IsTestUser == true)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);

@@ -2,21 +2,20 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Json;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Authentication;
 using MandoWebApp.Models;
+using MandoWebApp.Options;
+using MandoWebApp.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using MandoWebApp.Options;
 using Microsoft.Extensions.Options;
-using MandoWebApp.Data;
-using MandoWebApp.Services;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace MandoWebApp.Areas.Identity.Pages.Account
 {
@@ -24,32 +23,35 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RegistrationOptions _registrationOptions;
+        private readonly MandoAuthOptions _authOptions;
         private readonly IInviteManager _inviteManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IInviteManager inviteManager,
             ILogger<RegisterModel> logger,
-            IOptions<RegistrationOptions> registrationOptions,
+            IOptions<MandoAuthOptions> authOptions,
             IEmailSender emailSender)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _inviteManager = inviteManager;
             _logger = logger;
-            _registrationOptions = registrationOptions.Value;
+            _authOptions = authOptions.Value;
             _emailSender = emailSender;
 
-            IsInviteRequired = _registrationOptions.IsInviteRequired;
+            IsInviteRequired = _authOptions.IsInviteRequired;
         }
 
         /// <summary>
@@ -139,6 +141,8 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, _roleManager.Roles.First(x => x.Name == Roles.Volunteer).Name);
+
                     _logger.LogInformation("User created a new account with password.");
 
                     await _inviteManager.UpdateInviteStatusAsync(inviteId, InviteStatus.Claimed);

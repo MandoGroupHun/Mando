@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { User, UserManager } from 'oidc-client';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Profile, User, UserManager, UserSettings } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
@@ -29,8 +30,16 @@ export enum AuthenticationResultStatus {
   Fail
 }
 
-export interface IUser {
-  name?: string;
+export function isInRole(user: Profile | null, role: string) {
+  if (!user) {
+    return false;
+  }
+
+  var roles = user['role'];
+
+  return !roles
+    ? false
+    : (roles as string[]).includes(role);
 }
 
 @Injectable({
@@ -39,16 +48,15 @@ export interface IUser {
 export class AuthorizeService {
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
-
   private popUpDisabled = true;
   private userManager?: UserManager;
-  private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
+  public userSubject: BehaviorSubject<Profile | null> = new BehaviorSubject<Profile | null>(null);
 
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
   }
 
-  public getUser(): Observable<IUser | null> {
+  public getUser(): Observable<Profile | null> {
     return concat(
       this.userSubject.pipe(take(1), filter(u => !!u)),
       this.getUserFromStorage().pipe(filter(u => !!u), tap(u => this.userSubject.next(u))),
@@ -190,7 +198,7 @@ export class AuthorizeService {
     });
   }
 
-  private getUserFromStorage(): Observable<IUser | null> {
+  private getUserFromStorage(): Observable<Profile | null> {
     return from(this.ensureUserManagerInitialized())
       .pipe(
         mergeMap(() => this.userManager!.getUser()),

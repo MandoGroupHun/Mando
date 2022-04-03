@@ -1,10 +1,17 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.EntityFrameworkCore;
+using Duende.IdentityServer.Models;
+using MandoWebApp;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Options;
 using MandoWebApp.Services;
+using MandoWebApp.Services.EmailSender;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using MandoWebApp.Services.ProductService;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using MandoWebApp.Services.UserManangement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +21,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+    {
+        options.Password.RequireDigit = false;
+        options.Password.RequireUppercase = false;
+
+        options.SignIn.RequireConfirmedEmail = true;
+        options.SignIn.RequireConfirmedAccount = true;
+
+        options.ClaimsIdentity.RoleClaimType = Roles.ClaimType;
+    })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(opts =>
+    {
+        opts.IdentityResources.Add(new IdentityResource("roles", new[] { Roles.ClaimType }));
+
+        opts.Clients.First().AllowedScopes.Add("roles");
+    });
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
@@ -66,10 +88,14 @@ app.Run();
 
 static void RegisterOptions(WebApplicationBuilder builder)
 {
-    builder.Services.AddOptions<RegistrationOptions>().BindConfiguration("Registration");
+    builder.Services.AddOptions<MandoAuthOptions>().BindConfiguration("Authentication");
+    builder.Services.AddOptions<EmailOptions>().BindConfiguration("Email");
 }
 
 static void RegisterServices(WebApplicationBuilder builder)
 {
     builder.Services.AddTransient<IInviteManager, InviteManager>();
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
+    builder.Services.AddTransient<IProductService, ProductService>();
+    builder.Services.AddTransient<IUserManagementService, UserManagementService>();
 }

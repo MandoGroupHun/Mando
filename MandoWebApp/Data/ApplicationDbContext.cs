@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Duende.IdentityServer.EntityFramework.Options;
+using Microsoft.AspNetCore.Identity;
+using MandoWebApp.Models.SeedData;
 
 namespace MandoWebApp.Data;
 
@@ -13,6 +15,7 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
         IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
     {
     }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -20,9 +23,11 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
         builder.Entity<BuildingProduct>()
             .HasKey(c => new { c.BuildingID, c.ProductID });
 
-        builder.Entity<Unit>().HasData(new Unit { ID = 1, HUName = "Darab", ENName = "Piece" });
+        builder.Entity<Unit>().HasData(new { ID = 1, HUName = "Darab", ENName = "Piece" });
 
         builder.Entity<Invite>().HasIndex(i => i.Email).IsUnique();
+
+        IdentityRoleSeed.Run(builder);
     }
 
     public DbSet<Building> Buildings { get; set; }

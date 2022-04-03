@@ -6,10 +6,11 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using MandoWebApp.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
+using MandoWebApp.Options;
 
 namespace MandoWebApp.Areas.Identity.Pages.Account
 {
@@ -17,12 +18,12 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _sender;
+        private readonly EmailOptions _emailOptions;
 
-        public RegisterConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<ApplicationUser> userManager, IOptions<EmailOptions> emailOptions)
         {
             _userManager = userManager;
-            _sender = sender;
+            _emailOptions = emailOptions.Value;
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
             {
                 return RedirectToPage("/Index");
             }
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
 
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
@@ -58,8 +59,10 @@ namespace MandoWebApp.Areas.Identity.Pages.Account
             }
 
             Email = email;
-            // Once you add a real email sender, you should remove this code that lets you confirm the account
-            DisplayConfirmAccountLink = true;
+
+            // If email sending is disabled we show link to confirm account
+            DisplayConfirmAccountLink = !_emailOptions.IsEnabled;
+
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
