@@ -30,16 +30,30 @@ export enum AuthenticationResultStatus {
   Fail
 }
 
-export function isInRole(user: Profile | null, role: string) {
+const roleKey = 'role';
+
+export function isInRole(user: Profile | null, role: string): boolean {
   if (!user) {
     return false;
   }
 
-  var roles = user['role'];
+  var roles = getRoles(user);
 
   return !roles
     ? false
-    : (roles as string[]).includes(role);
+    : roles.includes(role);
+}
+
+export function getRoles(user: Profile | null): string[] {
+  if (!user) {
+    return [];
+  }
+
+  var roles = user[roleKey];
+
+  return (Array.isArray(roles)
+    ? roles
+    : [roles]) as string[];
 }
 
 @Injectable({

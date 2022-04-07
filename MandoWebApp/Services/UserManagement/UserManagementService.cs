@@ -35,7 +35,7 @@ namespace MandoWebApp.Services.UserManangement
                     new UserManagementItem(user.Id, user.UserName, userRoles.Select(ur => ur.Name).ToList()))
                 .ToList();
 
-            return new UserManagement(_roleManager.Roles.Select(r => r.Name), userRoles);
+            return new UserManagement(_roleManager.Roles.Select(r => r.Name).ToList().OrderByDescending(x => Roles.Priorities[x]), userRoles.OrderBy(u => u.Name));
         }
 
         public async Task<Result> UpdateRolesAsync(UserManagementItem updatedUser, int updaterPriority)

@@ -17,7 +17,7 @@
         <tr>
           <td>{{ user.name }}</td>
           <td *ngFor="let role of getRoles()">
-            <p-checkbox name="is-in-role" value="{{ role }}" [(ngModel)]="user.roles"></p-checkbox>
+            <p-checkbox name="is-in-role" value="{{ role }}" [(ngModel)]="user.roles" [disabled]="userHasNoPermission(role)"></p-checkbox>
           </td>
           <td><p-button [disabled]="isChanged(user)" (onClick)="updateUser(user)">Save</p-button></td>
         </tr>
