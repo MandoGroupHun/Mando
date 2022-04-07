@@ -8,6 +8,11 @@ namespace MandoWebApp.Models.SeedData
     {
         public static void Run(ModelBuilder builder)
         {
+            builder.Entity<Unit>().HasData(
+                new Unit { ID = 1, HUName = "darab", ENName = "piece" },
+                new Unit { ID = 2, HUName = "doboz", ENName = "box" }
+                );
+
             builder.Entity<Building>().HasData(new Building
             {
                 ID = 1,
@@ -26,7 +31,34 @@ namespace MandoWebApp.Models.SeedData
                 ENName = "Toothbrush",
                 HUName = "Fogkefe",
                 SizeType = null,
+                UnitID = 2
+            },
+            new Product
+            {
+                ID = 2,
+                Category = "Ruha",
+                ENName = "Female shirt",
+                HUName = "Női ing",
+                SizeType = SizeType.TShirt,
                 UnitID = 1
+            },
+            new Product
+            {
+                ID = 3,
+                Category = "Ruha",
+                ENName = "Male shirt",
+                HUName = "Férfi ing",
+                SizeType = SizeType.Numbered,
+                UnitID = 1
+            },
+            new Product
+            {
+                ID = 4,
+                Category = "Gyógyszer",
+                ENName = "Painkiller",
+                HUName = "Fájdalomcsillapító",
+                SizeType = null,
+                UnitID = 2
             });
 
             builder.Entity<BuildingProduct>().HasData(new BuildingProduct
@@ -34,7 +66,31 @@ namespace MandoWebApp.Models.SeedData
                 BuildingID = 1,
                 ProductID = 1,
                 Quantity = 5,
-                Size = null
+                Size = string.Empty
+            }, new BuildingProduct
+            {
+                BuildingID = 1,
+                ProductID = 2,
+                Quantity = 3,
+                Size = "S"
+            }, new BuildingProduct
+            {
+                BuildingID = 1,
+                ProductID = 3,
+                Quantity = 2,
+                Size = "42"
+            }, new BuildingProduct
+            {
+                BuildingID = 1,
+                ProductID = 3,
+                Quantity = 2,
+                Size = "44"
+            }, new BuildingProduct
+            {
+                BuildingID = 1,
+                ProductID = 4,
+                Quantity = 10,
+                Size = string.Empty
             });
         }
     }
