@@ -28,6 +28,7 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
         builder.Entity<Invite>().HasIndex(i => i.Email).IsUnique();
 
         IdentityRoleSeed.Run(builder);
+        BuildingProductSeed.Run(builder);
     }
 
     public DbSet<Building> Buildings { get; set; }
