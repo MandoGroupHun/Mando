@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Supply } from 'src/app/models/supply';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-supplies',
@@ -11,6 +12,10 @@ export class SuppliesComponent {
 
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.loadProducts();
+  }
+
+  public filterTable(dataTable: Table, $event: any) {
+    dataTable.filterGlobal(($event.target as HTMLTextAreaElement).value, 'contains');
   }
 
   private loadProducts(): void {

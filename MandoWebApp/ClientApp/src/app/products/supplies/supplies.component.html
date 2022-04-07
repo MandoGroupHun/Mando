@@ -4,11 +4,25 @@
 <p *ngIf="!supplies"><em>Loading...</em></p>
 <div *ngIf="supplies" class="container">
     <div>
-        <p-table [value]="supplies">
+        <p-table #dataTable [value]="supplies" [paginator]="true" [rows]="10" sortMode="multiple"
+            [globalFilterFields]="['name','category']">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="filterTable(dataTable, $event)"
+                            placeholder="Search keyword" />
+                    </span>
+                </div>
+            </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th>Name</th>
-                    <th>Category</th>
+                    <th pSortableColumn="name">Name
+                        <p-sortIcon field="name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="category">Category
+                        <p-sortIcon field="category"></p-sortIcon>
+                    </th>
                     <th>Quantity</th>
                 </tr>
             </ng-template>
