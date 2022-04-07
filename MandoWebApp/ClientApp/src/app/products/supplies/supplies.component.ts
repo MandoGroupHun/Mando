@@ -14,7 +14,7 @@ export class SuppliesComponent {
   }
 
   private loadProducts(): void {
-    this.http.get<Product[]>(this.baseUrl + 'product').subscribe(result => {
+    this.http.get<Product[]>(this.baseUrl + 'product/supplies').subscribe(result => {
       this.supplies = result;
     }, error => console.error(error));
   }

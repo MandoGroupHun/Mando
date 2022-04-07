@@ -9,7 +9,7 @@ namespace MandoWebApp.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
@@ -22,13 +22,19 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public List<ProductModel> Get()
+    public List<ProductModel> Products()
     {
         return _productService.GetProducts();
     }
 
+    [HttpGet]
+    public List<SupplyModel> Supplies()
+    {
+        return _productService.GetSupplies();
+    }
+
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateBuildingProductInputModel createBuildingProduct)
+    public async Task<IActionResult> Add([FromBody] CreateBuildingProductInputModel createBuildingProduct)
     {
         var addResult = await _productService.AddBuildingProduct(new BuildingProduct
         {

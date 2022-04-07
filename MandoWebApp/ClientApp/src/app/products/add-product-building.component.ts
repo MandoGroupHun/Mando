@@ -26,7 +26,7 @@ export class AddProductBuildingComponent {
     }
 
     private loadProducts(): void {
-        this.http.get<Product[]>(this.baseUrl + 'product').subscribe(result => {
+        this.http.get<Product[]>(this.baseUrl + 'product/products').subscribe(result => {
             this.products = result;
             this.categories = [... new Set(result.map(x => x.category))].map(((x) => {
                 return { name: x, id: x };
@@ -53,7 +53,7 @@ export class AddProductBuildingComponent {
 
     public createBuildingProduct(): void {
         this.saveInProgress = true;
-        this.http.post<boolean>(this.baseUrl + 'product', {
+        this.http.post<boolean>(this.baseUrl + 'product/add', {
             productId: this.selectedProduct!.productId,
             quantity: this.quantity,
             size: !!this.selectedProduct!.sizeType ? this.size : null
