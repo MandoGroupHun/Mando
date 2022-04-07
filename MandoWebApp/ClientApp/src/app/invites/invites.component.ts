@@ -5,8 +5,7 @@ import { extractFirstErrorMessage } from '../utilities/error-util';
 
 @Component({
   selector: 'app-invites',
-  templateUrl: './invites.component.html',
-  providers: [MessageService]
+  templateUrl: './invites.component.html'
 })
 export class InvitesComponent {
   public inviteEmail: string | undefined = undefined;

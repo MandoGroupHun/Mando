@@ -5,8 +5,7 @@ import { Product } from '../models/product';
 
 @Component({
     selector: 'app-add-product-building',
-    templateUrl: './add-product-building.component.html',
-    providers: [MessageService]
+    templateUrl: './add-product-building.component.html'
 })
 export class AddProductBuildingComponent {
     public products: Product[] = [];
