@@ -22,6 +22,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { SuppliesComponent } from './products/supplies/supplies.component';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { UserManagementComponent } from './user-management/user-management.compo
     CounterComponent,
     InvitesComponent,
     UserManagementComponent,
-    AddProductBuildingComponent
+    AddProductBuildingComponent,
+    SuppliesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -54,10 +57,12 @@ import { UserManagementComponent } from './user-management/user-management.compo
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
       { path: 'usermanagement', component: UserManagementComponent, canActivate: [AuthorizeGuard] },
       { path: 'products', component: AddProductBuildingComponent, canActivate: [AuthorizeGuard] },
+      { path: 'supplies', component: SuppliesComponent, canActivate: [AuthorizeGuard] },
     ])
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

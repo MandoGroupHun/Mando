@@ -12,6 +12,6 @@ namespace MandoWebApp.Models
         public int Quantity { get; set; }
 
         [Column(TypeName = "varchar(3)")]
-        public string? Size { get; set; }
+        public string Size { get; set; }
     }
 }
