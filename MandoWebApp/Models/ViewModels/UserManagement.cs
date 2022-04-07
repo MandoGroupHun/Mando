@@ -4,6 +4,7 @@
     {
         public List<string> AllRoles { get; set; }
         public List<UserManagementItem> Users { get; set; }
+        public Dictionary<string, int> Priorities => Roles.Priorities;
 
         public UserManagement(IEnumerable<string> roles, IEnumerable<UserManagementItem> users)
         {

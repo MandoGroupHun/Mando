@@ -27,7 +27,9 @@ namespace MandoWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserManagementItem user)
         {
-            var updateResult = await _userManagementService.UpdateRolesAsync(user);
+            var updaterPriority = HttpContext.User.GetHighestRole();
+
+            var updateResult = await _userManagementService.UpdateRolesAsync(user, updaterPriority);
 
             return updateResult.IsSuccess
                 ? Ok()
