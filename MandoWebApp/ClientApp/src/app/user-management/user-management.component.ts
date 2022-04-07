@@ -4,6 +4,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { arrayEquals } from '../utilities/array-util';
 import { extractFirstErrorMessage } from '../utilities/error-util';
+import { AuthorizeService, getRoles } from '../../api-authorization/authorize.service';
+import { Profile } from 'oidc-client';
 
 @Component({
   selector: 'app-user-management',
@@ -13,9 +15,11 @@ import { extractFirstErrorMessage } from '../utilities/error-util';
 export class UserManagementComponent {
   public userManagement: UserManagement | null = null;
   public userManagementSnapshot: UserManagement | null = null;
+  private user: Profile | null = null;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService, private authService: AuthorizeService) {
     this.loadUsers();
+    authService.getUser().subscribe(user => this.user = user);
   }
 
   public getUsers(): UserManagementItem[] {
@@ -24,6 +28,24 @@ export class UserManagementComponent {
 
   public getRoles(): string[] {
     return this.userManagement ? this.userManagement.allRoles : [];
+  }
+
+  public userHasNoPermission(role: string): boolean {
+    if (!this.userManagement) {
+      return true;
+    }
+
+    const priority = this.userManagement.priorities[role] ?? Number.MAX_VALUE;
+
+    return priority > this.getUserPriority(this.user, this.userManagement.priorities);
+  }
+
+  private getUserPriority(user: Profile | null, priorities: Record<string, number>): number {
+    if (!user) {
+      return -1;
+    }
+
+    return Math.max(...getRoles(user).map(role => priorities[role] ?? -1));
   }
 
   public isChanged(user: UserManagementItem): boolean {
@@ -58,6 +80,7 @@ export class UserManagementComponent {
 interface UserManagement {
   allRoles: string[]
   users: UserManagementItem[];
+  priorities: Record<string, number>;
 }
 
 interface UserManagementItem {

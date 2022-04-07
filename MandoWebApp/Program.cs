@@ -12,6 +12,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using MandoWebApp.Services.UserManangement;
+using System.Security.Claims;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +34,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
         options.SignIn.RequireConfirmedEmail = true;
         options.SignIn.RequireConfirmedAccount = true;
 
-        options.ClaimsIdentity.RoleClaimType = Roles.ClaimType;
+        options.ClaimsIdentity.RoleClaimType = JwtClaimTypes.Role;
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -37,9 +42,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 builder.Services.AddIdentityServer()
     .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(opts =>
     {
-        opts.IdentityResources.Add(new IdentityResource("roles", new[] { Roles.ClaimType }));
+        opts.IdentityResources.Add(new IdentityResource("roles", new[] { JwtClaimTypes.Role }));
 
         opts.Clients.First().AllowedScopes.Add("roles");
+        opts.Clients.First().UpdateAccessTokenClaimsOnRefresh = true;
+        opts.ApiResources.First().UserClaims.Add(JwtClaimTypes.Role);
     });
 
 builder.Services.AddAuthentication()
@@ -51,6 +58,13 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 builder.Services.AddRazorPages();
+
+builder.Services.Configure<JwtBearerOptions>(
+    IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
+    options =>
+    {
+        options.MapInboundClaims = false;
+    });
 
 RegisterOptions(builder);
 
