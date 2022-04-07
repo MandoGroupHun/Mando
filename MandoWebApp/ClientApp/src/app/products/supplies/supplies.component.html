@@ -1,5 +1,24 @@
-<p [hidden]="supplies"><em>Loading...</em></p>
+<h1 id="tableLabel">Supplies</h1>
 <p-toast></p-toast>
-<div [hidden]="!supplies" class="container">
 
+<p *ngIf="!supplies"><em>Loading...</em></p>
+<div *ngIf="supplies" class="container">
+    <div>
+        <p-table [value]="supplies">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-supply>
+                <tr>
+                    <td>{{ supply.name }} <i *ngIf="supply.size">({{supply.size}})</i></td>
+                    <td>{{ supply.category }}</td>
+                    <td>{{ supply.quantity }} {{ supply.unitName }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </div>
