@@ -1,15 +1,15 @@
-<p [hidden]="products"><em>Loading...</em></p>
 <p-toast></p-toast>
-<div [hidden]="!products" class="container">
+<p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
+<div *ngIf="!isLoading" class="container">
     <div class="row gy-1">
         <h5>Raktár</h5>
         <p-dropdown [options]="buildings" [(ngModel)]="selectedBuilding" optionLabel="name"></p-dropdown>
 
         <h5>Kategória</h5>
-        <p-dropdown [options]="categories" (onChange)="onCategoryChange($event)" placeholder="Select a Category" optionLabel="name" [showClear]="true"></p-dropdown>
+        <p-dropdown [options]="categories" (onChange)="onCategoryChange($event)" placeholder="Válassz ki egy kategóriát" optionLabel="name" [showClear]="true"></p-dropdown>
 
         <h5>Adomány megnevezése</h5>
-        <p-autoComplete [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1" [dropdown]="true"></p-autoComplete>
+        <p-autoComplete [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1" [dropdown]="true" emptyMessage="Nincs találat"></p-autoComplete>
 
         <h5>Mennyiség</h5>
         <p-inputNumber [(ngModel)]="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100" [suffix]="getSuffix()"></p-inputNumber>

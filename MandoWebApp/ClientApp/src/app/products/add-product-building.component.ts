@@ -20,6 +20,7 @@ export class AddProductBuildingComponent {
     public quantity = 1;
     public size: string | undefined;
     public saveInProgress = false;
+    public isLoading = true;
 
     constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService) {
         this.loadData();
@@ -30,6 +31,7 @@ export class AddProductBuildingComponent {
     }
 
     private loadData(): void {
+        this.isLoading = true;
         forkJoin([this.http.get<Product[]>(this.baseUrl + 'product/products'), this.http.get<Building[]>(this.baseUrl + 'building/buildings')])
             .subscribe(([products, buildings]) => {
                 this.products = products;
@@ -37,7 +39,11 @@ export class AddProductBuildingComponent {
                 this.categories = [... new Set(products.map(x => x.category))].map(((x) => {
                     return { name: x, id: x };
                 }));
-            }, error => console.error(error));
+                this.isLoading = false;
+            }, error => {
+                console.error(error);
+                this.isLoading = false;
+            });
     }
 
     public getSuffix(): string {

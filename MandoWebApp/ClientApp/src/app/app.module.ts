@@ -25,6 +25,7 @@ import { SuppliesComponent } from './products/supplies/supplies.component';
 import { MessageService } from 'primeng/api';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -63,6 +64,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AutoCompleteModule,
     DropdownModule,
     InputNumberModule,
+    ProgressSpinnerModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
