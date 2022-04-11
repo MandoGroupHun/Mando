@@ -35,10 +35,10 @@ namespace MandoWebApp.Services.UserManangement
                     new UserManagementItem(user.Id, user.UserName, userRoles.Select(ur => ur.Name).ToList()))
                 .ToList();
 
-            return new UserManagement(_roleManager.Roles.Select(r => r.Name), userRoles);
+            return new UserManagement(_roleManager.Roles.Select(r => r.Name).ToList().OrderByDescending(x => Roles.Priorities[x]), userRoles.OrderBy(u => u.Name));
         }
 
-        public async Task<Result> UpdateRolesAsync(UserManagementItem updatedUser)
+        public async Task<Result> UpdateRolesAsync(UserManagementItem updatedUser, int updaterPriority)
         {
             try
             {
@@ -52,6 +52,11 @@ namespace MandoWebApp.Services.UserManangement
                 var currentRoles = await _userManager.GetRolesAsync(user);
                 var newRoles = updatedUser.Roles.Except(currentRoles);
                 var rolesToRemove = currentRoles.Except(updatedUser.Roles);
+
+                if (newRoles.Concat(rolesToRemove).Any(role => Roles.Priorities[role] > updaterPriority))
+                {
+                    return Result.Failure("Insufficient premissions");
+                }
 
                 await _userManager.AddToRolesAsync(user, newRoles);
                 await _userManager.RemoveFromRolesAsync(user, rolesToRemove);

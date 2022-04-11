@@ -1,0 +1,46 @@
+{
+  "INVITES": {
+    "HEADER": "Meghívók",
+    "LOADING": "Betöltés...",
+    "NEW_INVITE": "Új Meghívó",
+    "PENDING_INVITES": "Függőben levő meghívók",
+    "TABLE": {
+      "STATUS_HEADER": "Állapot",
+      "CREATED_AT": "Létrehozva"
+    }
+  },
+  "NAVMENU": {
+    "HOME": "Otthon",
+    "NEW_DONATION": "Új adomány",
+    "SUPPLIES": "Készlet",
+    "ADMIN": "Admin",
+    "ADMIN_MENU": {
+      "USER_MANAGEMENT": "Felhasználók kezelése",
+      "INVITES": "Meghívók"
+    }
+  },
+  "SUPPLIES": {
+    "HEADER": "Készlet",
+    "LOADING": "Betöltés...",
+    "TABLE": {
+      "SEARCH_KEYWORD": "Keresés",
+      "NAME": "Név",
+      "CATEGORY": "Kategória",
+      "QUANTITY": "Mennyiség"
+    }
+  },
+  "USER_MANAGEMENT": {
+    "USERS": "Felhasználók",
+    "LOADING": "Betöltés...",
+    "TABLE": {
+      "NAME": "Név",
+      "ROLES": {
+        "VOLUNTEER": "Önkéntes",
+        "BENEFACTOR": "Befogadó",
+        "MANAGER": "Munkavezető",
+        "ADMINISTRATOR": "Adminisztrátor"
+      },
+      "SAVE": "Mentés"
+    }
+  }
+}

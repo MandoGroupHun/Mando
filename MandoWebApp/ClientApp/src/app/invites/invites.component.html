@@ -1,23 +1,23 @@
-<h1 id="tableLabel">Invites</h1>
+<h1 id="tableLabel">{{ 'INVITES.HEADER' | translate }}</h1>
 <p-toast></p-toast>
 
 
-<p [hidden]="invites"><em>Loading...</em></p>
+<p [hidden]="invites"><em>{{ 'INVITES.LOADING' | translate }}</em></p>
 <div [hidden]="!invites">
   <form class="mt-4 d-flex justify-content-between" (ngSubmit)="createInvite()" #newInviteForm="ngForm">
     <input class="w-50" id="input-email" pInputText type="email" [(ngModel)]="inviteEmail" name="email"
       placeholder="Email" />
-    <div><button type="submit" pButton>New Invite</button></div>
+    <div><button type="submit" pButton>{{ 'INVITES.NEW_INVITE' | translate }}</button></div>
   </form>
   <hr />
-  <h2>Pending Invites</h2>
+  <h2>{{ 'INVITES.PENDING_INVITES' | translate }}</h2>
   <div>
     <p-table [value]="invites">
       <ng-template pTemplate="header">
         <tr>
           <th>Email</th>
-          <th>Status</th>
-          <th>Created at</th>
+          <th>{{ 'INVITES.TABLE.STATUS_HEADER' | translate }}</th>
+          <th>{{ 'INVITES.TABLE.CREATED_AT' | translate }}</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-invite>

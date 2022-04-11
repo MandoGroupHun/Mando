@@ -59,5 +59,30 @@ namespace MandoWebApp.Services.ProductService
 
             return Result.Success();
         }
+
+        public List<SupplyModel> GetSupplies()
+        {
+            var units = _dbContext.Units.ToList();
+
+            var supplies = _dbContext.Products.Join(_dbContext.BuildingProducts, p => p.ID, bp => bp.ProductID, (product, buildingProduct) => new
+            {
+                product.ID,
+                product.Name,
+                product.UnitID,
+                product.Category,
+                buildingProduct.Quantity,
+                buildingProduct.Size
+            });
+
+            return supplies.ToList().Select(x => new SupplyModel
+            {
+                ProductId = x.ID,
+                Name = x.Name,
+                UnitName = units.First(u => u.ID == x.UnitID).Name,
+                Category = x.Category,
+                Size = x.Size ?? string.Empty,
+                Quantity = x.Quantity
+            }).ToList();
+        }
     }
 }

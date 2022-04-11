@@ -1,0 +1,46 @@
+{
+  "INVITES": {
+    "HEADER": "Invites",
+    "LOADING": "Loading...",
+    "NEW_INVITE": "New Invite",
+    "PENDING_INVITES": "Pending Invites",
+    "TABLE": {
+      "STATUS_HEADER": "Status",
+      "CREATED_AT": "Created At"
+    }
+  },
+  "NAVMENU": {
+    "HOME": "Home",
+    "NEW_DONATION": "Register new donation",
+    "SUPPLIES": "Supplies",
+    "ADMIN": "Admin",
+    "ADMIN_MENU": {
+      "USER_MANAGEMENT": "User Management",
+      "INVITES": "Invites"
+    }
+  },
+  "SUPPLIES": {
+    "HEADER": "Supplies",
+    "LOADING": "Loading...",
+    "TABLE": {
+      "SEARCH_KEYWORD": "Search keyword",
+      "NAME": "Name",
+      "CATEGORY": "Category",
+      "QUANTITY": "Quantity"
+    }
+  },
+  "USER_MANAGEMENT": {
+    "USERS": "Users",
+    "LOADING": "Loading...",
+    "TABLE": {
+      "NAME": "Name",
+      "ROLES": {
+        "VOLUNTEER": "Volunteer",
+        "BENEFACTOR": "Benefactor",
+        "MANAGER": "Manager",
+        "ADMINISTRATOR": "Administrator"
+      },
+      "SAVE": "Save"
+    }
+  }
+}
