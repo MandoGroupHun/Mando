@@ -1,0 +1,12 @@
+{
+  "INVITES": {
+    "HEADER": "Invites",
+    "LOADING": "Loading...",
+    "NEW_INVITE": "New Invite",
+    "PENDING_INVITES": "Pending Invites",
+    "TABLE": {
+      "STATUS_HEADER": "Status",
+      "CREATED_AT": "Created At"
+    }
+  }
+}

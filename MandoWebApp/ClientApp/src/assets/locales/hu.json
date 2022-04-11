@@ -1,0 +1,12 @@
+{
+  "INVITES": {
+    "HEADER": "Meghívók",
+    "LOADING": "Betöltés...",
+    "NEW_INVITE": "Új Meghívó",
+    "PENDING_INVITES": "Függőben levő meghívók",
+    "TABLE": {
+      "STATUS_HEADER": "Állapot",
+      "CREATED_AT": "Létrehozva"
+    }
+  }
+}
