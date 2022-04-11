@@ -25,17 +25,20 @@
               [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isPriviliged()">
-            <a class="nav-link text-dark" [routerLink]="['/invites']">Invites</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isPriviliged()">
-            <a class="nav-link text-dark" [routerLink]="['/usermanagement']">User Management</a>
-          </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/products']">Register new donation</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/supplies']">Supplies</a>
+          </li>
+          <li class="nav-item dropdown" *ngIf="isPriviliged()">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Admin
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" [routerLink]="['/usermanagement']">User Management</a>
+              <a class="dropdown-item" [routerLink]="['/invites']">Invites</a>
+            </div>
           </li>
         </ul>
         <app-login-menu></app-login-menu>
