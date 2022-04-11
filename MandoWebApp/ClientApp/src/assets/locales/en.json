@@ -18,5 +18,15 @@
       "USER_MANAGEMENT": "User Management",
       "INVITES": "Invites"
     }
+  },
+  "SUPPLIES": {
+    "HEADER": "Supplies",
+    "LOADING": "Loading...",
+    "TABLE": {
+      "SEARCH_KEYWORD": "Search keyword",
+      "NAME": "Name",
+      "CATEGORY": "Category",
+      "QUANTITY": "Quantity"
+    }
   }
 }

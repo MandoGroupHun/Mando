@@ -1,7 +1,7 @@
-<h1 id="tableLabel">Supplies</h1>
+<h1 id="tableLabel">{{ 'SUPPLIES.HEADER' | translate }}</h1>
 <p-toast></p-toast>
 
-<p *ngIf="!supplies"><em>Loading...</em></p>
+<p *ngIf="!supplies"><em>{{ 'SUPPLIES.LOADING' | translate }}</em></p>
 <div *ngIf="supplies" class="container">
     <div>
         <p-table #dataTable [value]="supplies" [paginator]="true" [rows]="10" sortMode="multiple"
@@ -11,19 +11,19 @@
                     <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="filterTable(dataTable, $event)"
-                            placeholder="Search keyword" />
+                            [placeholder]="'SUPPLIES.TABLE.SEARCH_KEYWORD' | translate" />
                     </span>
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="name">Name
+                    <th pSortableColumn="name">{{ 'SUPPLIES.TABLE.NAME' | translate }}
                         <p-sortIcon field="name"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="category">Category
+                    <th pSortableColumn="category">{{ 'SUPPLIES.TABLE.CATEGORY' | translate }}
                         <p-sortIcon field="category"></p-sortIcon>
                     </th>
-                    <th>Quantity</th>
+                    <th>{{ 'SUPPLIES.TABLE.QUANTITY' | translate }}</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-supply>

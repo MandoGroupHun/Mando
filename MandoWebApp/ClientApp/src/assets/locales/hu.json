@@ -18,5 +18,15 @@
       "USER_MANAGEMENT": "Felhasználók kezelése",
       "INVITES": "Meghívók"
     }
+  },
+  "SUPPLIES": {
+    "HEADER": "Készlet",
+    "LOADING": "Betöltés...",
+    "TABLE": {
+      "SEARCH_KEYWORD": "Keresés",
+      "NAME": "Név",
+      "CATEGORY": "Kategória",
+      "QUANTITY": "Mennyiség"
+    }
   }
 }
