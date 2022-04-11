@@ -28,5 +28,19 @@
       "CATEGORY": "Category",
       "QUANTITY": "Quantity"
     }
+  },
+  "USER_MANAGEMENT": {
+    "USERS": "Users",
+    "LOADING": "Loading...",
+    "TABLE": {
+      "NAME": "Name",
+      "ROLES": {
+        "VOLUNTEER": "Volunteer",
+        "BENEFACTOR": "Benefactor",
+        "MANAGER": "Manager",
+        "ADMINISTRATOR": "Administrator"
+      },
+      "SAVE": "Save"
+    }
   }
 }

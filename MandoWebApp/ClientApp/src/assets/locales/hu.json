@@ -28,5 +28,19 @@
       "CATEGORY": "Kategória",
       "QUANTITY": "Mennyiség"
     }
+  },
+  "USER_MANAGEMENT": {
+    "USERS": "Felhasználók",
+    "LOADING": "Betöltés...",
+    "TABLE": {
+      "NAME": "Név",
+      "ROLES": {
+        "VOLUNTEER": "Önkéntes",
+        "BENEFACTOR": "Befogadó",
+        "MANAGER": "Munkavezető",
+        "ADMINISTRATOR": "Adminisztrátor"
+      },
+      "SAVE": "Mentés"
+    }
   }
 }
