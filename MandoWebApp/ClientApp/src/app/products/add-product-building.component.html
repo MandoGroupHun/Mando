@@ -2,6 +2,9 @@
 <p-toast></p-toast>
 <div [hidden]="!products" class="container">
     <div class="row gy-1">
+        <h5>Building</h5>
+        <p-dropdown [options]="buildings" [(ngModel)]="selectedBuilding" optionLabel="name"></p-dropdown>
+
         <h5>Category</h5>
         <p-dropdown [options]="categories" (onChange)="onCategoryChange($event)" placeholder="Select a Category" optionLabel="name" [showClear]="true"></p-dropdown>
 
@@ -16,6 +19,6 @@
             <input type="text" pInputText [(ngModel)]="size"/>
         </div>
 
-        <p-button label="Save" icon="pi pi-check" iconPos="left" [disabled]="!selectedProduct || saveInProgress" (onClick)="createBuildingProduct()"></p-button>
+        <p-button label="Save" icon="pi pi-check" iconPos="left" [disabled]="!selectedProduct || saveInProgress || !selectedBuilding" (onClick)="createBuildingProduct()"></p-button>
     </div>
 </div>
