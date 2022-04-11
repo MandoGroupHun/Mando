@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
             BuildingID = 1, // TODO
             ProductID = createBuildingProduct.ProductID,
             Quantity = createBuildingProduct.Quantity,
-            Size = !string.IsNullOrWhiteSpace(createBuildingProduct.Size) ? createBuildingProduct.Size : null,
+            Size = !string.IsNullOrWhiteSpace(createBuildingProduct.Size) ? createBuildingProduct.Size : string.Empty,
         });
 
         return addResult.IsSuccess
