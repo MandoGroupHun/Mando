@@ -2,23 +2,23 @@
 <p-toast></p-toast>
 <div [hidden]="!products" class="container">
     <div class="row gy-1">
-        <h5>Building</h5>
+        <h5>Raktár</h5>
         <p-dropdown [options]="buildings" [(ngModel)]="selectedBuilding" optionLabel="name"></p-dropdown>
 
-        <h5>Category</h5>
+        <h5>Kategória</h5>
         <p-dropdown [options]="categories" (onChange)="onCategoryChange($event)" placeholder="Select a Category" optionLabel="name" [showClear]="true"></p-dropdown>
 
-        <h5>Product</h5>
-        <p-autoComplete [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1"></p-autoComplete>
+        <h5>Adomány megnevezése</h5>
+        <p-autoComplete [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1" [dropdown]="true"></p-autoComplete>
 
-        <h5>Quantity</h5>
+        <h5>Mennyiség</h5>
         <p-inputNumber [(ngModel)]="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100" [suffix]="getSuffix()"></p-inputNumber>
 
         <div *ngIf="!!selectedProduct?.sizeType">
-            <h5>Size</h5>
+            <h5>Méret</h5>
             <input type="text" pInputText [(ngModel)]="size"/>
         </div>
 
-        <p-button label="Save" icon="pi pi-check" iconPos="left" [disabled]="!selectedProduct || saveInProgress || !selectedBuilding" (onClick)="createBuildingProduct()"></p-button>
+        <p-button label="Mentés" icon="pi pi-check" iconPos="left" [disabled]="!selectedProduct || saveInProgress || !selectedBuilding" (onClick)="createBuildingProduct()"></p-button>
     </div>
 </div>
