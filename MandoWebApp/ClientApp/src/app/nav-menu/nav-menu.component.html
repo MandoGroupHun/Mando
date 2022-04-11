@@ -1,44 +1,32 @@
 <header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  >
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">MandoWebApp</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-        [ngClass]="{ show: isExpanded }"
-      >
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end" [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav flex-grow">
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link text-dark" [routerLink]="['/']">{{ 'NAVMENU.HOME' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']">Counter</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isPriviliged()">
-            <a class="nav-link text-dark" [routerLink]="['/invites']">Invites</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isPriviliged()">
-            <a class="nav-link text-dark" [routerLink]="['/usermanagement']">User Management</a>
+            <a class="nav-link text-dark" [routerLink]="['/products']">{{ 'NAVMENU.NEW_DONATION' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/products']">Register new donation</a>
+            <a class="nav-link text-dark" [routerLink]="['/supplies']">{{ 'NAVMENU.SUPPLIES' | translate }}</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/supplies']">Supplies</a>
+          <li class="nav-item dropdown" *ngIf="isPriviliged()">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              {{ 'NAVMENU.ADMIN' | translate }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" [routerLink]="['/usermanagement']">{{ 'NAVMENU.ADMIN_MENU.USER_MANAGEMENT' |
+                translate }}</a>
+              <a class="dropdown-item" [routerLink]="['/invites']">{{ 'NAVMENU.ADMIN_MENU.INVITES' | translate }}</a>
+            </div>
           </li>
         </ul>
         <app-login-menu></app-login-menu>
