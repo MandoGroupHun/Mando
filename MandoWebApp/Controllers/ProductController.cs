@@ -38,10 +38,10 @@ public class ProductController : ControllerBase
     {
         var addResult = await _productService.AddBuildingProduct(new BuildingProduct
         {
-            BuildingID = 1, // TODO
+            BuildingID = createBuildingProduct.BuildingID,
             ProductID = createBuildingProduct.ProductID,
             Quantity = createBuildingProduct.Quantity,
-            Size = !string.IsNullOrWhiteSpace(createBuildingProduct.Size) ? createBuildingProduct.Size : null,
+            Size = !string.IsNullOrWhiteSpace(createBuildingProduct.Size) ? createBuildingProduct.Size : string.Empty,
         });
 
         return addResult.IsSuccess
