@@ -8,5 +8,15 @@
       "STATUS_HEADER": "Állapot",
       "CREATED_AT": "Létrehozva"
     }
+  },
+  "NAVMENU": {
+    "HOME": "Otthon",
+    "NEW_DONATION": "Új adomány",
+    "SUPPLIES": "Készlet",
+    "ADMIN": "Admin",
+    "ADMIN_MENU": {
+      "USER_MANAGEMENT": "Felhasználók kezelése",
+      "INVITES": "Meghívók"
+    }
   }
 }

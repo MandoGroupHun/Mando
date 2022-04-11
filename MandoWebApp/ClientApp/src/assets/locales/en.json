@@ -8,5 +8,15 @@
       "STATUS_HEADER": "Status",
       "CREATED_AT": "Created At"
     }
+  },
+  "NAVMENU": {
+    "HOME": "Home",
+    "NEW_DONATION": "Register new donation",
+    "SUPPLIES": "Supplies",
+    "ADMIN": "Admin",
+    "ADMIN_MENU": {
+      "USER_MANAGEMENT": "User Management",
+      "INVITES": "Invites"
+    }
   }
 }
