@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { InvitesComponent } from './invites/invites.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
@@ -37,7 +36,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     InvitesComponent,
     UserManagementComponent,
     AddProductBuildingComponent,
@@ -67,7 +65,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     InputNumberModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
       { path: 'usermanagement', component: UserManagementComponent, canActivate: [AuthorizeGuard] },
       { path: 'products', component: AddProductBuildingComponent, canActivate: [AuthorizeGuard] },
