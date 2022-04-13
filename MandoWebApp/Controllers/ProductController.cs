@@ -22,15 +22,25 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public List<ProductModel> Products()
+    public Task<List<ProductModel>> Products()
     {
-        return _productService.GetProducts();
+        return _productService.GetProductsAsync();
     }
 
     [HttpGet]
-    public List<SupplyModel> Supplies()
+    public Task<List<SupplyModel>> Supplies()
     {
-        return _productService.GetSupplies();
+        return _productService.GetSuppliesAsync();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SupplyUpdate(SupplyModel supply)
+    {
+        var updateResult = await _productService.UpdateSupplyAsync(supply);
+
+        return updateResult.IsSuccess
+            ? Ok()
+            : BadRequest(updateResult.Error);
     }
 
     [HttpPost]

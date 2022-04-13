@@ -35,14 +35,14 @@
           <td class="col-md-3">{{ supply.category }}</td>
           <td class="col-md-3">
             <span *ngIf="!isEditing(supply); else editBlock">{{ supply.quantity }}</span>
-            <ng-template #editBlock><input pInputText type="number" style="max-height: 1.7rem; max-width: 4rem;" /></ng-template>
+            <ng-template #editBlock><input pInputText type="number" [(ngModel)]="supply.quantity" style="max-height: 1.7rem; max-width: 4rem;" /></ng-template>
             {{ supply.unitName }}
           </td>
           <td class="col-md-2">
             <i *ngIf="!isEditing(supply); else saveIcon" class="pi pi-pencil" style="font-size: 1.5rem"
               (click)="selectForEdit(supply)"></i>
             <ng-template #saveIcon><i class="pi pi-save" style="font-size: 1.5rem"
-                (click)="selectForEdit(undefined)"></i></ng-template>
+                (click)="save(supply)"></i></ng-template>
           </td>
         </tr>
       </ng-template>

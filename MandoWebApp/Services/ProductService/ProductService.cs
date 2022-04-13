@@ -2,6 +2,7 @@
 using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace MandoWebApp.Services.ProductService
 {
@@ -16,11 +17,12 @@ namespace MandoWebApp.Services.ProductService
             _dbContext = dbContext;
         }
 
-        public List<ProductModel> GetProducts()
+        public async Task<List<ProductModel>> GetProductsAsync()
         {
-            var units = _dbContext.Units.ToList();
-
-            return _dbContext.Products.ToList().Select(x => new ProductModel
+            var units = await _dbContext.Units.ToListAsync();
+            var products = await _dbContext.Products.ToListAsync();
+                
+            return products.Select(x => new ProductModel
             {
                 ProductId = x.ID,
                 Name = x.Name,
@@ -60,11 +62,11 @@ namespace MandoWebApp.Services.ProductService
             return Result.Success();
         }
 
-        public List<SupplyModel> GetSupplies()
+        public async Task<List<SupplyModel>> GetSuppliesAsync()
         {
-            var units = _dbContext.Units.ToList();
+            var units = await _dbContext.Units.ToListAsync();
 
-            var supplies = _dbContext.Products.Join(_dbContext.BuildingProducts, p => p.ID, bp => bp.ProductID, (product, buildingProduct) => new
+            var supplies = await _dbContext.Products.Join(_dbContext.BuildingProducts, p => p.ID, bp => bp.ProductID, (product, buildingProduct) => new
             {
                 product.ID,
                 product.Name,
@@ -72,9 +74,9 @@ namespace MandoWebApp.Services.ProductService
                 product.Category,
                 buildingProduct.Quantity,
                 buildingProduct.Size
-            });
+            }).ToListAsync();
 
-            return supplies.ToList().Select(x => new SupplyModel
+            return supplies.Select(x => new SupplyModel
             {
                 ProductId = x.ID,
                 Name = x.Name,
@@ -83,6 +85,27 @@ namespace MandoWebApp.Services.ProductService
                 Size = x.Size ?? string.Empty,
                 Quantity = x.Quantity
             }).ToList();
+        }
+
+        public async Task<Result> UpdateSupplyAsync(SupplyModel supply)
+        {
+            try
+            {
+                var storedSupply = await _dbContext.BuildingProducts.AsTracking()
+                    .FirstAsync(bp => bp.ProductID == supply.ProductId && bp.Size == supply.Size);
+
+                storedSupply.Quantity = supply.Quantity;
+
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception during quantity update of building product");
+
+                return Result.Failure("Error during update");
+            }
+
+            return Result.Success();
         }
     }
 }
