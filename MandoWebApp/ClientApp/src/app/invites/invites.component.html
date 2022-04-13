@@ -12,7 +12,7 @@
   <hr />
   <h2>{{ 'INVITES.PENDING_INVITES' | translate }}</h2>
   <div>
-    <p-table [value]="invites">
+    <p-table [value]="invites" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>Email</th>
@@ -24,7 +24,7 @@
         <tr>
           <td>{{ invite.email }}</td>
           <td>{{ invite.status }}</td>
-          <td>{{ invite.createdAt }}</td>
+          <td>{{ invite.createdAt | date:'medium' }}</td>
         </tr>
       </ng-template>
     </p-table>
