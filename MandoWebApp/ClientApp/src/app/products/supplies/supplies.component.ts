@@ -9,6 +9,7 @@ import { Table } from 'primeng/table';
 })
 export class SuppliesComponent {
   public supplies: Supply[] = [];
+  public selectedSupply: Supply | undefined = undefined;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     this.loadProducts();
@@ -16,6 +17,14 @@ export class SuppliesComponent {
 
   public filterTable(dataTable: Table, $event: any) {
     dataTable.filterGlobal(($event.target as HTMLTextAreaElement).value, 'contains');
+  }
+
+  public selectForEdit(supply: Supply | undefined): void {
+    this.selectedSupply = supply;
+  }
+
+  public isEditing(supply: Supply): boolean {
+    return supply === this.selectedSupply;
   }
 
   private loadProducts(): void {
