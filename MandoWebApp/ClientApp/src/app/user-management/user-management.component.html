@@ -5,7 +5,7 @@
 <p *ngIf="!userManagement"><em>{{ 'USER_MANAGEMENT.LOADING' | translate }}</em></p>
 <div *ngIf="userManagement">
   <div>
-    <p-table [value]="getUsers()">
+    <p-table [value]="getUsers()" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>{{ 'USER_MANAGEMENT.TABLE.NAME' | translate }}</th>

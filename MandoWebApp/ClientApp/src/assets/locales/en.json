@@ -26,7 +26,8 @@
       "SEARCH_KEYWORD": "Search keyword",
       "NAME": "Name",
       "CATEGORY": "Category",
-      "QUANTITY": "Quantity"
+      "QUANTITY": "Quantity",
+      "EDIT": "Edit"
     }
   },
   "USER_MANAGEMENT": {

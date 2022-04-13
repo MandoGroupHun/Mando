@@ -26,7 +26,8 @@
       "SEARCH_KEYWORD": "Keresés",
       "NAME": "Név",
       "CATEGORY": "Kategória",
-      "QUANTITY": "Mennyiség"
+      "QUANTITY": "Mennyiség",
+      "EDIT": "Szerkesztés"
     }
   },
   "USER_MANAGEMENT": {
