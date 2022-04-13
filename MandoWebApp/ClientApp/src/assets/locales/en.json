@@ -1,4 +1,14 @@
 {
+  "MESSAGE": {
+    "INVITE": {
+      "SUCCESS": "Success!",
+      "ERROR": "Error!",
+      "DUPLICATE": "Duplicate invite!",
+      "SUCCESS_DETAIL": "Invite successfully sent",
+      "DUPLICATE_DETAIL": "This email has already received an invite",
+      "ERROR_DETAIL": "We failed to send an invite to this email. Details: "
+    }
+  },
   "INVITES": {
     "HEADER": "Invites",
     "LOADING": "Loading...",

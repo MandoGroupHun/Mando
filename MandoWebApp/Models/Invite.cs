@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandoWebApp.Models
 {
@@ -8,6 +9,9 @@ namespace MandoWebApp.Models
         public Guid InviteId { get; set; }
 
         [Column(TypeName = "nvarchar(200)")]
+        [Required]
+        [MaxLength(200)]
+        [RegularExpression("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", ErrorMessage = "Enter a valid email address")]
         public string Email { get; set; }
 
         [Column(TypeName = "nvarchar(10)")]

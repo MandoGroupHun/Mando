@@ -1,4 +1,14 @@
 {
+  "MESSAGE": {
+    "INVITE": {
+      "SUCCESS": "Siker!",
+      "ERROR": "Hiba!",
+      "DUPLICATE": "Már létező meghívó!",
+      "SUCCESS_DETAIL": "Meghívó sikeresen elküldve",
+      "DUPLICATE_DETAIL": "Erre az email címre már van függőben meghívó",
+      "ERROR_DETAIL": "Nem tudtunk meghívót küldeni erre az email címre. Részletek: "
+    }
+  },
   "INVITES": {
     "HEADER": "Meghívók",
     "LOADING": "Betöltés...",
