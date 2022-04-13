@@ -12,6 +12,7 @@ import { extractFirstErrorMessage } from '../../utilities/error-util';
 export class SuppliesComponent {
   public supplies: Supply[] = [];
   public selectedSupply: Supply | undefined = undefined;
+  public quantitySnapshot: number | undefined = undefined;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, public messageService: MessageService) {
     this.loadSupplies();
@@ -23,6 +24,7 @@ export class SuppliesComponent {
 
   public selectForEdit(supply: Supply): void {
     this.selectedSupply = supply;
+    this.quantitySnapshot = supply.quantity;
   }
 
   public save(supply: Supply): void {
@@ -32,6 +34,12 @@ export class SuppliesComponent {
     }, error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to update supply quantity. Details: ' + extractFirstErrorMessage(error) });
     });
+  }
+
+  public cancelEdit(supply: Supply): void {
+    supply.quantity = this.quantitySnapshot!;
+    this.selectedSupply = undefined;
+    this.quantitySnapshot = undefined;
   }
 
   public isEditing(supply: Supply): boolean {
