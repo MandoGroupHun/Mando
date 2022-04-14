@@ -20,6 +20,9 @@
     }
   },
   "NAVMENU": {
+    "LOGOUT": "Kilépés",
+    "REGISTER": "Regisztráció",
+    "LOGIN": "Belépés",
     "HOME": "Otthon",
     "NEW_DONATION": "Új adomány",
     "SUPPLIES": "Készlet",

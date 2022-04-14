@@ -20,6 +20,9 @@
     }
   },
   "NAVMENU": {
+    "LOGOUT": "Logout",
+    "REGISTER": "Register",
+    "LOGIN": "Login",
     "HOME": "Home",
     "NEW_DONATION": "Register new donation",
     "SUPPLIES": "Supplies",
