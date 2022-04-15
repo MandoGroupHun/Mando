@@ -2,6 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { Product } from '../models/product';
+import { forkJoin } from 'rxjs';
+import { Building } from '../models/building';
 
 @Component({
     selector: 'app-add-product-building',
@@ -9,29 +11,39 @@ import { Product } from '../models/product';
 })
 export class AddProductBuildingComponent {
     public products: Product[] = [];
+    public buildings: Building[] = [];
     public productsByCategory: Product[] = [];
     public filteredProducts: Product[] = [];
     public categories: any[] = [];
     public selectedProduct: Product | undefined;
+    public selectedBuilding: Building | undefined;
     public quantity = 1;
     public size: string | undefined;
     public saveInProgress = false;
+    public isLoading = true;
 
     constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService) {
-        this.loadProducts();
+        this.loadData();
     }
 
     onCategoryChange(event: any) {
         this.productsByCategory = this.products.filter(x => x.category === event.value.name);
     }
 
-    private loadProducts(): void {
-        this.http.get<Product[]>(this.baseUrl + 'product/products').subscribe(result => {
-            this.products = result;
-            this.categories = [... new Set(result.map(x => x.category))].map(((x) => {
-                return { name: x, id: x };
-            }));
-            }, error => console.error(error));
+    private loadData(): void {
+        this.isLoading = true;
+        forkJoin([this.http.get<Product[]>(this.baseUrl + 'product/products'), this.http.get<Building[]>(this.baseUrl + 'building/buildings')])
+            .subscribe(([products, buildings]) => {
+                this.products = products;
+                this.buildings = buildings;
+                this.categories = [... new Set(products.map(x => x.category))].map(((x) => {
+                    return { name: x, id: x };
+                }));
+                this.isLoading = false;
+            }, error => {
+                console.error(error);
+                this.isLoading = false;
+            });
     }
 
     public getSuffix(): string {
@@ -55,6 +67,7 @@ export class AddProductBuildingComponent {
         this.saveInProgress = true;
         this.http.post<boolean>(this.baseUrl + 'product/add', {
             productId: this.selectedProduct!.productId,
+            buildingId: this.selectedBuilding!.buildingId,
             quantity: this.quantity,
             size: !!this.selectedProduct!.sizeType ? this.size : null
         })

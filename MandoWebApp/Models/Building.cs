@@ -24,6 +24,12 @@ namespace MandoWebApp.Models
         [Column(name: "EN_Description", TypeName = "varchar(500)")]
         public string? ENDescription { get; set; }
         public ICollection<BuildingProduct> BuildingProducts { get; set; }
+
+        [NotMapped]
+        public string Name => HUName; // TODO implement language switch here
+
+        [NotMapped]
+        public string? Description => HUDescription; // TODO implement language switch here
         
     }
 }

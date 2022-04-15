@@ -6,8 +6,9 @@ namespace MandoWebApp.Services.ProductService
 {
     public interface IProductService
     {
-        List<ProductModel> GetProducts();
-        List<SupplyModel> GetSupplies();
+        Task<List<ProductModel>> GetProductsAsync();
+        Task<List<SupplyModel>> GetSuppliesAsync();
         Task<Result> AddBuildingProduct(BuildingProduct buildingProduct);
+        Task<Result> UpdateSupplyAsync(SupplyModel supply);
     }
 }

@@ -9,6 +9,7 @@ const PROXY_CONFIG = [
       "/invite",
       "/usermanagement",
       "/product",
+      "/building",
       "/_configuration",
       "/.well-known",
       "/Identity",

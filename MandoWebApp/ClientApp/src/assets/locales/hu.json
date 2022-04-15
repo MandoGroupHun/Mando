@@ -1,4 +1,14 @@
 {
+  "MESSAGE": {
+    "INVITE": {
+      "SUCCESS": "Siker!",
+      "ERROR": "Hiba!",
+      "DUPLICATE": "Már létező meghívó!",
+      "SUCCESS_DETAIL": "Meghívó sikeresen elküldve",
+      "DUPLICATE_DETAIL": "Erre az email címre már van függőben meghívó",
+      "ERROR_DETAIL": "Nem tudtunk meghívót küldeni erre az email címre. Részletek: "
+    }
+  },
   "INVITES": {
     "HEADER": "Meghívók",
     "LOADING": "Betöltés...",
@@ -10,6 +20,9 @@
     }
   },
   "NAVMENU": {
+    "LOGOUT": "Kilépés",
+    "REGISTER": "Regisztráció",
+    "LOGIN": "Belépés",
     "HOME": "Otthon",
     "NEW_DONATION": "Új adomány",
     "SUPPLIES": "Készlet",
@@ -26,7 +39,8 @@
       "SEARCH_KEYWORD": "Keresés",
       "NAME": "Név",
       "CATEGORY": "Kategória",
-      "QUANTITY": "Mennyiség"
+      "QUANTITY": "Mennyiség",
+      "EDIT": "Szerkesztés"
     }
   },
   "USER_MANAGEMENT": {

@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using MandoWebApp.Services.BuildingService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -112,4 +113,5 @@ static void RegisterServices(WebApplicationBuilder builder)
     builder.Services.AddTransient<IEmailSender, EmailSender>();
     builder.Services.AddTransient<IProductService, ProductService>();
     builder.Services.AddTransient<IUserManagementService, UserManagementService>();
+    builder.Services.AddTransient<IBuildingService, BuildingService>();
 }
