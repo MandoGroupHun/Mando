@@ -1,30 +1,35 @@
 using Duende.IdentityServer.Models;
-using MandoWebApp;
+using IdentityModel;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Options;
 using MandoWebApp.Services;
+using MandoWebApp.Services.BuildingService;
 using MandoWebApp.Services.EmailSender;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
 using MandoWebApp.Services.ProductService;
+using MandoWebApp.Services.UserManangement;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
-using MandoWebApp.Services.UserManangement;
-using System.Security.Claims;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using MandoWebApp.Services.BuildingService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+{
+    var dbOptions = serviceProvider.GetRequiredService<IOptions<DbOptions>>().Value;
+
+    var connectionString = $"server={dbOptions.Server};port={dbOptions.Port};database={dbOptions.Database};uid={dbOptions.Uid};password={dbOptions.Password}";
+
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -105,6 +110,7 @@ static void RegisterOptions(WebApplicationBuilder builder)
 {
     builder.Services.AddOptions<MandoAuthOptions>().BindConfiguration("Authentication");
     builder.Services.AddOptions<EmailOptions>().BindConfiguration("Email");
+    builder.Services.AddOptions<DbOptions>().BindConfiguration("MariaDB");
 }
 
 static void RegisterServices(WebApplicationBuilder builder)
