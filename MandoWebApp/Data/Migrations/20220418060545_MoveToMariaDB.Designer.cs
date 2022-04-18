@@ -3,7 +3,6 @@ using System;
 using MandoWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -12,57 +11,55 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MandoWebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220321152414_Invite-Email-Index")]
-    partial class InviteEmailIndex
+    [Migration("20220418060545_MoveToMariaDB")]
+    partial class MoveToMariaDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
                     b.Property<string>("UserCode")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Data")
                         .IsRequired()
                         .HasMaxLength(50000)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("DeviceCode")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .IsRequired()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("SessionId")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("SubjectId")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("UserCode");
 
@@ -77,28 +74,28 @@ namespace MandoWebApp.Data.Migrations
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.Key", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Algorithm")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("DataProtected")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsX509Certificate")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Use")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("Version")
                         .HasColumnType("int");
@@ -114,43 +111,43 @@ namespace MandoWebApp.Data.Migrations
                 {
                     b.Property<string>("Key")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime?>("ConsumedTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Data")
                         .IsRequired()
                         .HasMaxLength(50000)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime?>("Expiration")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("SessionId")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("SubjectId")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Key");
 
@@ -168,54 +165,57 @@ namespace MandoWebApp.Data.Migrations
             modelBuilder.Entity("MandoWebApp.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool?>("IsTestUser")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
@@ -224,10 +224,79 @@ namespace MandoWebApp.Data.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "42a760de-497b-44c1-84f0-9388087fc344",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "336f6c3e-701a-4382-a61e-760f0e3f01d2",
+                            Email = "volunteer@mandakdb.com",
+                            EmailConfirmed = true,
+                            IsTestUser = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "VOLUNTEER@MANDAKDB.COM",
+                            NormalizedUserName = "VOLUNTEER@MANDAKDB.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBBKaVt5t3MJ1jWyvikPIVZDv9AGbrFl0SjLZZwG+Hx5cnS9Pz3b2+vUm+KtA5DGGQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "eb45e779-a945-4df1-a4cd-ed95d967d6ee",
+                            TwoFactorEnabled = false,
+                            UserName = "volunteer@mandakdb.com"
+                        },
+                        new
+                        {
+                            Id = "ff732cde-8b20-46b3-a698-2da238d80c2d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d4d63954-822f-44d7-8f5f-dd5754947767",
+                            Email = "benefactor@mandakdb.com",
+                            EmailConfirmed = true,
+                            IsTestUser = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "BENEFACTOR@MANDAKDB.COM",
+                            NormalizedUserName = "BENEFACTOR@MANDAKDB.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHaFoGUqd1Rlmxn3AGDDF4xWRD82nE+NfqwfT62bJ9lCA59Qj7l8+1Z2D1n94BZ9DQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d2c7b9f9-e358-48ff-be52-68807949cdc1",
+                            TwoFactorEnabled = false,
+                            UserName = "benefactor@mandakdb.com"
+                        },
+                        new
+                        {
+                            Id = "98195404-8874-4ecd-a28e-cba611fa7f88",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7985c0e2-6c28-44fc-b303-198e354abee5",
+                            Email = "manager@mandakdb.com",
+                            EmailConfirmed = true,
+                            IsTestUser = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MANAGER@MANDAKDB.COM",
+                            NormalizedUserName = "MANAGER@MANDAKDB.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKftoUUtVt4oSCPYo6GkXwIyuznOIXCaudZCD7HrXGzZXIguUz3kkwD0NOsVJ28Z/Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1266a712-a62a-4c37-a1e8-1de9ba703a7e",
+                            TwoFactorEnabled = false,
+                            UserName = "manager@mandakdb.com"
+                        },
+                        new
+                        {
+                            Id = "8d644e3b-3e19-446b-a45a-301a3a0144b7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "98450eec-b7da-4e55-a044-1e02f5dc270d",
+                            Email = "administrator@mandakdb.com",
+                            EmailConfirmed = true,
+                            IsTestUser = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMINISTRATOR@MANDAKDB.COM",
+                            NormalizedUserName = "ADMINISTRATOR@MANDAKDB.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPKWXf3UgFJ8FhXnOvvLoTzrT5Zzg072rbIUxU6hDODQz+tNhpPuVduT+Y2VMgV4BA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "3386c3da-289d-4b4a-8aa8-27c9af45880c",
+                            TwoFactorEnabled = false,
+                            UserName = "administrator@mandakdb.com"
+                        });
                 });
 
             modelBuilder.Entity("MandoWebApp.Models.Building", b =>
@@ -235,8 +304,6 @@ namespace MandoWebApp.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Address1")
                         .IsRequired()
@@ -265,6 +332,18 @@ namespace MandoWebApp.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Building");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Address1 = "Karácsony Sándor u. 31",
+                            ENDescription = "Mandak house central building",
+                            ENName = "Mandak house",
+                            HUDescription = "Mandák ház központi épület",
+                            HUName = "Mandák ház",
+                            Zip = 1086
+                        });
                 });
 
             modelBuilder.Entity("MandoWebApp.Models.BuildingProduct", b =>
@@ -275,30 +354,68 @@ namespace MandoWebApp.Data.Migrations
                     b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
                     b.Property<string>("Size")
                         .HasColumnType("varchar(3)");
 
-                    b.HasKey("BuildingID", "ProductID");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("BuildingID", "ProductID", "Size");
 
                     b.HasIndex("ProductID");
 
                     b.ToTable("Map_Building_Product");
+
+                    b.HasData(
+                        new
+                        {
+                            BuildingID = 1,
+                            ProductID = 1,
+                            Size = "",
+                            Quantity = 5
+                        },
+                        new
+                        {
+                            BuildingID = 1,
+                            ProductID = 2,
+                            Size = "S",
+                            Quantity = 3
+                        },
+                        new
+                        {
+                            BuildingID = 1,
+                            ProductID = 3,
+                            Size = "42",
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            BuildingID = 1,
+                            ProductID = 3,
+                            Size = "44",
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            BuildingID = 1,
+                            ProductID = 4,
+                            Size = "",
+                            Quantity = 10
+                        });
                 });
 
             modelBuilder.Entity("MandoWebApp.Models.Invite", b =>
                 {
                     b.Property<Guid>("InviteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Status")
@@ -318,8 +435,6 @@ namespace MandoWebApp.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -345,6 +460,42 @@ namespace MandoWebApp.Data.Migrations
                     b.HasIndex("UnitID");
 
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Category = "Higéniai eszköz",
+                            ENName = "Toothbrush",
+                            HUName = "Fogkefe",
+                            UnitID = 2
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Category = "Ruha",
+                            ENName = "Female shirt",
+                            HUName = "Női ing",
+                            SizeType = 1,
+                            UnitID = 1
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Category = "Ruha",
+                            ENName = "Male shirt",
+                            HUName = "Férfi ing",
+                            SizeType = 0,
+                            UnitID = 1
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Category = "Gyógyszer",
+                            ENName = "Painkiller",
+                            HUName = "Fájdalomcsillapító",
+                            UnitID = 2
+                        });
                 });
 
             modelBuilder.Entity("MandoWebApp.Models.Unit", b =>
@@ -352,8 +503,6 @@ namespace MandoWebApp.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<string>("ENName")
                         .HasColumnType("varchar(20)")
@@ -372,36 +521,71 @@ namespace MandoWebApp.Data.Migrations
                         new
                         {
                             ID = 1,
-                            ENName = "Piece",
-                            HUName = "Darab"
+                            ENName = "piece",
+                            HUName = "darab"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            ENName = "box",
+                            HUName = "doboz"
                         });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "99ed77a4-097d-4175-9ff0-85e583eabe89",
+                            ConcurrencyStamp = "e7438c3f-c644-4fcf-aebb-f66c123345ae",
+                            Name = "Volunteer",
+                            NormalizedName = "VOLUNTEER"
+                        },
+                        new
+                        {
+                            Id = "8a8969ac-7762-4637-98bc-228471a240fb",
+                            ConcurrencyStamp = "776ae477-4a75-4aaa-8cf7-24f472ad374c",
+                            Name = "Benefactor",
+                            NormalizedName = "BENEFACTOR"
+                        },
+                        new
+                        {
+                            Id = "45115a8a-11f6-4192-83d2-f04b3e3fd0bb",
+                            ConcurrencyStamp = "6923d565-7496-4c75-91d9-848aed4c7ffd",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
+                        },
+                        new
+                        {
+                            Id = "6439468e-28bc-4d50-bf26-e4e3bb93bbbb",
+                            ConcurrencyStamp = "b925cfd5-3307-4c02-9182-d6a3dda4709c",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -410,17 +594,15 @@ namespace MandoWebApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -435,17 +617,15 @@ namespace MandoWebApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -458,18 +638,18 @@ namespace MandoWebApp.Data.Migrations
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ProviderKey")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -481,33 +661,55 @@ namespace MandoWebApp.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "42a760de-497b-44c1-84f0-9388087fc344",
+                            RoleId = "99ed77a4-097d-4175-9ff0-85e583eabe89"
+                        },
+                        new
+                        {
+                            UserId = "ff732cde-8b20-46b3-a698-2da238d80c2d",
+                            RoleId = "8a8969ac-7762-4637-98bc-228471a240fb"
+                        },
+                        new
+                        {
+                            UserId = "98195404-8874-4ecd-a28e-cba611fa7f88",
+                            RoleId = "45115a8a-11f6-4192-83d2-f04b3e3fd0bb"
+                        },
+                        new
+                        {
+                            UserId = "8d644e3b-3e19-446b-a45a-301a3a0144b7",
+                            RoleId = "6439468e-28bc-4d50-bf26-e4e3bb93bbbb"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
