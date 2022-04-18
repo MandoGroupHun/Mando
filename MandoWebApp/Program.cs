@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,13 +23,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
 {
-    // TODO: Move to config:
-    var server = "localhost";
-    var port = "3306";
-    var database = "mando";
-    var uid = "root";
-    var password = "";
-    var connectionString = $"server={server};port={port};database={database};uid={uid};password={password}";
+    var dbOptions = serviceProvider.GetRequiredService<IOptions<DbOptions>>().Value;
+
+    var connectionString = $"server={dbOptions.Server};port={dbOptions.Port};database={dbOptions.Database};uid={dbOptions.Uid};password={dbOptions.Password}";
 
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
@@ -113,6 +110,7 @@ static void RegisterOptions(WebApplicationBuilder builder)
 {
     builder.Services.AddOptions<MandoAuthOptions>().BindConfiguration("Authentication");
     builder.Services.AddOptions<EmailOptions>().BindConfiguration("Email");
+    builder.Services.AddOptions<DbOptions>().BindConfiguration("MariaDB");
 }
 
 static void RegisterServices(WebApplicationBuilder builder)
