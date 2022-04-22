@@ -19,12 +19,12 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/sdk:6.0
 
 # Install mkcert and generate CA + certificate
-ENV DOMAINS='localhost 127.0.0.1'
+ENV DOMAINS='mando.hrvthmrk.com localhost 127.0.0.1'
 ARG MKCERT_VERSION=v1.4.3
 RUN apt-get update && \
     apt-get install -y \
         libnss3-tools curl
-RUN curl -L https://github.com/FiloSottile/mkcert/releases/download/$MKCERT_VERSION/mkcert-$MKCERT_VERSION-linux-arm64 \
+RUN curl -L https://github.com/FiloSottile/mkcert/releases/download/$MKCERT_VERSION/mkcert-$MKCERT_VERSION-linux-amd64 \
         > /usr/local/bin/mkcert && \
         chmod +x /usr/local/bin/mkcert
 RUN mkcert -install
