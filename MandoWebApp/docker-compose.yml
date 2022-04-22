@@ -57,9 +57,9 @@ services:
       - --providers.docker.network=traefik
       - --api
       # Get certificate from LetsEncrypt staging pool
-      - --certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      #- --certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
       # Get certificate from LetsEncrypt production pool
-      #- --certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.leresolver.acme.email=hunbadco@gmail.com
       - --certificatesresolvers.leresolver.acme.storage=/ssl/acme.json
       - --certificatesresolvers.leresolver.acme.tlschallenge=true
