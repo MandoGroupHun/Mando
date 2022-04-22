@@ -89,7 +89,9 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// HTTPS redirection on app level causes redirect loop with traefik
+//app.UseHttpsRedirection();
+app.UseForwardedHeaders();
 app.UseStaticFiles();
 app.UseRouting();
 

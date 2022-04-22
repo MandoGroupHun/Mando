@@ -1,3 +1,9 @@
+version: '3.7'
+
+networks:
+  traefik:
+    name: traefik
+
 services:
   app:
     image: mando:latest
@@ -7,18 +13,67 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - db
+    restart: unless-stopped
+    networks:
+      - traefik
     environment:
-      - Db__Server=db
+      - Db__Server=mando-db
       - Db__Port=3306
       - Db__Database=mando
       - Db__Uid=app
       - Db__Password=pwd
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.mando-app.rule=Host(`mando.hrvthmrk.com`)"
+      - "traefik.http.routers.mando-app.entrypoints=websecure"
+      - "traefik.http.routers.mando-app.tls=true"
+      - "traefik.http.routers.mando-app.tls.certresolver=leresolver"
 
   db:
-    image: mariadb:10.7
+    image: mariadb:10.6
     container_name: mando-db
+    restart: unless-stopped
+    networks:
+      - traefik
     environment:
       #- MYSQL_ROOT_PASSWORD=rootpwd
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true
       - MYSQL_DATABASE=mando
       - MYSQL_USER=app
       - MYSQL_PASSWORD=pwd
+
+  traefik:
+    container_name: traefik
+    hostname: traefik
+    image: traefik:2.7
+    restart: unless-stopped
+    networks:
+      - traefik
+    command:
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.docker
+      - --providers.docker.network=traefik
+      - --api
+      # Get certificate from LetsEncrypt staging pool
+      - --certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      # Get certificate from LetsEncrypt production pool
+      #- --certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.leresolver.acme.email=hunbadco@gmail.com
+      - --certificatesresolvers.leresolver.acme.storage=/ssl/acme.json
+      - --certificatesresolvers.leresolver.acme.tlschallenge=true
+    labels:
+      - "traefik.docker.network=traefik"
+      # Global redirect to https
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      # Middleware redirect
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/ssl/traefik:/ssl
