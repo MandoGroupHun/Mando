@@ -2,6 +2,7 @@
 
 # Specify build image
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+ENV ASPNETCORE_ENVIRONMENT=Production
 
 # Install node
 RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
@@ -29,7 +30,7 @@ RUN mkcert -install
 RUN mkcert -p12-file /etc/ssl/private/cert.pfx -pkcs12 $DOMAINS
 
 # dotnet specific env vars for kestrel, cert handling
-#ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_ENVIRONMENT=Production
 ENV ASPNETCORE_URLS=http://+:80;https://+:443
 ENV Kestrel:Certificates:Default:Path=/etc/ssl/private/cert.pfx
 # Password is a hardcoded legacy value, read more on this here:
