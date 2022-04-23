@@ -11,6 +11,7 @@ using MandoWebApp.Services.UserManangement;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -72,6 +73,18 @@ builder.Services.Configure<JwtBearerOptions>(
         options.MapInboundClaims = false;
     });
 
+// Prevent HTTPS redirection loop with traefik in production
+// Solution: https://laimis.medium.com/couple-issues-with-https-redirect-asp-net-core-7021cf383e00
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+  {
+      options.ForwardedHeaders = 
+          ForwardedHeaders.XForwardedFor | 
+          ForwardedHeaders.XForwardedProto;
+
+      options.KnownNetworks.Clear();
+      options.KnownProxies.Clear();
+  });
+
 RegisterOptions(builder);
 
 RegisterServices(builder);
@@ -89,9 +102,8 @@ else
     app.UseHsts();
 }
 
-// HTTPS redirection on app level causes redirect loop with traefik
-//app.UseHttpsRedirection();
 app.UseForwardedHeaders();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
