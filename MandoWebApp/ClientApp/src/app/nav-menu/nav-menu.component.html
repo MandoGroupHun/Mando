@@ -30,6 +30,16 @@
                   }}</a></li>
             </ul>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="langDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <img class="current-lang-icon" src="{{'assets/images/' + getCurrentLanguage() + '.svg'}}" />
+            </a>
+            <ul class="dropdown-menu lang-dropdown" aria-labelledby="langDropdown">
+              <li><img src="{{'assets/images/' + lang + '.svg'}}" class="dropdown-item lang-icon"
+                  *ngFor="let lang of getLanguages()" (click)="setLanguage(lang)" /></li>
+            </ul>
+          </li>
         </ul>
         <app-login-menu></app-login-menu>
       </div>
