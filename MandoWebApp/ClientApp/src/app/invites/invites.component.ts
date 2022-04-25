@@ -26,14 +26,14 @@ export class InvitesComponent {
     this.http.post<boolean>(this.baseUrl + 'invite', { email: this.inviteEmail })
       .subscribe(newAdded => {
         if (newAdded) {
-          this.messageService.add({ severity: 'success', summary: 'MESSAGE.INVITE.SUCCESS', detail: 'MESSAGE.INVITE.SUCCESS_DETAIL' });
+          this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.INVITE.SUCCESS_DETAIL' });
           this.loadInvites();
         }
         else {
           this.messageService.add({ severity: 'warn', summary: 'MESSAGE.INVITE.DUPLICATE', detail: 'MESSAGE.INVITE.DUPLICATE_DETAIL' });
         }
       }, (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'MESSAGE.INVITE.ERROR', detail: 'MESSAGE.INVITE.ERROR_DETAIL' }, extractFirstErrorMessage(error));
+        this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.INVITE.ERROR_DETAIL' }, extractFirstErrorMessage(error));
       });
   }
 }

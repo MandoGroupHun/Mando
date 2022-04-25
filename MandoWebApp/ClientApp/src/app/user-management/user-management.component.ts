@@ -6,18 +6,18 @@ import { arrayEquals } from '../utilities/array-util';
 import { extractFirstErrorMessage } from '../utilities/error-util';
 import { AuthorizeService, getRoles } from '../../api-authorization/authorize.service';
 import { Profile } from 'oidc-client';
+import { LocalizedMessageService } from '../_services/localized-message.service';
 
 @Component({
   selector: 'app-user-management',
-  templateUrl: './user-management.component.html',
-  providers: [MessageService]
+  templateUrl: './user-management.component.html'
 })
 export class UserManagementComponent {
   public userManagement: UserManagement | null = null;
   public userManagementSnapshot: UserManagement | null = null;
   private user: Profile | null = null;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService, private authService: AuthorizeService) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: LocalizedMessageService, authService: AuthorizeService) {
     this.loadUsers();
     authService.getUser().subscribe(user => this.user = user);
   }
@@ -64,7 +64,7 @@ export class UserManagementComponent {
   public updateUser(user: UserManagementItem): void {
     this.http.post<any>(this.baseUrl + 'usermanagement', user)
       .subscribe(() => {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User updated!' });
+        this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.USER_MANAGEMENT.SUCCESS_DETAIL' });
 
         const snapshot = this.userManagementSnapshot?.users.find(u => u.id === user.id);
 
@@ -72,7 +72,7 @@ export class UserManagementComponent {
 
         this.userManagementSnapshot?.users.splice(index!, 1, JSON.parse(JSON.stringify(user)));
       }, (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to update the user. Details: ' + extractFirstErrorMessage(error) });
+        this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.USER_MANAGEMENT.ERROR_DETAIL' }, extractFirstErrorMessage(error));
       });
   }
 }

@@ -1,12 +1,20 @@
 {
   "MESSAGE": {
+    "SUCCESS": "Siker!",
+    "ERROR": "Hiba!",
     "INVITE": {
-      "SUCCESS": "Siker!",
-      "ERROR": "Hiba!",
       "DUPLICATE": "Már létező meghívó!",
       "SUCCESS_DETAIL": "Meghívó sikeresen elküldve",
       "DUPLICATE_DETAIL": "Erre az email címre már van függőben meghívó",
-      "ERROR_DETAIL": "Nem tudtunk meghívót küldeni erre az email címre. Részletek: "
+      "ERROR_DETAIL": "Nem sikerült meghívót küldeni erre az email címre. Részletek: "
+    },
+    "SUPPLIES": {
+      "SUCCESS_DETAIL": "Készlet sikeresen frissítve!",
+      "ERROR_DETAIL": "Nem sikerült frissíteni a készletet. Részletek: "
+    },
+    "USER_MANAGEMENT": {
+      "SUCCESS_DETAIL": "Felhasználó frissítve!",
+      "ERROR_DETAIL": "Nem sikerült frissíteni a felhasználó szerepköreit. Részletek: "
     }
   },
   "INVITES": {
