@@ -14,9 +14,10 @@ export class NavMenuComponent {
   public user: Profile | null = null;
 
   constructor(public authorizeService: AuthorizeService) {
-
-    authorizeService.getUser().subscribe(user => {
-      this.user = user;
+    authorizeService.getUser().subscribe({
+      next: user => {
+        this.user = user;
+      }
     });
   }
 

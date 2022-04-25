@@ -15,11 +15,13 @@ export class LocalizedMessageService {
     const translatedSummary = this.translateService.get(message.summary!);
     const translatedDetail = this.translateService.get(message.detail!);
 
-    forkJoin([translatedSummary, translatedDetail]).subscribe(([summary, detail]) => {
-      message.summary = summary;
-      message.detail = detail + (appendRawDetail ?? '');
+    forkJoin([translatedSummary, translatedDetail]).subscribe({
+      next: ([summary, detail]) => {
+        message.summary = summary;
+        message.detail = detail + (appendRawDetail ?? '');
 
-      this.messageService.add(message);
-    }, error => console.error(error));
+        this.messageService.add(message);
+      }, error: error => console.error(error)
+    });
   }
 }

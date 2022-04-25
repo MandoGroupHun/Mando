@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Supply } from 'src/app/models/supply';
 import { Table } from 'primeng/table';
 import { extractFirstErrorMessage } from '../../utilities/error-util';
@@ -28,11 +28,13 @@ export class SuppliesComponent {
   }
 
   public save(supply: Supply): void {
-    this.http.post<any>(this.baseUrl + 'product/supplyUpdate', supply).subscribe(() => {
-      this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.SUPPLIES.SUCCESS_DETAIL' });
-      this.selectedSupply = undefined;
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.SUPPLIES.ERROR_DETAIL' }, extractFirstErrorMessage(error));
+    this.http.post<any>(this.baseUrl + 'product/supplyUpdate', supply).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.SUPPLIES.SUCCESS_DETAIL' });
+        this.selectedSupply = undefined;
+      }, error: (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.SUPPLIES.ERROR_DETAIL' }, extractFirstErrorMessage(error));
+      }
     });
   }
 
@@ -47,9 +49,11 @@ export class SuppliesComponent {
   }
 
   private loadSupplies(): void {
-    this.http.get<Supply[]>(this.baseUrl + 'product/supplies').subscribe(result => {
-      this.supplies = result;
-    }, error => console.error(error));
+    this.http.get<Supply[]>(this.baseUrl + 'product/supplies').subscribe({
+      next: result => {
+        this.supplies = result;
+      }, error: (error: HttpErrorResponse) => console.error(error)
+    });
   }
 }
 

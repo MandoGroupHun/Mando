@@ -17,23 +17,27 @@ export class InvitesComponent {
   }
 
   private loadInvites(): void {
-    this.http.get<Invite[]>(this.baseUrl + 'invite').subscribe(result => {
-      this.invites = result;
-    }, error => console.error(error));
+    this.http.get<Invite[]>(this.baseUrl + 'invite').subscribe({
+      next: result => {
+        this.invites = result;
+      }, error: (error: HttpErrorResponse) => console.error(error)
+    });
   }
 
   public createInvite(): void {
     this.http.post<boolean>(this.baseUrl + 'invite', { email: this.inviteEmail })
-      .subscribe(newAdded => {
-        if (newAdded) {
-          this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.INVITE.SUCCESS_DETAIL' });
-          this.loadInvites();
+      .subscribe({
+        next: newAdded => {
+          if (newAdded) {
+            this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.INVITE.SUCCESS_DETAIL' });
+            this.loadInvites();
+          }
+          else {
+            this.messageService.add({ severity: 'warn', summary: 'MESSAGE.INVITE.DUPLICATE', detail: 'MESSAGE.INVITE.DUPLICATE_DETAIL' });
+          }
+        }, error: (error: HttpErrorResponse) => {
+          this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.INVITE.ERROR_DETAIL' }, extractFirstErrorMessage(error));
         }
-        else {
-          this.messageService.add({ severity: 'warn', summary: 'MESSAGE.INVITE.DUPLICATE', detail: 'MESSAGE.INVITE.DUPLICATE_DETAIL' });
-        }
-      }, (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.INVITE.ERROR_DETAIL' }, extractFirstErrorMessage(error));
       });
   }
 }
