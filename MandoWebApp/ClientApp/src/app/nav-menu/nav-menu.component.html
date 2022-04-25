@@ -1,32 +1,34 @@
 <header>
-  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">MandoWebApp</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
-        aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">MandoWebApp</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end" [ngClass]="{ show: isExpanded }">
-        <ul class="navbar-nav flex-grow">
-          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">{{ 'NAVMENU.HOME' | translate }}</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">{{ 'NAVMENU.HOME' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/products']">{{ 'NAVMENU.NEW_DONATION' | translate }}</a>
+            <a class="nav-link" [routerLink]="['/products']">{{ 'NAVMENU.NEW_DONATION' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/supplies']">{{ 'NAVMENU.SUPPLIES' | translate }}</a>
+            <a class="nav-link" [routerLink]="['/supplies']">{{ 'NAVMENU.SUPPLIES' | translate }}</a>
           </li>
           <li class="nav-item dropdown" *ngIf="isPriviliged()">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               {{ 'NAVMENU.ADMIN' | translate }}
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" [routerLink]="['/usermanagement']">{{ 'NAVMENU.ADMIN_MENU.USER_MANAGEMENT' |
-                translate }}</a>
-              <a class="dropdown-item" [routerLink]="['/invites']">{{ 'NAVMENU.ADMIN_MENU.INVITES' | translate }}</a>
-            </div>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" [routerLink]="['/usermanagement']">{{ 'NAVMENU.ADMIN_MENU.USER_MANAGEMENT' |
+                  translate }}</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/invites']">{{ 'NAVMENU.ADMIN_MENU.INVITES' | translate
+                  }}</a></li>
+            </ul>
           </li>
         </ul>
         <app-login-menu></app-login-menu>
