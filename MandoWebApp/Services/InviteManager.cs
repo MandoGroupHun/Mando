@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace MandoWebApp.Services
 {
@@ -30,7 +30,7 @@ namespace MandoWebApp.Services
 
                 await _dbContext.SaveChangesAsync();
             }
-            catch (DbUpdateException ex) when (ex.InnerException is SqlException inner && inner.Message.Contains("duplicate key"))
+            catch (DbUpdateException ex) when (ex.InnerException is MySqlException inner && inner.Message.Contains("Duplicate"))
             {
                 return Result.Success(false);
             }
