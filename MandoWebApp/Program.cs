@@ -124,7 +124,7 @@ static void RegisterOptions(WebApplicationBuilder builder)
 {
     builder.Services.AddOptions<MandoAuthOptions>().BindConfiguration("Authentication");
     builder.Services.AddOptions<EmailOptions>().BindConfiguration("Email");
-    builder.Services.AddOptions<DbOptions>().BindConfiguration("MariaDB");
+    builder.Services.AddOptions<DbOptions>().BindConfiguration("Db");
 }
 
 static void RegisterServices(WebApplicationBuilder builder)
