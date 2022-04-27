@@ -4,6 +4,6 @@ namespace MandoWebApp.Services.BuildingService
 {
     public interface IBuildingService
     {
-        List<BuildingModel> GetBuildings();
+        Task<List<BuildingModel>> GetBuildingsAsync();
     }
 }

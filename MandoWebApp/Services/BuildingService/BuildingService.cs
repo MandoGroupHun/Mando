@@ -1,27 +1,34 @@
 ﻿using MandoWebApp.Data;
+using MandoWebApp.Extensions;
 using MandoWebApp.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace MandoWebApp.Services.BuildingService
 {
     public class BuildingService : IBuildingService
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BuildingService(ApplicationDbContext dbContext)
+        public BuildingService(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public List<BuildingModel> GetBuildings()
+        public async Task<List<BuildingModel>> GetBuildingsAsync()
         {
-            var units = _dbContext.Units.ToList();
+            var units = await _dbContext.Units.ToListAsync();
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
 
-            return _dbContext.Buildings.ToList().Select(x => new BuildingModel
+            var buildings = await _dbContext.Buildings.ToListAsync();
+
+            return buildings.Select(x => new BuildingModel
             {
                 BuildingId = x.ID,
-                Name = x.Name,
+                Name = x.Name(lang),
                 Zip = x.Zip,
-                Description = x.Description,
+                Description = x.Description(lang),
                 Address = x.Address1
             }).ToList();
         }
