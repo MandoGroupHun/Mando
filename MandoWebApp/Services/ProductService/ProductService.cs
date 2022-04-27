@@ -32,7 +32,7 @@ namespace MandoWebApp.Services.ProductService
                 ProductId = x.ID,
                 Name = x.Name(lang),
                 UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
-                Category = x.Category,
+                Category = x.Category(lang),
                 SizeType = x.SizeType
             }).ToList();
         }
@@ -77,7 +77,7 @@ namespace MandoWebApp.Services.ProductService
                 product.ID,
                 Name = lang == "en" && product.ENName != null ? product.ENName : product.HUName,
                 product.UnitID,
-                product.Category,
+                Category = lang == "en" && product.ENCategory != null ? product.ENCategory : product.HUCategory,
                 buildingProduct.Quantity,
                 buildingProduct.Size
             }).ToListAsync();
