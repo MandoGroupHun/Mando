@@ -24,12 +24,14 @@ namespace MandoWebApp.Services.ProductService
         {
             var units = await _dbContext.Units.ToListAsync();
             var products = await _dbContext.Products.ToListAsync();
-                
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
+
+
             return products.Select(x => new ProductModel
             {
                 ProductId = x.ID,
-                Name = x.Name(_httpContextAccessor.HttpContext?.GetLang()!),
-                UnitName = units.First(u => u.ID == x.UnitID).Name,
+                Name = x.Name(lang),
+                UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
                 Category = x.Category,
                 SizeType = x.SizeType
             }).ToList();
@@ -84,7 +86,7 @@ namespace MandoWebApp.Services.ProductService
             {
                 ProductId = x.ID,
                 Name = x.Name,
-                UnitName = units.First(u => u.ID == x.UnitID).Name,
+                UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
                 Category = x.Category,
                 Size = x.Size ?? string.Empty,
                 Quantity = x.Quantity
