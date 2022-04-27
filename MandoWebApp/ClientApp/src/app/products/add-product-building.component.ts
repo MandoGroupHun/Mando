@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { Product } from '../models/product';
 import { forkJoin } from 'rxjs';
 import { Building } from '../models/building';
+import { extractFirstErrorMessage } from '../utilities/error-util';
 
 @Component({
     selector: 'app-add-product-building',
@@ -32,17 +33,22 @@ export class AddProductBuildingComponent {
 
     private loadData(): void {
         this.isLoading = true;
-        forkJoin([this.http.get<Product[]>(this.baseUrl + 'product/products'), this.http.get<Building[]>(this.baseUrl + 'building/buildings')])
-            .subscribe(([products, buildings]) => {
-                this.products = products;
-                this.buildings = buildings;
-                this.categories = [... new Set(products.map(x => x.category))].map(((x) => {
-                    return { name: x, id: x };
-                }));
-                this.isLoading = false;
-            }, error => {
-                console.error(error);
-                this.isLoading = false;
+        const products$ = this.http.get<Product[]>(this.baseUrl + 'product/products');
+        const buildings$ = this.http.get<Building[]>(this.baseUrl + 'building/buildings');
+
+        forkJoin([products$, buildings$])
+            .subscribe({
+                next: ([products, buildings]) => {
+                    this.products = products;
+                    this.buildings = buildings;
+                    this.categories = [... new Set(products.map(x => x.category))].map(((x) => {
+                        return { name: x, id: x };
+                    }));
+                    this.isLoading = false;
+                }, error: (error: HttpErrorResponse) => {
+                    console.error(error);
+                    this.isLoading = false;
+                }
             });
     }
 
@@ -51,7 +57,7 @@ export class AddProductBuildingComponent {
     }
 
     public filterProduct(event: any): void {
-        let filtered : any[] = [];
+        let filtered: any[] = [];
         let query = event.query;
 
         for (let i = 0; i < this.productsByCategory.length; i++) {
@@ -70,14 +76,15 @@ export class AddProductBuildingComponent {
             buildingId: this.selectedBuilding!.buildingId,
             quantity: this.quantity,
             size: !!this.selectedProduct!.sizeType ? this.size : null
-        })
-          .subscribe(_ => {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Building product added!' });
-            this.saveInProgress = false;
-          }, (error: HttpErrorResponse) => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to save the building product.' });
-            this.saveInProgress = false;
-          });
-      }
+        }).subscribe({
+            next: () => {
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Building product added!' });
+                this.saveInProgress = false;
+            }, error: (error: HttpErrorResponse) => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to save the building product. Details: ' + extractFirstErrorMessage(error) });
+                this.saveInProgress = false;
+            }
+        });
+    }
 }
 

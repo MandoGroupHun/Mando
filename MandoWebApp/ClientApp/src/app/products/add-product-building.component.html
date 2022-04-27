@@ -1,4 +1,4 @@
-<p-toast></p-toast>
+<p-toast [breakpoints]="{'420px': {width: '100%', right: '0', left: '0'}}"></p-toast>
 <p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
 <div *ngIf="!isLoading" class="container">
     <div class="row gy-1">

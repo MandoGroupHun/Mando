@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Supply } from 'src/app/models/supply';
 import { Table } from 'primeng/table';
-import { MessageService } from 'primeng/api';
 import { extractFirstErrorMessage } from '../../utilities/error-util';
+import { LocalizedMessageService } from 'src/app/_services/localized-message.service';
 
 @Component({
   selector: 'app-supplies',
@@ -14,7 +14,7 @@ export class SuppliesComponent {
   public selectedSupply: Supply | undefined = undefined;
   public quantitySnapshot: number | undefined = undefined;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, public messageService: MessageService) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, public messageService: LocalizedMessageService) {
     this.loadSupplies();
   }
 
@@ -28,11 +28,13 @@ export class SuppliesComponent {
   }
 
   public save(supply: Supply): void {
-    this.http.post<any>(this.baseUrl + 'product/supplyUpdate', supply).subscribe(() => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Successfully updated supply quantity' });
-      this.selectedSupply = undefined;
-    }, error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to update supply quantity. Details: ' + extractFirstErrorMessage(error) });
+    this.http.post<any>(this.baseUrl + 'product/supplyUpdate', supply).subscribe({
+      next: () => {
+        this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.SUPPLIES.SUCCESS_DETAIL' });
+        this.selectedSupply = undefined;
+      }, error: (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.SUPPLIES.ERROR_DETAIL' }, extractFirstErrorMessage(error));
+      }
     });
   }
 
@@ -47,9 +49,11 @@ export class SuppliesComponent {
   }
 
   private loadSupplies(): void {
-    this.http.get<Supply[]>(this.baseUrl + 'product/supplies').subscribe(result => {
-      this.supplies = result;
-    }, error => console.error(error));
+    this.http.get<Supply[]>(this.baseUrl + 'product/supplies').subscribe({
+      next: result => {
+        this.supplies = result;
+      }, error: (error: HttpErrorResponse) => console.error(error)
+    });
   }
 }
 

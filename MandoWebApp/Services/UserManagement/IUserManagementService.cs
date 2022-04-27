@@ -1,5 +1,4 @@
 ﻿using CSharpFunctionalExtensions;
-using MandoWebApp.Models;
 using MandoWebApp.Models.ViewModels;
 
 namespace MandoWebApp.Services.UserManangement

@@ -1,12 +1,20 @@
 {
   "MESSAGE": {
+    "SUCCESS": "Success!",
+    "ERROR": "Error!",
     "INVITE": {
-      "SUCCESS": "Success!",
-      "ERROR": "Error!",
       "DUPLICATE": "Duplicate invite!",
       "SUCCESS_DETAIL": "Invite successfully sent",
       "DUPLICATE_DETAIL": "This email has already received an invite",
       "ERROR_DETAIL": "We failed to send an invite to this email. Details: "
+    },
+    "SUPPLIES": {
+      "SUCCESS_DETAIL": "Successfully updated supply quantity",
+      "ERROR_DETAIL": "We failed to update supply quantity. Details: "
+    },
+    "USER_MANAGEMENT": {
+      "SUCCESS_DETAIL": "User updated!",
+      "ERROR_DETAIL": "We failed to update the user. Details: "
     }
   },
   "INVITES": {
