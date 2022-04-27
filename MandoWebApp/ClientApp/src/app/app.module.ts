@@ -27,6 +27,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LocalizedMessageService } from './_services/localized-message.service';
+import { LanguageInterceptor } from './_services/language.interceptor';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -76,6 +77,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true },
     MessageService,
     LocalizedMessageService
   ],

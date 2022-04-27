@@ -1,16 +1,17 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { Product } from '../models/product';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { Building } from '../models/building';
 import { extractFirstErrorMessage } from '../utilities/error-util';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-add-product-building',
     templateUrl: './add-product-building.component.html'
 })
-export class AddProductBuildingComponent {
+export class AddProductBuildingComponent implements OnDestroy {
     public products: Product[] = [];
     public buildings: Building[] = [];
     public productsByCategory: Product[] = [];
@@ -23,8 +24,12 @@ export class AddProductBuildingComponent {
     public saveInProgress = false;
     public isLoading = true;
 
-    constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService) {
+    private ngUnsubscribe = new Subject;
+
+    constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService,
+        private translateService: TranslateService) {
         this.loadData();
+        this.translateService.onLangChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.loadData());
     }
 
     onCategoryChange(event: any) {
@@ -86,5 +91,9 @@ export class AddProductBuildingComponent {
             }
         });
     }
-}
 
+    ngOnDestroy(): void {
+        this.ngUnsubscribe.next(null);
+        this.ngUnsubscribe.complete();
+    }
+}
