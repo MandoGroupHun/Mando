@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using MandoWebApp.Data;
+using MandoWebApp.Extensions;
 using MandoWebApp.Models;
 using MandoWebApp.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,13 @@ namespace MandoWebApp.Services.ProductService
     public class ProductService : IProductService
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ProductService> _logger;
 
-        public ProductService(ApplicationDbContext dbContext, ILogger<ProductService> logger)
+        public ProductService(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor, ILogger<ProductService> logger)
         {
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
             _dbContext = dbContext;
         }
 
@@ -21,13 +24,15 @@ namespace MandoWebApp.Services.ProductService
         {
             var units = await _dbContext.Units.ToListAsync();
             var products = await _dbContext.Products.ToListAsync();
-                
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
+
+
             return products.Select(x => new ProductModel
             {
                 ProductId = x.ID,
-                Name = x.Name,
-                UnitName = units.First(u => u.ID == x.UnitID).Name,
-                Category = x.Category,
+                Name = x.Name(lang),
+                UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
+                Category = x.Category(lang),
                 SizeType = x.SizeType
             }).ToList();
         }
@@ -65,13 +70,14 @@ namespace MandoWebApp.Services.ProductService
         public async Task<List<SupplyModel>> GetSuppliesAsync()
         {
             var units = await _dbContext.Units.ToListAsync();
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
 
             var supplies = await _dbContext.Products.Join(_dbContext.BuildingProducts, p => p.ID, bp => bp.ProductID, (product, buildingProduct) => new
             {
                 product.ID,
-                product.Name,
+                Name = lang == "en" && product.ENName != null ? product.ENName : product.HUName,
                 product.UnitID,
-                product.Category,
+                Category = lang == "en" && product.ENCategory != null ? product.ENCategory : product.HUCategory,
                 buildingProduct.Quantity,
                 buildingProduct.Size
             }).ToListAsync();
@@ -80,7 +86,7 @@ namespace MandoWebApp.Services.ProductService
             {
                 ProductId = x.ID,
                 Name = x.Name,
-                UnitName = units.First(u => u.ID == x.UnitID).Name,
+                UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
                 Category = x.Category,
                 Size = x.Size ?? string.Empty,
                 Quantity = x.Quantity

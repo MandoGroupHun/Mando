@@ -25,7 +25,8 @@ namespace MandoWebApp.Models.SeedData
             builder.Entity<Product>().HasData(new Product
             {
                 ID = 1,
-                Category = "Higéniai eszköz",
+                HUCategory = "Higiéniai eszköz",
+                ENCategory = "Hygiene product",
                 ENName = "Toothbrush",
                 HUName = "Fogkefe",
                 SizeType = null,
@@ -34,7 +35,8 @@ namespace MandoWebApp.Models.SeedData
             new Product
             {
                 ID = 2,
-                Category = "Ruha",
+                HUCategory = "Ruha",
+                ENCategory = "Clothing",
                 ENName = "Female shirt",
                 HUName = "Női ing",
                 SizeType = SizeType.TShirt,
@@ -43,7 +45,8 @@ namespace MandoWebApp.Models.SeedData
             new Product
             {
                 ID = 3,
-                Category = "Ruha",
+                HUCategory = "Ruha",
+                ENCategory = "Clothing",
                 ENName = "Male shirt",
                 HUName = "Férfi ing",
                 SizeType = SizeType.Numbered,
@@ -52,7 +55,8 @@ namespace MandoWebApp.Models.SeedData
             new Product
             {
                 ID = 4,
-                Category = "Gyógyszer",
+                HUCategory = "Gyógyszer",
+                ENCategory = "Medicine",
                 ENName = "Painkiller",
                 HUName = "Fájdalomcsillapító",
                 SizeType = null,

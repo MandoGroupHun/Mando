@@ -18,8 +18,8 @@ public class BuildingController : ControllerBase
     }
 
     [HttpGet]
-    public List<BuildingModel> Buildings()
+    public async Task<List<BuildingModel>> Buildings()
     {
-        return _buildingService.GetBuildings();
+        return await _buildingService.GetBuildingsAsync();
     }
 }
