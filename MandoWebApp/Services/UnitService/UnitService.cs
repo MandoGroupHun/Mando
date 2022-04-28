@@ -15,7 +15,7 @@ namespace MandoWebApp.Services.UnitService
             _logger = logger;
         }
 
-        public async Task<Result> AddUnit(Unit unit)
+        public async Task<Result> AddUnitAsync(Unit unit)
         {
             try 
             {
