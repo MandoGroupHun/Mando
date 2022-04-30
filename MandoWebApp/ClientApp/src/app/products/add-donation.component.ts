@@ -1,11 +1,11 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
 import { Product } from '../models/product';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { Building } from '../models/building';
 import { extractFirstErrorMessage } from '../utilities/error-util';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalizedMessageService } from '../_services/localized-message.service';
 
 @Component({
     selector: 'app-add-donation',
@@ -27,10 +27,14 @@ export class AddDonationComponent implements OnDestroy {
 
     private ngUnsubscribe = new Subject;
 
-    constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: MessageService,
+    constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: LocalizedMessageService,
         private translateService: TranslateService) {
         this.loadData();
-        this.translateService.onLangChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.loadData());
+        this.translateService.onLangChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+            this.loadData();
+            this.selectedProduct = undefined;
+            this.quantity = 1;
+        });
     }
 
     onCategoryChange(event: any) {
@@ -84,10 +88,10 @@ export class AddDonationComponent implements OnDestroy {
             size: !!this.selectedProduct!.sizeType ? this.size : null
         }).subscribe({
             next: () => {
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Building product added!' });
+                this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
                 this.saveInProgress = false;
             }, error: (error: HttpErrorResponse) => {
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'We failed to save the building product. Details: ' + extractFirstErrorMessage(error) });
+                this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.ADDDONATION.ERROR_DETAIL' }, extractFirstErrorMessage(error));
                 this.saveInProgress = false;
             }
         });

@@ -15,6 +15,10 @@
     "USER_MANAGEMENT": {
       "SUCCESS_DETAIL": "Felhasználó frissítve!",
       "ERROR_DETAIL": "Nem sikerült frissíteni a felhasználó szerepköreit. Részletek: "
+    },
+    "ADDDONATION": {
+      "SUCCESS_DETAIL": "Adomány sikeresen hozzáadva",
+      "ERROR_DETAIL": "Adomány hozzáadása sikertelen"
     }
   },
   "INVITES": {
