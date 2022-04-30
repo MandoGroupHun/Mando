@@ -15,6 +15,7 @@ namespace MandoWebApp.Models
         public string? ENName { get; set; }
 
         public ICollection<Product> Products { get; set; }
+        public ICollection<PendingBuildingProduct> PendingBuildingProducts { get; set; }
 
         public string Name(string lang) => lang switch
         {

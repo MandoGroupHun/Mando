@@ -29,7 +29,6 @@ namespace MandoWebApp.Services.ProductService
             var products = await _dbContext.Products.ToListAsync();
             var lang = _httpContextAccessor.HttpContext?.GetLang()!;
 
-
             return products.Select(x => new ProductModel
             {
                 ProductId = x.ID,

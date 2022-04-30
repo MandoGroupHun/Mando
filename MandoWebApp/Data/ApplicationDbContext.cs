@@ -33,5 +33,6 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     public DbSet<Product> Products { get; set; }
     public DbSet<BuildingProduct> BuildingProducts { get; set; }
     public DbSet<BuildingProductHistory> BuildingProductHistories { get; set; }
+    public DbSet<PendingBuildingProduct> PendingBuildingProducts { get; set; }
     public DbSet<Unit> Units { get; set; }
 }
