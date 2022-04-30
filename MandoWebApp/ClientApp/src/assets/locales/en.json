@@ -15,6 +15,10 @@
     "USER_MANAGEMENT": {
       "SUCCESS_DETAIL": "User updated!",
       "ERROR_DETAIL": "We failed to update the user. Details: "
+    },
+    "ADDDONATION": {
+      "SUCCESS_DETAIL": "Donation saved successfully",
+      "ERROR_DETAIL": "Donation cannot be saved"
     }
   },
   "INVITES": {
@@ -64,5 +68,14 @@
       },
       "SAVE": "Save"
     }
+  },
+  "ADDDONATION": {
+    "LOCATION": "Location",
+    "CATEGORY": "Category",
+    "CHOOSE_CATEGORY": "Choose a category",
+    "SUPPLY": "Supply",
+    "QUANTITY": "Quantity",
+    "SIZE": "Size",
+    "SAVE": "Save"
   }
 }
