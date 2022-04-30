@@ -10,5 +10,6 @@ namespace MandoWebApp.Services.ProductService
         Task<List<SupplyModel>> GetSuppliesAsync();
         Task<Result> AddBuildingProduct(BuildingProduct buildingProduct);
         Task<Result> UpdateSupplyAsync(SupplyModel supply);
+        Task<List<UnitModel>> GetUnitsAsync();
     }
 }

@@ -28,6 +28,12 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
+    public Task<List<ProductModel>> Units()
+    {
+        return _productService.GetProductsAsync();
+    }
+
+    [HttpGet]
     public Task<List<SupplyModel>> Supplies()
     {
         return _productService.GetSuppliesAsync();

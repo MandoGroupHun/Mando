@@ -39,6 +39,18 @@ namespace MandoWebApp.Services.ProductService
             }).ToList();
         }
 
+        public async Task<List<UnitModel>> GetUnitsAsync()
+        {
+            var units = await _dbContext.Units.ToListAsync();
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
+
+            return units.Select(x => new UnitModel
+            {
+                UnitId = x.ID,
+                Name = x.Name(lang)
+            }).ToList();
+        }
+
         public async Task<Result> AddBuildingProduct(BuildingProduct buildingProduct)
         {
             try
