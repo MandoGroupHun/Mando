@@ -64,5 +64,14 @@
       },
       "SAVE": "Mentés"
     }
+  },
+  "ADDDONATION": {
+    "LOCATION": "Helyszín",
+    "CATEGORY": "Kategória",
+    "CHOOSE_CATEGORY": "Válassz ki egy kategóriát",
+    "SUPPLY": "Adomány megnevezése",
+    "QUANTITY": "Mennyiség",
+    "SIZE": "Méret",
+    "SAVE": "Mentés"
   }
 }

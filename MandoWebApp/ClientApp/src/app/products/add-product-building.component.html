@@ -1,27 +1,25 @@
 <p-toast [breakpoints]="{'420px': {width: '100%', right: '0', left: '0'}}"></p-toast>
 <p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
 <div *ngIf="!isLoading" class="container">
-    <form #productForm="ngForm">
-        <div class="form-group">
-            <label class="form-label" for="dropdownBuilding">Helyszín</label>
-            <p-dropdown class="form-control" id="dropdownBuilding" [options]="buildings" [(ngModel)]="selectedBuilding" optionLabel="name"></p-dropdown>
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="dropdownCategory">Kategória</label>
-            <p-dropdown class="form-control" id="dropdownCategory" [options]="categories" (onChange)="onCategoryChange($event)" placeholder="Válassz ki egy kategóriát" optionLabel="name" [showClear]="true"></p-dropdown>
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="autocompleteProduct">Adomány megnevezése</label>
-            <p-autoComplete class="form-control" id="autocompleteProduct" [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1" [dropdown]="true" emptyMessage="Nincs találat"></p-autoComplete>
-        </div>
-        <div class="form-group">
-            <label class="form-label" for="inputQuantity">Mennyiség</label>
-            <p-inputNumber class="form-control" id="inputQuantity" [(ngModel)]="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100" [suffix]="getSuffix()"></p-inputNumber>
-        </div>
-        <div class="form-group" *ngIf="!!selectedProduct?.sizeType">
-            <label class="form-label" for="inputSize">Méret</label>
-            <input class="form-control" id="inputSize" type="text" pInputText [(ngModel)]="size"/>
-        </div>
-        <p-button type="submit" label="Mentés" icon="pi pi-check" iconPos="left" [disabled]="!selectedProduct || saveInProgress || !selectedBuilding" (onClick)="createBuildingProduct()"></p-button>
-    </form>
+    <div class="form-group">
+        <label class="form-label" for="dropdownBuilding">{{ 'ADDDONATION.LOCATION' | translate }}</label>
+        <p-dropdown class="form-control" id="dropdownBuilding" [options]="buildings" [(ngModel)]="selectedBuilding" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="dropdownCategory">{{ 'ADDDONATION.CATEGORY' | translate }}</label>
+        <p-dropdown class="form-control" id="dropdownCategory" [options]="categories" (onChange)="onCategoryChange($event)" [placeholder]="'ADDDONATION.CHOOSE_CATEGORY' | translate" optionLabel="name" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="autocompleteProduct">{{ 'ADDDONATION.SUPPLY' | translate }}</label>
+        <p-autoComplete class="form-control" id="autocompleteProduct" [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1" [dropdown]="true" emptyMessage="Nincs találat"></p-autoComplete>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="inputQuantity">{{ 'ADDDONATION.QUANTITY' | translate }}</label>
+        <p-inputNumber class="form-control" id="inputQuantity" [(ngModel)]="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100" [suffix]="getSuffix()"></p-inputNumber>
+    </div>
+    <div class="form-group" *ngIf="!!selectedProduct?.sizeType">
+        <label class="form-label" for="inputSize">{{ 'ADDDONATION.SIZE' | translate }}</label>
+        <input class="form-control" id="inputSize" type="text" pInputText [(ngModel)]="size"/>
+    </div>
+    <p-button type="submit" [label]="'ADDDONATION.SAVE' | translate" icon="pi pi-check" iconPos="left" [disabled]="!selectedProduct || saveInProgress || !selectedBuilding" (onClick)="createBuildingProduct()"></p-button>
 </div>

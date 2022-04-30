@@ -64,5 +64,14 @@
       },
       "SAVE": "Save"
     }
+  },
+  "ADDDONATION": {
+    "LOCATION": "Location",
+    "CATEGORY": "Category",
+    "CHOOSE_CATEGORY": "Choose a category",
+    "SUPPLY": "Supply",
+    "QUANTITY": "Quantity",
+    "SIZE": "Size",
+    "SAVE": "Save"
   }
 }
