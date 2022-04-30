@@ -32,5 +32,6 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     public DbSet<Invite> Invites { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<BuildingProduct> BuildingProducts { get; set; }
+    public DbSet<BuildingProductHistory> BuildingProductHistories { get; set; }
     public DbSet<Unit> Units { get; set; }
 }

@@ -21,6 +21,7 @@ namespace MandoWebApp.Models
         public int UnitID { get; set; }
         public SizeType? SizeType { get; set; }
         public ICollection<BuildingProduct> BuildingProducts { get; set; }
+        public ICollection<BuildingProductHistory> BuildingProductHistories { get; set; }
 
         public string Category(string lang) => lang switch
         {
