@@ -15,11 +15,11 @@
     </div>
     <div class="form-group">
         <label class="form-label" for="inputQuantity">{{ 'ADDDONATION.QUANTITY' | translate }}</label>
-        <p-inputNumber class="form-control" id="inputQuantity" [(ngModel)]="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" [min]="0" [max]="100" [suffix]="getSuffix()"></p-inputNumber>
+        <p-inputNumber class="form-control" id="inputQuantity" [(ngModel)]="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" spellcheck="false" [min]="0" [max]="100" [suffix]="getSuffix()"></p-inputNumber>
     </div>
     <div class="form-group" *ngIf="!!selectedProduct?.sizeType">
-        <label class="form-label" for="inputSize">{{ 'ADDDONATION.SIZE' | translate }}</label>
-        <input class="form-control" id="inputSize" type="text" pInputText [(ngModel)]="size"/>
+        <label class="form-label" for="inputSize">{{ 'ADDDONATION.SIZE' | translate }}</label><br>
+        <input id="inputSize" type="text" pInputText [(ngModel)]="size"/>
     </div>
     <p-button type="submit" [label]="'ADDDONATION.SAVE' | translate" icon="pi pi-check" iconPos="left" [disabled]="!selectedProduct || saveInProgress || !selectedBuilding" (onClick)="createBuildingProduct()"></p-button>
 </div>
