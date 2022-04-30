@@ -9,7 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-add-product-building',
-    templateUrl: './add-product-building.component.html'
+    templateUrl: './add-product-building.component.html',
+    styleUrls: ['./add-product-building.component.css']
 })
 export class AddProductBuildingComponent implements OnDestroy {
     public products: Product[] = [];
