@@ -1,11 +1,11 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Product } from '../models/product';
+import { Product } from '../../models/product';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
-import { Building } from '../models/building';
-import { extractFirstErrorMessage } from '../utilities/error-util';
+import { Building } from '../../models/building';
+import { extractFirstErrorMessage } from '../../utilities/error-util';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalizedMessageService } from '../_services/localized-message.service';
+import { LocalizedMessageService } from '../../_services/localized-message.service';
 
 @Component({
     selector: 'app-add-donation',
