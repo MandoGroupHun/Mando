@@ -15,7 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddProductBuildingComponent } from './products/add-product-building.component';
+import { AddDonationComponent } from './products/add-donation.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -41,7 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeComponent,
     InvitesComponent,
     UserManagementComponent,
-    AddProductBuildingComponent,
+    AddDonationComponent,
     SuppliesComponent
   ],
   imports: [
@@ -71,7 +71,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
       { path: 'usermanagement', component: UserManagementComponent, canActivate: [AuthorizeGuard] },
-      { path: 'products', component: AddProductBuildingComponent, canActivate: [AuthorizeGuard] },
+      { path: 'products', component: AddDonationComponent, canActivate: [AuthorizeGuard] },
       { path: 'supplies', component: SuppliesComponent, canActivate: [AuthorizeGuard] },
     ])
   ],

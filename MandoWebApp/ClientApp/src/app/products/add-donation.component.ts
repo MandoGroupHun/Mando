@@ -8,11 +8,11 @@ import { extractFirstErrorMessage } from '../utilities/error-util';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-add-product-building',
-    templateUrl: './add-product-building.component.html',
-    styleUrls: ['./add-product-building.component.css']
+    selector: 'app-add-donation',
+    templateUrl: './add-donation.component.html',
+    styleUrls: ['./add-donation.component.css']
 })
-export class AddProductBuildingComponent implements OnDestroy {
+export class AddDonationComponent implements OnDestroy {
     public products: Product[] = [];
     public buildings: Building[] = [];
     public productsByCategory: Product[] = [];
