@@ -3,6 +3,7 @@ using MandoWebApp.Data;
 using MandoWebApp.Extensions;
 using MandoWebApp.Models;
 using MandoWebApp.Models.ViewModels;
+using MandoWebApp.Services.UserManangement;
 using Microsoft.EntityFrameworkCore;
 
 namespace MandoWebApp.Services.ProductService
@@ -12,12 +13,14 @@ namespace MandoWebApp.Services.ProductService
         private readonly ApplicationDbContext _dbContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<ProductService> _logger;
+        private readonly IUserManagementService _userManagementService;
 
-        public ProductService(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor, ILogger<ProductService> logger)
+        public ProductService(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor, IUserManagementService userManagementService, ILogger<ProductService> logger)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             _dbContext = dbContext;
+            _userManagementService = userManagementService;
         }
 
         public async Task<List<ProductModel>> GetProductsAsync()
@@ -54,6 +57,16 @@ namespace MandoWebApp.Services.ProductService
                     existingProduct.Quantity += buildingProduct.Quantity;
                     _dbContext.Update(existingProduct);
                 }
+
+                _dbContext.Add(new BuildingProductHistory
+                {
+                    BuildingID = buildingProduct.BuildingID,
+                    ProductID = buildingProduct.ProductID,
+                    Size = buildingProduct.Size,
+                    Quantity = buildingProduct.Quantity,
+                    RecordedAt = DateTime.UtcNow,
+                    UserId = _userManagementService.GetUserId(_httpContextAccessor.HttpContext?.User)
+                });
 
                 await _dbContext.SaveChangesAsync();
             }
