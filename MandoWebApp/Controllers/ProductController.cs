@@ -28,9 +28,9 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public Task<List<ProductModel>> Units()
+    public Task<List<UnitModel>> Units()
     {
-        return _productService.GetProductsAsync();
+        return _productService.GetUnitsAsync();
     }
 
     [HttpGet]

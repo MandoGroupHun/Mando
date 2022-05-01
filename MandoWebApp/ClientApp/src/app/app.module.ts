@@ -15,7 +15,6 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddDonationComponent } from './products/add-donation.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -28,6 +27,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LocalizedMessageService } from './_services/localized-message.service';
 import { LanguageInterceptor } from './_services/language.interceptor';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { AddDonationComponent } from './products/add-donation/add-donation.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -67,6 +69,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DropdownModule,
     InputNumberModule,
     ProgressSpinnerModule,
+    ToggleButtonModule,
+    TooltipModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },

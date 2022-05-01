@@ -1,11 +1,12 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Product } from '../../models/product';
+import { Product, SizeType } from '../../models/product';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { Building } from '../../models/building';
 import { extractFirstErrorMessage } from '../../utilities/error-util';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalizedMessageService } from '../../_services/localized-message.service';
+import { Unit } from '../../models/unit';
 
 @Component({
     selector: 'app-add-donation',
@@ -15,15 +16,22 @@ import { LocalizedMessageService } from '../../_services/localized-message.servi
 export class AddDonationComponent implements OnDestroy {
     public products: Product[] = [];
     public buildings: Building[] = [];
+    public units: Unit[] = [];
     public productsByCategory: Product[] = [];
     public filteredProducts: Product[] = [];
-    public categories: any[] = [];
+    public categories: { name: string; id: string }[] = [];
     public selectedProduct: Product | undefined;
     public selectedBuilding: Building | undefined;
+    public selectedUnit: Unit | undefined;
     public quantity = 1;
     public size: string | undefined;
+    public newProductName: string | undefined;
     public saveInProgress = false;
     public isLoading = true;
+    public isNewProduct = false;
+    public sizeTypes: { name: string; id: SizeType }[] = [];
+    public selectedSizeType: { name: string; id: SizeType } | undefined;
+    public selectedCategory: { name: string; id: string } | undefined;
 
     private ngUnsubscribe = new Subject;
 
@@ -39,20 +47,26 @@ export class AddDonationComponent implements OnDestroy {
 
     onCategoryChange(event: any) {
         this.productsByCategory = this.products.filter(x => x.category === event.value.name);
+        this.selectedProduct = undefined;
     }
 
     private loadData(): void {
         this.isLoading = true;
         const products$ = this.http.get<Product[]>(this.baseUrl + 'product/products');
+        const units$ = this.http.get<Unit[]>(this.baseUrl + 'product/units');
         const buildings$ = this.http.get<Building[]>(this.baseUrl + 'building/buildings');
 
-        forkJoin([products$, buildings$])
+        forkJoin([products$, buildings$, units$])
             .subscribe({
-                next: ([products, buildings]) => {
+                next: ([products, buildings, units]) => {
                     this.products = products;
                     this.buildings = buildings;
+                    this.units = units;
                     this.categories = [... new Set(products.map(x => x.category))].map(((x) => {
                         return { name: x, id: x };
+                    }));
+                    this.sizeTypes = [SizeType.Child, SizeType.Numbered, SizeType.TShirt].map(((x) => {
+                        return { name: this.getSizeTypeName(x), id: x };
                     }));
                     this.isLoading = false;
                 }, error: (error: HttpErrorResponse) => {
@@ -63,7 +77,21 @@ export class AddDonationComponent implements OnDestroy {
     }
 
     public getSuffix(): string {
-        return ` ${this.selectedProduct?.unitName ?? ''}`;
+        return this.isNewProduct ? ` ${this.selectedUnit?.name ?? ''}` : ` ${this.selectedProduct?.unitName ?? ''}`;
+    }
+
+    private getSizeTypeName(sizeType: SizeType): string {
+        switch(sizeType) { 
+            case SizeType.Numbered: { 
+               return "Számozott";
+            } 
+            case SizeType.TShirt: { 
+               return "Betűs";
+            } 
+            case SizeType.Child: { 
+                return "Gyerek";
+            }
+        }
     }
 
     public filterProduct(event: any): void {
@@ -95,6 +123,39 @@ export class AddDonationComponent implements OnDestroy {
                 this.saveInProgress = false;
             }
         });
+    }
+
+    public getSizeToolTip(): string {
+        switch(this.selectedProduct?.sizeType ?? this.selectedSizeType?.id) { 
+            case SizeType.Numbered: { 
+               return '32, 36, 44';
+            } 
+            case SizeType.TShirt: { 
+               return 'S, M, L, XL';
+            } 
+            case SizeType.Child: { 
+                return '126, 134';
+            }
+            default: {
+                return '';
+            }
+        }
+    }
+
+    public newProductChanged(e: any) {
+        if (!e.checked) {
+            this.newProductName = undefined;
+            this.selectedSizeType = undefined;
+            this.selectedUnit = undefined;
+        } else {
+            this.selectedProduct = undefined;
+        }
+    }
+
+    public shouldDisableSaveButton(): boolean {
+        return this.saveInProgress || !this.selectedBuilding || !this.selectedCategory ||
+            (!this.isNewProduct && (!this.selectedProduct || (!!this.selectedProduct.sizeType && (!this.size || this.size.trim() === '')))) ||
+            (this.isNewProduct && ((!this.newProductName || this.newProductName.trim() === '') || (!!this.selectedSizeType && (!this.size || this.size.trim() === ''))));
     }
 
     ngOnDestroy(): void {
