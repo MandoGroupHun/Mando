@@ -158,5 +158,25 @@ namespace MandoWebApp.Services.ProductService
 
             return Result.Success();
         }
+
+        public async Task<List<PendingDonationModel>> GetPendingDonationsAsync()
+        {
+            var units = await _dbContext.Units.ToListAsync();
+            var pendingBuildingProducts = await _dbContext.PendingBuildingProducts.Where(x => !x.IsProcessed).ToListAsync();
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
+            var users = await _userManagementService.GetUsersAndRoles();
+
+            return pendingBuildingProducts.Select(x => new PendingDonationModel
+            {
+                ProductName = x.ProductName,
+                UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
+                Category = x.Category,
+                SizeType = x.SizeType,
+                Size = x.Size,
+                RecordedAt = x.RecordedAt,
+                Quantity = x.Quantity,
+                UserName = users.Users.FirstOrDefault(u => u.Id == x.UserId)?.Name
+            }).ToList();
+        }
     }
 }

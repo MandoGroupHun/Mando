@@ -83,4 +83,10 @@ public class ProductController : ControllerBase
             ? Ok()
             : BadRequest(addResult.Error);
     }
+
+    [HttpGet]
+    public Task<List<PendingDonationModel>> PendingDonations()
+    {
+        return _productService.GetPendingDonationsAsync();
+    }
 }

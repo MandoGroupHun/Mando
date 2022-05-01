@@ -16,6 +16,9 @@
             <a class="nav-link" [routerLink]="['/products']">{{ 'NAVMENU.NEW_DONATION' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link" [routerLink]="['/pending-donations']">{{ 'NAVMENU.PENDING_DONATIONS' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link" [routerLink]="['/supplies']">{{ 'NAVMENU.SUPPLIES' | translate }}</a>
           </li>
           <li class="nav-item dropdown" *ngIf="isPriviliged()">

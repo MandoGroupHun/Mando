@@ -30,6 +30,7 @@ import { LanguageInterceptor } from './_services/language.interceptor';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { AddDonationComponent } from './products/add-donation/add-donation.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { PendingDonationsComponent } from './products/pending-donations/pending-donations.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -44,7 +45,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InvitesComponent,
     UserManagementComponent,
     AddDonationComponent,
-    SuppliesComponent
+    SuppliesComponent,
+    PendingDonationsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -77,6 +79,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       { path: 'usermanagement', component: UserManagementComponent, canActivate: [AuthorizeGuard] },
       { path: 'products', component: AddDonationComponent, canActivate: [AuthorizeGuard] },
       { path: 'supplies', component: SuppliesComponent, canActivate: [AuthorizeGuard] },
+      { path: 'pending-donations', component: PendingDonationsComponent, canActivate: [AuthorizeGuard] }
     ])
   ],
   providers: [

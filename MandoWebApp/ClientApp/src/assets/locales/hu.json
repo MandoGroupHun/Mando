@@ -42,7 +42,8 @@
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "Felhasználók kezelése",
       "INVITES": "Meghívók"
-    }
+    },
+    "PENDING_DONATIONS": "Átnézésre váró adományok"
   },
   "SUPPLIES": {
     "HEADER": "Készlet",
@@ -91,5 +92,19 @@
     "CHOOSE_SIZETYPE": "Válassz ki egy méret típust",
     "CHOOSE_SIZE": "Adj meg egy méretet",
     "UNIT": "Mértékegység"
+  },
+  "PENDING_DONATIONS": {
+    "HEADER": "Átnézésre váró adományok",
+    "LOADING": "Betöltés...",
+    "TABLE": {
+      "SEARCH_KEYWORD": "Keresés",
+      "PRODUCTNAME": "Név",
+      "CATEGORY": "Kategória",
+      "QUANTITY": "Mennyiség",
+      "SIZETYPE": "Méret típus",
+      "SIZE": "Méret",
+      "RECORDEDAT": "Dátum",
+      "USERNAME": "Felhasználó"
+    }
   }
 }

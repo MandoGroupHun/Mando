@@ -42,7 +42,8 @@
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "User Management",
       "INVITES": "Invites"
-    }
+    },
+    "PENDING_DONATIONS": "Pending donations"
   },
   "SUPPLIES": {
     "HEADER": "Supplies",
@@ -91,5 +92,19 @@
     "CHOOSE_SIZETYPE": "Choose a size type",
     "CHOOSE_SIZE": "Enter the size",
     "UNIT": "Unit"
+  },
+  "PENDING_DONATIONS": {
+    "HEADER": "Pending Donations",
+    "LOADING": "Loading...",
+    "TABLE": {
+      "SEARCH_KEYWORD": "Search keyword",
+      "PRODUCTNAME": "Name",
+      "CATEGORY": "Category",
+      "QUANTITY": "Quantity",
+      "SIZETYPE": "Size type",
+      "SIZE": "Size",
+      "RECORDEDAT": "Date",
+      "USERNAME": "User"
+    }
   }
 }
