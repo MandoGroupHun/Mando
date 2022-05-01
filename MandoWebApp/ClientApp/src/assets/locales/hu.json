@@ -76,6 +76,20 @@
     "DONATION": "Adomány megnevezése",
     "QUANTITY": "Mennyiség",
     "SIZE": "Méret",
-    "SAVE": "Mentés"
+    "SAVE": "Mentés",  
+    "SIZETYPE": {
+      "NAME": "Méret típus",
+      "NUMBERED": "Számozott",
+      "CHARACTER": "Betűs",
+      "CHILD": "Gyerek"
+    },
+    "NEWPRODUCT": {
+      "ON": "Ha nem találod az adományt a listában, kattints ide:",
+      "OFF": "Ha meglévő adományt szeretnél hozzáadni, kattints ide:"
+    },
+    "CHOOSE_UNIT": "Válassz ki egy mértékegységet",
+    "CHOOSE_SIZETYPE": "Válassz ki egy méret típust",
+    "CHOOSE_SIZE": "Adj meg egy méretet",
+    "UNIT": "Mértékegység"
   }
 }

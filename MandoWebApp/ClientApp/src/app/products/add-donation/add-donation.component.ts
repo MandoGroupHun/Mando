@@ -40,9 +40,18 @@ export class AddDonationComponent implements OnDestroy {
         this.loadData();
         this.translateService.onLangChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
             this.loadData();
-            this.selectedProduct = undefined;
-            this.quantity = 1;
+            this.resetOptions();
         });
+    }
+
+    private resetOptions() {
+        this.selectedProduct = undefined;
+        this.selectedCategory = undefined;
+        this.selectedUnit = undefined;
+        this.size = undefined;
+        this.isNewProduct = false;
+        this.selectedSizeType = undefined;
+        this.quantity = 1;
     }
 
     onCategoryChange(event: any) {
@@ -65,9 +74,20 @@ export class AddDonationComponent implements OnDestroy {
                     this.categories = [... new Set(products.map(x => x.category))].map(((x) => {
                         return { name: x, id: x };
                     }));
-                    this.sizeTypes = [SizeType.Child, SizeType.Numbered, SizeType.TShirt].map(((x) => {
-                        return { name: this.getSizeTypeName(x), id: x };
-                    }));
+                    
+                    const sizeTypeNumbered = this.translateService.get('ADDDONATION.SIZETYPE.NUMBERED');
+                    const sizeTypeTShirt = this.translateService.get('ADDDONATION.SIZETYPE.CHARACTER');
+                    const sizeTypeChild = this.translateService.get('ADDDONATION.SIZETYPE.CHILD');
+                
+                    forkJoin([sizeTypeNumbered, sizeTypeTShirt, sizeTypeChild]).subscribe({
+                      next: ([numbered, tshirt, child]) => {
+                        this.sizeTypes = [SizeType.Child, SizeType.Numbered, SizeType.TShirt].map(((x) => {
+                            return { name: x === SizeType.Child ? child :
+                                x === SizeType.Numbered ? numbered : tshirt, id: x };
+                        }));
+                      }, error: error => console.error(error)
+                    });
+
                     this.isLoading = false;
                 }, error: (error: HttpErrorResponse) => {
                     console.error(error);
@@ -83,13 +103,13 @@ export class AddDonationComponent implements OnDestroy {
     private getSizeTypeName(sizeType: SizeType): string {
         switch(sizeType) { 
             case SizeType.Numbered: { 
-               return "Számozott";
+               return "'ADDDONATION.SIZETYPE.NUMBERED' | translate";
             } 
             case SizeType.TShirt: { 
-               return "Betűs";
+               return "'ADDDONATION.SIZETYPE.CHARACTER' | translate";
             } 
             case SizeType.Child: { 
-                return "Gyerek";
+                return "'ADDDONATION.SIZETYPE.CHILD' | translate";
             }
         }
     }
@@ -123,6 +143,7 @@ export class AddDonationComponent implements OnDestroy {
                 next: () => {
                     this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
                     this.saveInProgress = false;
+                    this.resetOptions();
                 }, error: (error: HttpErrorResponse) => {
                     this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.ADDDONATION.ERROR_DETAIL' }, extractFirstErrorMessage(error));
                     this.saveInProgress = false;
@@ -138,6 +159,7 @@ export class AddDonationComponent implements OnDestroy {
                 next: () => {
                     this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
                     this.saveInProgress = false;
+                    this.resetOptions();
                 }, error: (error: HttpErrorResponse) => {
                     this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.ADDDONATION.ERROR_DETAIL' }, extractFirstErrorMessage(error));
                     this.saveInProgress = false;

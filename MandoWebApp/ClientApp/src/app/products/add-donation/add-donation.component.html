@@ -14,26 +14,26 @@
         <p-autoComplete *ngIf="!isNewProduct" class="form-control" id="product" [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1" [dropdown]="true" emptyMessage="Nincs találat"></p-autoComplete>
         <br *ngIf="isNewProduct"><input *ngIf="isNewProduct" id="product" type="text" pInputText [(ngModel)]="newProductName"/>
         <div>
-            <label *ngIf="!isNewProduct">Ha nem találod az adományt a listában, kattints ide:</label>
-            <label *ngIf="isNewProduct">Ha meglévő adományt szeretnél hozzáadni, kattints ide:</label>
+            <label *ngIf="!isNewProduct">{{ 'ADDDONATION.NEWPRODUCT.ON' | translate }}</label>
+            <label *ngIf="isNewProduct">{{ 'ADDDONATION.NEWPRODUCT.OFF' | translate }}</label>
             &nbsp;<p-toggleButton [(ngModel)]="isNewProduct" onIcon="pi pi-minus" offIcon="pi pi-plus" (onChange)="newProductChanged($event)"></p-toggleButton>
         </div>
     </div>
     <div class="form-group" *ngIf="isNewProduct">
-        <label class="form-label" for="dropdownUnit">Mértékegység</label><br>
-        <p-dropdown class="form-control" id="dropdownUnit" [options]="units" [(ngModel)]="selectedUnit" placeholder="Válassz ki egy mértékegységet" optionLabel="name" [showClear]="true"></p-dropdown>
+        <label class="form-label" for="dropdownUnit">{{ 'ADDDONATION.UNIT' | translate }}</label><br>
+        <p-dropdown class="form-control" id="dropdownUnit" [options]="units" [(ngModel)]="selectedUnit" [placeholder]="'ADDDONATION.CHOOSE_UNIT' | translate" optionLabel="name" [showClear]="true"></p-dropdown>
     </div>
     <div class="form-group" *ngIf="!!selectedProduct || (isNewProduct && !!selectedUnit)">
         <label class="form-label" for="inputQuantity">{{ 'ADDDONATION.QUANTITY' | translate }}</label>
         <p-inputNumber class="form-control" id="inputQuantity" [(ngModel)]="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" spellcheck="false" [min]="0" [max]="100" [suffix]="getSuffix()"></p-inputNumber>
     </div>
     <div class="form-group" *ngIf="isNewProduct">
-        <label class="form-label" for="dropdownSizeType">Méret típus</label><br>
-        <p-dropdown class="form-control" id="dropdownSizeType" [options]="sizeTypes" [(ngModel)]="selectedSizeType" placeholder="Válassz ki egy méret típust" optionLabel="name" [showClear]="true"></p-dropdown>
+        <label class="form-label" for="dropdownSizeType">{{ 'ADDDONATION.SIZETYPE.NAME' | translate }}</label><br>
+        <p-dropdown class="form-control" id="dropdownSizeType" [options]="sizeTypes" [(ngModel)]="selectedSizeType" [placeholder]="'ADDDONATION.CHOOSE_SIZETYPE' | translate" optionLabel="name" [showClear]="true"></p-dropdown>
     </div>
     <div class="form-group" *ngIf="!!selectedProduct?.sizeType || !!selectedSizeType">
         <label class="form-label" for="inputSize">{{ 'ADDDONATION.SIZE' | translate }}</label><br>
-        <input id="inputSize" type="text" pInputText [(ngModel)]="size" [pTooltip]="getSizeToolTip()" placeholder="Adj meg egy méretet" tooltipEvent="focus"/>
+        <input id="inputSize" type="text" pInputText [(ngModel)]="size" [pTooltip]="getSizeToolTip()" [placeholder]="'ADDDONATION.CHOOSE_SIZE' | translate" tooltipEvent="focus"/>
     </div>
     <p-button type="submit" [label]="'ADDDONATION.SAVE' | translate" icon="pi pi-check" iconPos="left" [disabled]="shouldDisableSaveButton()" (onClick)="createBuildingProduct()"></p-button>
 </div>
