@@ -13,7 +13,10 @@ namespace MandoWebApp.Models
         public int BuildingID { get; set; }
 
         [Column(TypeName = "varchar(150)")]
-        public string Name { get; set; }
+        public string Category { get; set; }
+
+        [Column(TypeName = "varchar(150)")]
+        public string ProductName { get; set; }
 
         public int Quantity { get; set; }
 
