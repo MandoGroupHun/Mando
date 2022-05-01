@@ -91,6 +91,27 @@ namespace MandoWebApp.Services.ProductService
             return Result.Success();
         }
 
+        public async Task<Result> AddPendingBuildingProduct(PendingBuildingProduct pendingBuildingProduct)
+        {
+            try
+            {
+                pendingBuildingProduct.RecordedAt = DateTime.UtcNow;
+                pendingBuildingProduct.UserId = _userManagementService.GetUserId(_httpContextAccessor.HttpContext?.User);
+
+                _dbContext.Add(pendingBuildingProduct);
+
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception during creation of new pending bulding product");
+
+                return Result.Failure("Error during pending bulding product creation");
+            }
+
+            return Result.Success();
+        }
+
         public async Task<List<SupplyModel>> GetSuppliesAsync()
         {
             var units = await _dbContext.Units.ToListAsync();

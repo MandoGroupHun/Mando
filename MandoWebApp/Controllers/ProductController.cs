@@ -50,14 +50,33 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] CreateBuildingProductInputModel createBuildingProduct)
+    public async Task<IActionResult> AddBuildingProduct([FromBody] CreateBuildingProductInputModel createBuildingProduct)
     {
         var addResult = await _productService.AddBuildingProduct(new BuildingProduct
         {
-            BuildingID = createBuildingProduct.BuildingID,
-            ProductID = createBuildingProduct.ProductID,
+            BuildingID = createBuildingProduct.BuildingId,
+            ProductID = createBuildingProduct.ProductId,
             Quantity = createBuildingProduct.Quantity,
             Size = !string.IsNullOrWhiteSpace(createBuildingProduct.Size) ? createBuildingProduct.Size : string.Empty,
+        });
+
+        return addResult.IsSuccess
+            ? Ok()
+            : BadRequest(addResult.Error);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddPendingBuildingProduct([FromBody] CreatePendingBuildingProductInputModel createPendingBuildingProduct)
+    {
+        var addResult = await _productService.AddPendingBuildingProduct(new PendingBuildingProduct
+        {
+            BuildingID = createPendingBuildingProduct.BuildingId,
+            ProductName = createPendingBuildingProduct.ProductName,
+            Category = createPendingBuildingProduct.Category,
+            Quantity = createPendingBuildingProduct.Quantity,
+            SizeType = createPendingBuildingProduct.SizeType,
+            Size = !string.IsNullOrWhiteSpace(createPendingBuildingProduct.Size) ? createPendingBuildingProduct.Size : string.Empty,
+            UnitID = createPendingBuildingProduct.UnitId
         });
 
         return addResult.IsSuccess

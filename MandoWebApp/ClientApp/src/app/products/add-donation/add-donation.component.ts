@@ -109,20 +109,41 @@ export class AddDonationComponent implements OnDestroy {
 
     public createBuildingProduct(): void {
         this.saveInProgress = true;
-        this.http.post<boolean>(this.baseUrl + 'product/add', {
-            productId: this.selectedProduct!.productId,
-            buildingId: this.selectedBuilding!.buildingId,
-            quantity: this.quantity,
-            size: !!this.selectedProduct!.sizeType ? this.size : null
-        }).subscribe({
-            next: () => {
-                this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
-                this.saveInProgress = false;
-            }, error: (error: HttpErrorResponse) => {
-                this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.ADDDONATION.ERROR_DETAIL' }, extractFirstErrorMessage(error));
-                this.saveInProgress = false;
-            }
-        });
+
+        if (this.isNewProduct) {
+            this.http.post<boolean>(this.baseUrl + 'product/addpendingbuildingproduct', {
+                category: this.selectedCategory!.id,
+                productName: this.newProductName,
+                buildingId: this.selectedBuilding!.buildingId,
+                quantity: this.quantity,
+                sizeType: this.selectedSizeType?.id,
+                size: !!this.selectedSizeType ? this.size : null,
+                unitId: this.selectedUnit!.unitId
+            }).subscribe({
+                next: () => {
+                    this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
+                    this.saveInProgress = false;
+                }, error: (error: HttpErrorResponse) => {
+                    this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.ADDDONATION.ERROR_DETAIL' }, extractFirstErrorMessage(error));
+                    this.saveInProgress = false;
+                }
+            });
+        } else {
+            this.http.post<boolean>(this.baseUrl + 'product/addbuildingproduct', {
+                productId: this.selectedProduct!.productId,
+                buildingId: this.selectedBuilding!.buildingId,
+                quantity: this.quantity,
+                size: !!this.selectedProduct!.sizeType ? this.size : null
+            }).subscribe({
+                next: () => {
+                    this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
+                    this.saveInProgress = false;
+                }, error: (error: HttpErrorResponse) => {
+                    this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.ADDDONATION.ERROR_DETAIL' }, extractFirstErrorMessage(error));
+                    this.saveInProgress = false;
+                }
+            });
+        }
     }
 
     public getSizeToolTip(): string {
@@ -155,7 +176,8 @@ export class AddDonationComponent implements OnDestroy {
     public shouldDisableSaveButton(): boolean {
         return this.saveInProgress || !this.selectedBuilding || !this.selectedCategory ||
             (!this.isNewProduct && (!this.selectedProduct || (!!this.selectedProduct.sizeType && (!this.size || this.size.trim() === '')))) ||
-            (this.isNewProduct && ((!this.newProductName || this.newProductName.trim() === '') || (!!this.selectedSizeType && (!this.size || this.size.trim() === ''))));
+            (this.isNewProduct && ((!this.newProductName || this.newProductName.trim() === '') || !this.selectedUnit ||
+                (!!this.selectedSizeType && (!this.size || this.size.trim() === ''))));
     }
 
     ngOnDestroy(): void {
