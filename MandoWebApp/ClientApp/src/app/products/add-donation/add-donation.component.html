@@ -10,7 +10,7 @@
         <p-dropdown class="form-control" id="dropdownCategory" [options]="categories" (onChange)="onCategoryChange($event)" [placeholder]="'ADDDONATION.CHOOSE_CATEGORY' | translate" optionLabel="name" [showClear]="true"></p-dropdown>
     </div>
     <div class="form-group">
-        <label class="form-label" for="autocompleteProduct">{{ 'ADDDONATION.SUPPLY' | translate }}</label>
+        <label class="form-label" for="autocompleteProduct">{{ 'ADDDONATION.DONATION' | translate }}</label>
         <p-autoComplete class="form-control" id="autocompleteProduct" [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1" [dropdown]="true" emptyMessage="Nincs találat"></p-autoComplete>
     </div>
     <div class="form-group">
