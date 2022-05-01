@@ -3,6 +3,7 @@ using System;
 using MandoWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MandoWebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220430200319_Add-PendingBuildingProducts-Table")]
+    partial class AddPendingBuildingProductsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,9 +240,9 @@ namespace MandoWebApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "VOLUNTEER@MANDAKDB.COM",
                             NormalizedUserName = "VOLUNTEER@MANDAKDB.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG6e5wIvhQALrP1BeqOAkkhK+b+x4k78oIF19Y2AYiCKFqeN1tbnO+9vedUunuoK8A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAyvMr+N7jkRvq0UdCJUCoLcuGH1oD5xik3cAie3Ct+ynF9TVzyJ/u+eLwSt6tYQQA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f2905677-fcba-4453-9b4c-426149ebfb23",
+                            SecurityStamp = "3a18f1d3-a88c-450c-9848-9f2599b217ad",
                             TwoFactorEnabled = false,
                             UserName = "volunteer@mandakdb.com"
                         },
@@ -255,9 +257,9 @@ namespace MandoWebApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BENEFACTOR@MANDAKDB.COM",
                             NormalizedUserName = "BENEFACTOR@MANDAKDB.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEjoM4Mr8fduUyyqJc6GMPzTlEq6jT5SRq/oLsDTMOh2+olujRVEN3lpCm8OefL8KQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC5Y+qfYeedruyLBh9OHGlrBaBfGXtfPJDLFmDgX7au39ma+uwKrSFIzFoHUYff0dg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fc8d83de-3031-4fc0-8f64-6e46bdcf4d3d",
+                            SecurityStamp = "61455e2a-6e6a-405c-99ab-d2245999c21a",
                             TwoFactorEnabled = false,
                             UserName = "benefactor@mandakdb.com"
                         },
@@ -272,9 +274,9 @@ namespace MandoWebApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@MANDAKDB.COM",
                             NormalizedUserName = "MANAGER@MANDAKDB.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB43qov9KEFcrbBrdVTWv+SI5bAxnEE6+F49g9LwJ1DqifIt8BOQyRjBZgTTUdaCyw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ0OY9PiS6r4074ZgIRj2So/XNp4eiboZG5edPrg3EtW7BpgzTTQpoDz+Q2zICI86A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ac8e3805-83ab-4535-a9c0-c54c2f67d06a",
+                            SecurityStamp = "c4fb04c2-336f-4d37-b224-53fd9a4d34b7",
                             TwoFactorEnabled = false,
                             UserName = "manager@mandakdb.com"
                         },
@@ -289,9 +291,9 @@ namespace MandoWebApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINISTRATOR@MANDAKDB.COM",
                             NormalizedUserName = "ADMINISTRATOR@MANDAKDB.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPv69ui5KCE7Ia7WgKwVQ+s/Rzl3/DT1R38XsiWTVPVbuL83RfpaiDUMmop0blyS6g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBrIYboCCqymLtKItwhyXIsA92k7ZOHVUFx0mEuPaAntA/+3tY7DmtpxXpM7zh+JZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "17400527-65b0-4d96-a278-88a88c1572fb",
+                            SecurityStamp = "8230f0a6-9dbf-499e-859c-846b5cadce86",
                             TwoFactorEnabled = false,
                             UserName = "administrator@mandakdb.com"
                         });
@@ -472,14 +474,10 @@ namespace MandoWebApp.Data.Migrations
                     b.Property<int>("BuildingID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)");
-
                     b.Property<bool>("IsProcessed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("ProductName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(150)");
 

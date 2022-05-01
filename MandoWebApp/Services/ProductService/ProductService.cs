@@ -29,7 +29,6 @@ namespace MandoWebApp.Services.ProductService
             var products = await _dbContext.Products.ToListAsync();
             var lang = _httpContextAccessor.HttpContext?.GetLang()!;
 
-
             return products.Select(x => new ProductModel
             {
                 ProductId = x.ID,
@@ -37,6 +36,18 @@ namespace MandoWebApp.Services.ProductService
                 UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
                 Category = x.Category(lang),
                 SizeType = x.SizeType
+            }).ToList();
+        }
+
+        public async Task<List<UnitModel>> GetUnitsAsync()
+        {
+            var units = await _dbContext.Units.ToListAsync();
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
+
+            return units.Select(x => new UnitModel
+            {
+                UnitId = x.ID,
+                Name = x.Name(lang)
             }).ToList();
         }
 
@@ -75,6 +86,27 @@ namespace MandoWebApp.Services.ProductService
                 _logger.LogError(ex, "Exception during creation of new bulding product");
 
                 return Result.Failure("Error during bulding product creation");
+            }
+
+            return Result.Success();
+        }
+
+        public async Task<Result> AddPendingBuildingProduct(PendingBuildingProduct pendingBuildingProduct)
+        {
+            try
+            {
+                pendingBuildingProduct.RecordedAt = DateTime.UtcNow;
+                pendingBuildingProduct.UserId = _userManagementService.GetUserId(_httpContextAccessor.HttpContext?.User);
+
+                _dbContext.Add(pendingBuildingProduct);
+
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception during creation of new pending bulding product");
+
+                return Result.Failure("Error during pending bulding product creation");
             }
 
             return Result.Success();
@@ -125,6 +157,26 @@ namespace MandoWebApp.Services.ProductService
             }
 
             return Result.Success();
+        }
+
+        public async Task<List<PendingDonationModel>> GetPendingDonationsAsync()
+        {
+            var units = await _dbContext.Units.ToListAsync();
+            var pendingBuildingProducts = await _dbContext.PendingBuildingProducts.Where(x => !x.IsProcessed).ToListAsync();
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
+            var users = await _userManagementService.GetUsersAndRoles();
+
+            return pendingBuildingProducts.Select(x => new PendingDonationModel
+            {
+                ProductName = x.ProductName,
+                UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
+                Category = x.Category,
+                SizeType = x.SizeType,
+                Size = x.Size,
+                RecordedAt = x.RecordedAt,
+                Quantity = x.Quantity,
+                UserName = users.Users.FirstOrDefault(u => u.Id == x.UserId)?.Name
+            }).ToList();
         }
     }
 }
