@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandoWebApp.Models
@@ -5,6 +6,8 @@ namespace MandoWebApp.Models
     [Table("Product")]
     public class Product
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         [Column(name: "HU_Name", TypeName = "varchar(150)")]

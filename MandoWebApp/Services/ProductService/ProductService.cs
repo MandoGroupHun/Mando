@@ -168,7 +168,10 @@ namespace MandoWebApp.Services.ProductService
 
             return pendingBuildingProducts.Select(x => new PendingDonationModel
             {
-                ProductName = x.ProductName,
+                PendingDonationId = x.Id,
+                EnProductName = x.EnProductName,
+                HuProductName = x.HuProductName,
+                UnitId = x.UnitID,
                 UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
                 Category = x.Category,
                 SizeType = x.SizeType,
@@ -177,6 +180,82 @@ namespace MandoWebApp.Services.ProductService
                 Quantity = x.Quantity,
                 UserName = users.Users.FirstOrDefault(u => u.Id == x.UserId)?.Name
             }).ToList();
+        }
+
+        public async Task<Result> AcceptPendingBuildingProduct(long pendingBuildingProductId, Product product, BuildingProduct buildingProduct)
+        {
+            try
+            {
+                _dbContext.Products.Add(product);
+
+                await UpdatePendingBuildingProductToAccepted(pendingBuildingProductId);
+
+                await _dbContext.SaveChangesAsync();
+
+                buildingProduct.ProductID = product.ID;
+                await AddBuildingProduct(buildingProduct);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception during creation of new bulding product");
+
+                return Result.Failure("Error during bulding product creation");
+            }
+
+            return Result.Success();
+        }
+
+        private async Task UpdatePendingBuildingProductToAccepted(long pendingBuildingProductId)
+        {
+            var storedPendingDonation = await _dbContext.PendingBuildingProducts.AsTracking()
+                .FirstAsync(pbp => pbp.Id == pendingBuildingProductId);
+
+            storedPendingDonation.IsAccepted = true;
+            storedPendingDonation.IsProcessed = true;
+            storedPendingDonation.ProcessedByUserId = _userManagementService.GetUserId(_httpContextAccessor.HttpContext?.User);
+        }
+
+        public async Task<Result> AcceptPendingBuildingProduct(long pendingBuildingProductId, BuildingProduct buildingProduct)
+        {
+            try
+            {
+                await UpdatePendingBuildingProductToAccepted(pendingBuildingProductId);
+
+                await _dbContext.SaveChangesAsync();
+
+                await AddBuildingProduct(buildingProduct);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception during creation of new bulding product");
+
+                return Result.Failure("Error during bulding product creation");
+            }
+
+            return Result.Success();
+        }
+
+        public async Task<Result> DeletePendingBuildingProduct(long pendingBuildingProductId)
+        {
+            try
+            {
+                var pendingBuildingProduct = await _dbContext.PendingBuildingProducts.AsTracking()
+                    .FirstAsync(bp => bp.Id == pendingBuildingProductId);
+
+                pendingBuildingProduct.IsAccepted = false;
+                pendingBuildingProduct.IsProcessed = true;
+                pendingBuildingProduct.ProcessedByUserId = _userManagementService.GetUserId(_httpContextAccessor.HttpContext?.User);
+
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception during modification of pending bulding product");
+
+                return Result.Failure("Error during pending bulding product modification");
+            }
+
+            return Result.Success();
         }
     }
 }

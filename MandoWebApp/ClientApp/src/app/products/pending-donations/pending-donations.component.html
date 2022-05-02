@@ -1,5 +1,6 @@
+<p-confirmDialog header="{{ 'PENDING_DONATIONS.CONFIRMATION' | translate }}" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 <h1 id="tableLabel">{{ 'PENDING_DONATIONS.HEADER' | translate }}</h1>
-<p-toast [breakpoints]="{'600px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+<p-toast [breakpoints]="{'420px': {width: '100%', right: '0', left: '0'}}"></p-toast>
 
 <p *ngIf="!pendingDonations"><em>{{ 'PENDING_DONATIONS.LOADING' | translate }}</em></p>
 <div *ngIf="pendingDonations" class="container">
@@ -34,6 +35,7 @@
           </th>
           <th class="col-md-3">{{ 'PENDING_DONATIONS.TABLE.USERNAME' | translate }}</th>
           <th style="width: 8rem"></th>
+          <th style="width: 8rem"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-pendingdonation>
@@ -46,8 +48,11 @@
           <td class="col-md-3">{{ pendingdonation.recordedAt | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
           <td class="col-md-3">{{ pendingdonation.userName }}</td>
           <td style="text-align: center">
-            <button pButton type="button" class="p-button-secondary" icon="pi pi-cog"></button>
-        </td>
+            <button pButton type="button" (click)="showEditDialog(pendingdonation)" class="p-button-secondary" icon="pi pi-cog"></button>
+          </td>
+          <td style="text-align: center">
+            <button pButton type="button" (click)="showRemovePendingDonation(pendingdonation)" class="p-button-secondary" icon="pi pi-times"></button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
