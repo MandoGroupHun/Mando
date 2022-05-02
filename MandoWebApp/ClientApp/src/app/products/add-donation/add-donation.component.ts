@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalizedMessageService } from '../../_services/localized-message.service';
 import { Unit } from '../../models/unit';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Category } from '../../models/category';
 
 @Component({
     selector: 'app-add-donation',
@@ -20,7 +21,7 @@ export class AddDonationComponent implements OnDestroy {
     public units: Unit[] = [];
     public productsByCategory: Product[] = [];
     public filteredProducts: Product[] = [];
-    public categories: { name: string; id: string }[] = [];
+    public categories: Category[] = [];
     public selectedProduct: Product | undefined;
     public selectedBuilding: Building | undefined;
     public selectedUnit: Unit | undefined;
@@ -33,7 +34,7 @@ export class AddDonationComponent implements OnDestroy {
     public isNewProduct = false;
     public sizeTypes: { name: string; id: SizeType }[] = [];
     public selectedSizeType: { name: string; id: SizeType } | undefined;
-    public selectedCategory: { name: string; id: string } | undefined;
+    public selectedCategory: Category | undefined;
     public isPendingDonation = false;
     public pendingDonationId: number | undefined;
 
@@ -78,16 +79,15 @@ export class AddDonationComponent implements OnDestroy {
         const products$ = this.http.get<Product[]>(this.baseUrl + 'product/products');
         const units$ = this.http.get<Unit[]>(this.baseUrl + 'product/units');
         const buildings$ = this.http.get<Building[]>(this.baseUrl + 'building/buildings');
+        const categories$ = this.http.get<Category[]>(this.baseUrl + 'product/categories');
 
-        forkJoin([products$, buildings$, units$])
+        forkJoin([products$, buildings$, units$, categories$])
             .subscribe({
-                next: ([products, buildings, units]) => {
+                next: ([products, buildings, units, categories]) => {
                     this.products = products;
                     this.buildings = buildings;
                     this.units = units;
-                    this.categories = [... new Set(products.map(x => x.category))].map(((x) => {
-                        return { name: x, id: x };
-                    }));
+                    this.categories = categories;
                     
                     const sizeTypeNumbered = this.translateService.get('ADDDONATION.SIZETYPE.NUMBERED');
                     const sizeTypeTShirt = this.translateService.get('ADDDONATION.SIZETYPE.CHARACTER');
@@ -102,8 +102,8 @@ export class AddDonationComponent implements OnDestroy {
 
                         if (!!this.dialogConfig) {
                             this.isNewProduct = true;
-                            this.selectedCategory = this.categories.find(x => x.id === this.dialogConfig.data.category);
-                            this.productsByCategory = this.products.filter(x => x.category === this.selectedCategory?.id);
+                            this.selectedCategory = this.categories.find(x => x.categoryId === this.dialogConfig.data.categoryId);
+                            this.productsByCategory = this.products.filter(x => x.category === this.selectedCategory?.name);
                             this.newEnProductName = this.dialogConfig.data.enProductName;
                             this.newHuProductName = this.dialogConfig.data.huProductName;
                             this.quantity = this.dialogConfig.data.quantity;
@@ -172,7 +172,7 @@ export class AddDonationComponent implements OnDestroy {
 
     private createNewPendingDonation(): void {
         this.http.post<boolean>(this.baseUrl + 'product/addpendingbuildingproduct', {
-            category: this.selectedCategory!.id,
+            categoryId: this.selectedCategory!.categoryId,
             huProductName: this.newHuProductName,
             enProductName: this.newEnProductName,
             buildingId: this.selectedBuilding!.buildingId,
@@ -195,7 +195,7 @@ export class AddDonationComponent implements OnDestroy {
     private acceptPendingDonation(): void {
         this.http.post<boolean>(this.baseUrl + 'product/acceptpendingbuildingproduct', {
             pendingBuildingProductId: this.pendingDonationId,
-            category: this.selectedCategory!.id,
+            categoryId: this.selectedCategory!.categoryId,
             huProductName: this.newHuProductName,
             enProductName: this.newEnProductName,
             buildingId: this.selectedBuilding!.buildingId,

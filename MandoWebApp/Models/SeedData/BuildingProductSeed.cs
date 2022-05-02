@@ -22,11 +22,29 @@ namespace MandoWebApp.Models.SeedData
                 Zip = 1086
             });
 
+            builder.Entity<Category>().HasData(new Category
+            {
+                ID = 1,
+                HUName = "Higiéniai eszköz",
+                ENName = "Hygiene product"
+            },
+            new Category
+            {
+                ID = 2,
+                HUName = "Ruha",
+                ENName = "Clothing"
+            },
+            new Category
+            {
+                ID = 3,
+                HUName = "Gyógyszer",
+                ENName = "Medicine"
+            });
+
             builder.Entity<Product>().HasData(new Product
             {
                 ID = 1,
-                HUCategory = "Higiéniai eszköz",
-                ENCategory = "Hygiene product",
+                CategoryID = 1,
                 ENName = "Toothbrush",
                 HUName = "Fogkefe",
                 SizeType = null,
@@ -35,8 +53,7 @@ namespace MandoWebApp.Models.SeedData
             new Product
             {
                 ID = 2,
-                HUCategory = "Ruha",
-                ENCategory = "Clothing",
+                CategoryID = 2,
                 ENName = "Female shirt",
                 HUName = "Női ing",
                 SizeType = SizeType.TShirt,
@@ -45,8 +62,7 @@ namespace MandoWebApp.Models.SeedData
             new Product
             {
                 ID = 3,
-                HUCategory = "Ruha",
-                ENCategory = "Clothing",
+                CategoryID = 2,
                 ENName = "Male shirt",
                 HUName = "Férfi ing",
                 SizeType = SizeType.Numbered,
@@ -55,8 +71,7 @@ namespace MandoWebApp.Models.SeedData
             new Product
             {
                 ID = 4,
-                HUCategory = "Gyógyszer",
-                ENCategory = "Medicine",
+                CategoryID = 3,
                 ENName = "Painkiller",
                 HUName = "Fájdalomcsillapító",
                 SizeType = null,

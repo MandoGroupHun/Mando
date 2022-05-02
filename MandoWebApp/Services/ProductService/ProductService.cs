@@ -26,6 +26,7 @@ namespace MandoWebApp.Services.ProductService
         public async Task<List<ProductModel>> GetProductsAsync()
         {
             var units = await _dbContext.Units.ToListAsync();
+            var categories = await _dbContext.Categories.ToListAsync();
             var products = await _dbContext.Products.ToListAsync();
             var lang = _httpContextAccessor.HttpContext?.GetLang()!;
 
@@ -34,7 +35,7 @@ namespace MandoWebApp.Services.ProductService
                 ProductId = x.ID,
                 Name = x.Name(lang),
                 UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
-                Category = x.Category(lang),
+                Category = categories.First(u => u.ID == x.CategoryID).Name(lang),
                 SizeType = x.SizeType
             }).ToList();
         }
@@ -115,6 +116,7 @@ namespace MandoWebApp.Services.ProductService
         public async Task<List<SupplyModel>> GetSuppliesAsync()
         {
             var units = await _dbContext.Units.ToListAsync();
+            var categories = await _dbContext.Categories.ToListAsync();
             var lang = _httpContextAccessor.HttpContext?.GetLang()!;
 
             var supplies = await _dbContext.Products.Join(_dbContext.BuildingProducts, p => p.ID, bp => bp.ProductID, (product, buildingProduct) => new
@@ -122,7 +124,7 @@ namespace MandoWebApp.Services.ProductService
                 product.ID,
                 Name = lang == "en" && product.ENName != null ? product.ENName : product.HUName,
                 product.UnitID,
-                Category = lang == "en" && product.ENCategory != null ? product.ENCategory : product.HUCategory,
+                product.CategoryID,
                 buildingProduct.Quantity,
                 buildingProduct.Size
             }).ToListAsync();
@@ -132,7 +134,7 @@ namespace MandoWebApp.Services.ProductService
                 ProductId = x.ID,
                 Name = x.Name,
                 UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
-                Category = x.Category,
+                Category = categories.First(u => u.ID == x.CategoryID).Name(lang),
                 Size = x.Size ?? string.Empty,
                 Quantity = x.Quantity
             }).ToList();
@@ -165,6 +167,7 @@ namespace MandoWebApp.Services.ProductService
             var pendingBuildingProducts = await _dbContext.PendingBuildingProducts.Where(x => !x.IsProcessed).ToListAsync();
             var lang = _httpContextAccessor.HttpContext?.GetLang()!;
             var users = await _userManagementService.GetUsersAndRoles();
+            var categories = await _dbContext.Categories.ToListAsync();
 
             return pendingBuildingProducts.Select(x => new PendingDonationModel
             {
@@ -173,7 +176,8 @@ namespace MandoWebApp.Services.ProductService
                 HuProductName = x.HuProductName,
                 UnitId = x.UnitID,
                 UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
-                Category = x.Category,
+                Category = categories.First(u => u.ID == x.CategoryID).Name(lang),
+                CategoryId = x.CategoryID,
                 SizeType = x.SizeType,
                 Size = x.Size,
                 RecordedAt = x.RecordedAt,
@@ -256,6 +260,18 @@ namespace MandoWebApp.Services.ProductService
             }
 
             return Result.Success();
+        }
+
+        public async Task<List<CategoryModel>> GetCategoriesAsync()
+        {
+            var categories = await _dbContext.Categories.ToListAsync();
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
+
+            return categories.Select(x => new CategoryModel
+            {
+                CategoryId = x.ID,
+                Name = x.Name(lang)
+            }).ToList();
         }
     }
 }

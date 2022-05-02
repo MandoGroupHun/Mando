@@ -12,8 +12,7 @@ namespace MandoWebApp.Models
 
         public int BuildingID { get; set; }
 
-        [Column(TypeName = "varchar(150)")]
-        public string Category { get; set; }
+        public int CategoryID { get; set; }
 
         [Column(name: "HU_ProductName", TypeName = "varchar(150)")]
         public string? HuProductName { get; set; }
