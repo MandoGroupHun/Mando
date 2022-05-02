@@ -6,6 +6,8 @@
 
         public string Category { get; set; }
 
+        public int CategoryId { get; set; }
+
         public string HuProductName { get; set; }
 
         public string EnProductName { get; set; }

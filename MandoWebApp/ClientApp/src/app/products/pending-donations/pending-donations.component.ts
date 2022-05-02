@@ -56,7 +56,7 @@ export class PendingDonationsComponent implements OnDestroy {
         const ref = this.dialogService.open(AddDonationComponent, {
           data: {
               pendingDonationId: pendingDonation.pendingDonationId,
-              category: pendingDonation.category,
+              categoryId: pendingDonation.categoryId,
               huProductName: pendingDonation.huProductName,
               enProductName: pendingDonation.enProductName,
               unitId: pendingDonation.unitId,

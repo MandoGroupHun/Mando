@@ -7,7 +7,7 @@
         public string? EnProductName { get; set; }
         public int Quantity { get; set; }
         public string? Size { get; set; }
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
         public SizeType? SizeType { get; set; }
         public int UnitId { get; set; }
     }

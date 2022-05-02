@@ -74,7 +74,7 @@ public class ProductController : ControllerBase
             BuildingID = createPendingBuildingProduct.BuildingId,
             HuProductName = createPendingBuildingProduct.HuProductName,
             EnProductName = createPendingBuildingProduct.EnProductName,
-            Category = createPendingBuildingProduct.Category,
+            CategoryID = createPendingBuildingProduct.CategoryId,
             Quantity = createPendingBuildingProduct.Quantity,
             SizeType = createPendingBuildingProduct.SizeType,
             Size = !string.IsNullOrWhiteSpace(createPendingBuildingProduct.Size) ? createPendingBuildingProduct.Size : string.Empty,
@@ -108,8 +108,7 @@ public class ProductController : ControllerBase
             {
                 HUName = acceptPendingBuildingProduct.HuProductName,
                 ENName = acceptPendingBuildingProduct.EnProductName,
-                HUCategory = acceptPendingBuildingProduct.Category,
-                ENCategory = acceptPendingBuildingProduct.Category,
+                CategoryID = acceptPendingBuildingProduct.CategoryId,
                 UnitID = acceptPendingBuildingProduct.UnitId,
                 SizeType = acceptPendingBuildingProduct.SizeType
             };
@@ -136,5 +135,11 @@ public class ProductController : ControllerBase
     public Task<List<PendingDonationModel>> PendingDonations()
     {
         return _productService.GetPendingDonationsAsync();
+    }
+
+    [HttpGet]
+    public Task<List<CategoryModel>> Categories()
+    {
+        return _productService.GetCategoriesAsync();
     }
 }
