@@ -15,8 +15,11 @@ namespace MandoWebApp.Models
         [Column(TypeName = "varchar(150)")]
         public string Category { get; set; }
 
-        [Column(TypeName = "varchar(150)")]
-        public string ProductName { get; set; }
+        [Column(name: "HU_ProductName", TypeName = "varchar(150)")]
+        public string? HuProductName { get; set; }
+
+        [Column(name: "EN_ProductName", TypeName = "varchar(150)")]
+        public string? EnProductName { get; set; }
 
         public int Quantity { get; set; }
 
@@ -32,5 +35,9 @@ namespace MandoWebApp.Models
         public string UserId { get; set; }
 
         public bool IsProcessed { get; set; }
+
+        public bool IsAccepted { get; set; }
+
+        public string? ProcessedByUserId { get; set; }
     }
 }

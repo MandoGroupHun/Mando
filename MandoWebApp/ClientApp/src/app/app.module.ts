@@ -31,6 +31,9 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { AddDonationComponent } from './products/add-donation/add-donation.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { PendingDonationsComponent } from './products/pending-donations/pending-donations.component';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -47,6 +50,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddDonationComponent,
     SuppliesComponent,
     PendingDonationsComponent
+  ],
+  entryComponents: [
+    AddDonationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -73,6 +79,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProgressSpinnerModule,
     ToggleButtonModule,
     TooltipModule,
+    DynamicDialogModule,
+    ConfirmDialogModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
@@ -86,7 +94,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true },
     MessageService,
-    LocalizedMessageService
+    LocalizedMessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

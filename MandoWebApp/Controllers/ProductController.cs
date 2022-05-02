@@ -1,4 +1,5 @@
-﻿using MandoWebApp.Models;
+﻿using CSharpFunctionalExtensions;
+using MandoWebApp.Models;
 using MandoWebApp.Models.Input;
 using MandoWebApp.Models.ViewModels;
 using MandoWebApp.Services.ProductService;
@@ -71,7 +72,8 @@ public class ProductController : ControllerBase
         var addResult = await _productService.AddPendingBuildingProduct(new PendingBuildingProduct
         {
             BuildingID = createPendingBuildingProduct.BuildingId,
-            ProductName = createPendingBuildingProduct.ProductName,
+            HuProductName = createPendingBuildingProduct.HuProductName,
+            EnProductName = createPendingBuildingProduct.EnProductName,
             Category = createPendingBuildingProduct.Category,
             Quantity = createPendingBuildingProduct.Quantity,
             SizeType = createPendingBuildingProduct.SizeType,
@@ -82,6 +84,52 @@ public class ProductController : ControllerBase
         return addResult.IsSuccess
             ? Ok()
             : BadRequest(addResult.Error);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AcceptPendingBuildingProduct([FromBody] AcceptPendingBuildingProductInputModel acceptPendingBuildingProduct)
+    {
+        var buildingProduct = new BuildingProduct
+        {
+            BuildingID = acceptPendingBuildingProduct.BuildingId,
+            Quantity = acceptPendingBuildingProduct.Quantity,
+            Size = !string.IsNullOrWhiteSpace(acceptPendingBuildingProduct.Size) ? acceptPendingBuildingProduct.Size : string.Empty,
+        };
+
+        Result addResult;
+        if (acceptPendingBuildingProduct.ProductId.HasValue)
+        {
+            buildingProduct.ProductID = acceptPendingBuildingProduct.ProductId.Value;
+            addResult = await _productService.AcceptPendingBuildingProduct(acceptPendingBuildingProduct.PendingBuildingProductId, buildingProduct);
+        }
+        else
+        {
+            var product = new Product
+            {
+                HUName = acceptPendingBuildingProduct.HuProductName,
+                ENName = acceptPendingBuildingProduct.EnProductName,
+                HUCategory = acceptPendingBuildingProduct.Category,
+                ENCategory = acceptPendingBuildingProduct.Category,
+                UnitID = acceptPendingBuildingProduct.UnitId,
+                SizeType = acceptPendingBuildingProduct.SizeType
+            };
+
+            addResult = await _productService.AcceptPendingBuildingProduct(acceptPendingBuildingProduct.PendingBuildingProductId, product, buildingProduct);
+        }
+
+        return addResult.IsSuccess
+            ? Ok()
+            : BadRequest(addResult.Error);
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeclinePendingBuildingProduct([FromQuery] long pendingBuildingProductId)
+    {
+        var deleteResult = await _productService.DeletePendingBuildingProduct(pendingBuildingProductId);
+
+        return deleteResult.IsSuccess
+            ? Ok()
+            : BadRequest(deleteResult.Error);
     }
 
     [HttpGet]

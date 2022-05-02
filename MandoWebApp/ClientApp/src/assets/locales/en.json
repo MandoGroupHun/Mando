@@ -19,6 +19,13 @@
     "ADDDONATION": {
       "SUCCESS_DETAIL": "Donation saved successfully",
       "ERROR_DETAIL": "Donation cannot be saved"
+    },
+    "PENDING_DONATION": {
+      "SUCCESS_DETAIL": "Donation saved successfully",
+      "ERROR_DETAIL": "Donation cannot be saved",
+      "DELETE_QUESTION": "Do you want to delete this donation?",
+      "SUCCESS_DELETE": "Donation deleted successfully",
+      "ERROR_DELETE": "Donation cannot be deleted"
     }
   },
   "INVITES": {
@@ -75,6 +82,8 @@
     "CATEGORY": "Category",
     "CHOOSE_CATEGORY": "Choose a category",
     "DONATION": "Name of the donation",
+    "NEW_DONATION_HUN": "Name of the donation (hungarian)",
+    "NEW_DONATION_ENG": "Name of the donation (english)",
     "QUANTITY": "Quantity",
     "SIZE": "Size",
     "SAVE": "Save",
@@ -105,6 +114,8 @@
       "SIZE": "Size",
       "RECORDEDAT": "Date",
       "USERNAME": "User"
-    }
+    },
+    "CONFIRMATION": "Confirmation",
+    "EDIT_DONATION": "Edit Donation"
   }
 }
