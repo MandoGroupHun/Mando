@@ -1,4 +1,4 @@
-name: ci
+name: CI/CD
 
 on:
   push:
@@ -29,3 +29,18 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: hunbadco/mando:latest
+
+  deploy:
+    needs: [build]
+    runs-on: mando-prod
+    environment: 
+      name: mando-prod
+      url: https://mando.hrvthmrk.com
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Bring up stack
+        run: |
+            ls -l
+            ls -l ./Mando
+            ls -l ./Mando/MandoWebApp
