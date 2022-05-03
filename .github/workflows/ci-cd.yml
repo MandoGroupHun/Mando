@@ -44,5 +44,5 @@ jobs:
             cd ./MandoWebApp
             docker-compose pull
             docker-compose up -d
-            sleep 30
+            sleep 240
             docker-compose logs
