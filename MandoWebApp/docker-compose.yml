@@ -6,11 +6,11 @@ networks:
 
 services:
   app:
-    image: mando:latest
+    image: hunbadco/mando:latest
     container_name: mando-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     depends_on:
       - db
     restart: unless-stopped
