@@ -24,7 +24,8 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v2
+        working-directory: ./MandoWebApp
         with:
-          file: ./MandoWebApp/Dockerfile
+          file: ./Dockerfile
           push: true
           tags: hunbadco/mando:latest
