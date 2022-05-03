@@ -3,6 +3,7 @@ using System;
 using MandoWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MandoWebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220430200319_Add-PendingBuildingProducts-Table")]
+    partial class AddPendingBuildingProductsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,9 +240,9 @@ namespace MandoWebApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "VOLUNTEER@MANDAKDB.COM",
                             NormalizedUserName = "VOLUNTEER@MANDAKDB.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECetzD6YTsi4ApcMNkaDcYBhRpHBIH2LVb7LPTP06TQaPayMUBTfixsVF7SbhBRjxg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAyvMr+N7jkRvq0UdCJUCoLcuGH1oD5xik3cAie3Ct+ynF9TVzyJ/u+eLwSt6tYQQA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f0a0ed3-738e-4495-8f8d-16bb4a33f121",
+                            SecurityStamp = "3a18f1d3-a88c-450c-9848-9f2599b217ad",
                             TwoFactorEnabled = false,
                             UserName = "volunteer@mandakdb.com"
                         },
@@ -255,9 +257,9 @@ namespace MandoWebApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "BENEFACTOR@MANDAKDB.COM",
                             NormalizedUserName = "BENEFACTOR@MANDAKDB.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEWPnquBLq23NJT85GvAFYxfgITZpNyE1/I2cotDOA9PBy/Dm8bEPnxQrUSLHuk2Xw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC5Y+qfYeedruyLBh9OHGlrBaBfGXtfPJDLFmDgX7au39ma+uwKrSFIzFoHUYff0dg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b4196574-746b-4ef9-86db-ac5e404fa8a0",
+                            SecurityStamp = "61455e2a-6e6a-405c-99ab-d2245999c21a",
                             TwoFactorEnabled = false,
                             UserName = "benefactor@mandakdb.com"
                         },
@@ -272,9 +274,9 @@ namespace MandoWebApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@MANDAKDB.COM",
                             NormalizedUserName = "MANAGER@MANDAKDB.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI/vctFcP+orBp4w79rCawGtqJi1ywCJV3KMT2wJhd5taZAhgZIPgU4lH77k2JD2iA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ0OY9PiS6r4074ZgIRj2So/XNp4eiboZG5edPrg3EtW7BpgzTTQpoDz+Q2zICI86A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f558df3-5b81-4be7-a8f0-eeb75acea5fb",
+                            SecurityStamp = "c4fb04c2-336f-4d37-b224-53fd9a4d34b7",
                             TwoFactorEnabled = false,
                             UserName = "manager@mandakdb.com"
                         },
@@ -289,9 +291,9 @@ namespace MandoWebApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINISTRATOR@MANDAKDB.COM",
                             NormalizedUserName = "ADMINISTRATOR@MANDAKDB.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHq8WMlBDIp0mAQsMNi6WN1RXvDDZomJmO+YwmEY20RwV/nMeI0n+7kar6SP8e/7Gg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBrIYboCCqymLtKItwhyXIsA92k7ZOHVUFx0mEuPaAntA/+3tY7DmtpxXpM7zh+JZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c4373020-340d-49d0-9b3a-0a7458a57503",
+                            SecurityStamp = "8230f0a6-9dbf-499e-859c-846b5cadce86",
                             TwoFactorEnabled = false,
                             UserName = "administrator@mandakdb.com"
                         });
@@ -437,47 +439,6 @@ namespace MandoWebApp.Data.Migrations
                     b.ToTable("Map_Building_Product_History");
                 });
 
-            modelBuilder.Entity("MandoWebApp.Models.Category", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ENName")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)")
-                        .HasColumnName("EN_Name");
-
-                    b.Property<string>("HUName")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)")
-                        .HasColumnName("HU_Name");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            ENName = "Hygiene product",
-                            HUName = "Higiéniai eszköz"
-                        },
-                        new
-                        {
-                            ID = 2,
-                            ENName = "Clothing",
-                            HUName = "Ruha"
-                        },
-                        new
-                        {
-                            ID = 3,
-                            ENName = "Medicine",
-                            HUName = "Gyógyszer"
-                        });
-                });
-
             modelBuilder.Entity("MandoWebApp.Models.Invite", b =>
                 {
                     b.Property<Guid>("InviteId")
@@ -513,25 +474,12 @@ namespace MandoWebApp.Data.Migrations
                     b.Property<int>("BuildingID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EnProductName")
-                        .HasColumnType("varchar(150)")
-                        .HasColumnName("EN_ProductName");
-
-                    b.Property<string>("HuProductName")
-                        .HasColumnType("varchar(150)")
-                        .HasColumnName("HU_ProductName");
-
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<bool>("IsProcessed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("ProcessedByUserId")
-                        .HasColumnType("longtext");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(150)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -557,8 +505,6 @@ namespace MandoWebApp.Data.Migrations
 
                     b.HasIndex("BuildingID");
 
-                    b.HasIndex("CategoryID");
-
                     b.HasIndex("UnitID");
 
                     b.ToTable("PendingBuildingProducts");
@@ -570,12 +516,18 @@ namespace MandoWebApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
+                    b.Property<string>("ENCategory")
+                        .HasColumnType("varchar(150)")
+                        .HasColumnName("EN_Category");
 
                     b.Property<string>("ENName")
                         .HasColumnType("varchar(150)")
                         .HasColumnName("EN_Name");
+
+                    b.Property<string>("HUCategory")
+                        .IsRequired()
+                        .HasColumnType("varchar(150)")
+                        .HasColumnName("HU_Category");
 
                     b.Property<string>("HUName")
                         .IsRequired()
@@ -590,8 +542,6 @@ namespace MandoWebApp.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CategoryID");
-
                     b.HasIndex("UnitID");
 
                     b.ToTable("Product");
@@ -600,16 +550,18 @@ namespace MandoWebApp.Data.Migrations
                         new
                         {
                             ID = 1,
-                            CategoryID = 1,
+                            ENCategory = "Hygiene product",
                             ENName = "Toothbrush",
+                            HUCategory = "Higiéniai eszköz",
                             HUName = "Fogkefe",
                             UnitID = 2
                         },
                         new
                         {
                             ID = 2,
-                            CategoryID = 2,
+                            ENCategory = "Clothing",
                             ENName = "Female shirt",
+                            HUCategory = "Ruha",
                             HUName = "Női ing",
                             SizeType = 1,
                             UnitID = 1
@@ -617,8 +569,9 @@ namespace MandoWebApp.Data.Migrations
                         new
                         {
                             ID = 3,
-                            CategoryID = 2,
+                            ENCategory = "Clothing",
                             ENName = "Male shirt",
+                            HUCategory = "Ruha",
                             HUName = "Férfi ing",
                             SizeType = 0,
                             UnitID = 1
@@ -626,8 +579,9 @@ namespace MandoWebApp.Data.Migrations
                         new
                         {
                             ID = 4,
-                            CategoryID = 3,
+                            ENCategory = "Medicine",
                             ENName = "Painkiller",
+                            HUCategory = "Gyógyszer",
                             HUName = "Fájdalomcsillapító",
                             UnitID = 2
                         });
@@ -889,12 +843,6 @@ namespace MandoWebApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MandoWebApp.Models.Category", null)
-                        .WithMany("PendingBuildingProducts")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MandoWebApp.Models.Unit", null)
                         .WithMany("PendingBuildingProducts")
                         .HasForeignKey("UnitID")
@@ -904,12 +852,6 @@ namespace MandoWebApp.Data.Migrations
 
             modelBuilder.Entity("MandoWebApp.Models.Product", b =>
                 {
-                    b.HasOne("MandoWebApp.Models.Category", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MandoWebApp.Models.Unit", null)
                         .WithMany("Products")
                         .HasForeignKey("UnitID")
@@ -975,13 +917,6 @@ namespace MandoWebApp.Data.Migrations
                     b.Navigation("BuildingProducts");
 
                     b.Navigation("PendingBuildingProducts");
-                });
-
-            modelBuilder.Entity("MandoWebApp.Models.Category", b =>
-                {
-                    b.Navigation("PendingBuildingProducts");
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("MandoWebApp.Models.Product", b =>

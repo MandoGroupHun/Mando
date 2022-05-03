@@ -15,6 +15,17 @@
     "USER_MANAGEMENT": {
       "SUCCESS_DETAIL": "Felhasználó frissítve!",
       "ERROR_DETAIL": "Nem sikerült frissíteni a felhasználó szerepköreit. Részletek: "
+    },
+    "ADDDONATION": {
+      "SUCCESS_DETAIL": "Adomány sikeresen hozzáadva",
+      "ERROR_DETAIL": "Adomány hozzáadása sikertelen"
+    },
+    "PENDING_DONATIONS": {
+      "SUCCESS_DETAIL": "Adomány sikeresen hozzáadva",
+      "ERROR_DETAIL": "Adomány hozzáadása sikertelen",
+      "DELETE_QUESTION": "Biztosan törölni akarod ezt az adományt?",
+      "SUCCESS_DELETE": "Adomány sikeresen törölve",
+      "ERROR_DELETE": "Adomány törlése sikertelen"
     }
   },
   "INVITES": {
@@ -38,7 +49,8 @@
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "Felhasználók kezelése",
       "INVITES": "Meghívók"
-    }
+    },
+    "PENDING_DONATIONS": "Átnézésre váró adományok"
   },
   "SUPPLIES": {
     "HEADER": "Készlet",
@@ -64,5 +76,46 @@
       },
       "SAVE": "Mentés"
     }
+  },
+  "ADDDONATION": {
+    "LOCATION": "Helyszín",
+    "CATEGORY": "Kategória",
+    "CHOOSE_CATEGORY": "Válassz ki egy kategóriát",
+    "DONATION": "Adomány megnevezése",
+    "NEW_DONATION_HUN": "Adomány megnevezése (magyarul)",
+    "NEW_DONATION_ENG": "Adomány megnevezése (angolul)",
+    "QUANTITY": "Mennyiség",
+    "SIZE": "Méret",
+    "SAVE": "Mentés",  
+    "SIZETYPE": {
+      "NAME": "Méret típus",
+      "NUMBERED": "Számozott",
+      "CHARACTER": "Betűs",
+      "CHILD": "Gyerek"
+    },
+    "NEWPRODUCT": {
+      "ON": "Ha nem találod az adományt a listában, kattints ide:",
+      "OFF": "Ha meglévő adományt szeretnél hozzáadni, kattints ide:"
+    },
+    "CHOOSE_UNIT": "Válassz ki egy mértékegységet",
+    "CHOOSE_SIZETYPE": "Válassz ki egy méret típust",
+    "CHOOSE_SIZE": "Adj meg egy méretet",
+    "UNIT": "Mértékegység"
+  },
+  "PENDING_DONATIONS": {
+    "HEADER": "Átnézésre váró adományok",
+    "LOADING": "Betöltés...",
+    "TABLE": {
+      "SEARCH_KEYWORD": "Keresés",
+      "PRODUCTNAME": "Név",
+      "CATEGORY": "Kategória",
+      "QUANTITY": "Mennyiség",
+      "SIZETYPE": "Méret típus",
+      "SIZE": "Méret",
+      "RECORDEDAT": "Dátum",
+      "USERNAME": "Felhasználó"
+    },
+    "CONFIRMATION": "Megerősítés",
+    "EDIT_DONATION": "Adomány szerkesztése"
   }
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MandoWebApp.Models
@@ -5,6 +6,8 @@ namespace MandoWebApp.Models
     [Table("Product")]
     public class Product
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         [Column(name: "HU_Name", TypeName = "varchar(150)")]
@@ -12,16 +15,19 @@ namespace MandoWebApp.Models
 
         [Column(name: "EN_Name", TypeName = "varchar(150)")]
         public string? ENName { get; set; }
-        
-        [Column(TypeName = "varchar(50)")]
-        public string Category { get; set; }
-        
+
+        public int CategoryID { get; set; }
         public int UnitID { get; set; }
         public SizeType? SizeType { get; set; }
         public ICollection<BuildingProduct> BuildingProducts { get; set; }
+        public ICollection<BuildingProductHistory> BuildingProductHistories { get; set; }
 
-        [NotMapped]
-        public string Name => HUName; // TODO implement language switch here
+        public string Name(string lang) => lang switch
+        {
+            "hu" => HUName,
+            "en" => ENName,
+            _ => HUName
+        } ?? HUName!;
     }
 
     public enum SizeType

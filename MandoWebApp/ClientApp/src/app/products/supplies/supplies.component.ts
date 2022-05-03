@@ -1,21 +1,27 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Supply } from 'src/app/models/supply';
 import { Table } from 'primeng/table';
 import { extractFirstErrorMessage } from '../../utilities/error-util';
 import { LocalizedMessageService } from 'src/app/_services/localized-message.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-supplies',
   templateUrl: './supplies.component.html'
 })
-export class SuppliesComponent {
+export class SuppliesComponent implements OnDestroy {
   public supplies: Supply[] = [];
   public selectedSupply: Supply | undefined = undefined;
   public quantitySnapshot: number | undefined = undefined;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, public messageService: LocalizedMessageService) {
+  private ngUnsubscribe = new Subject;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, public messageService: LocalizedMessageService,
+    private translateService: TranslateService) {
     this.loadSupplies();
+    this.translateService.onLangChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.loadSupplies());
   }
 
   public filterTable(dataTable: Table, $event: any) {
@@ -55,5 +61,9 @@ export class SuppliesComponent {
       }, error: (error: HttpErrorResponse) => console.error(error)
     });
   }
-}
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(null);
+    this.ngUnsubscribe.complete();
+  }
+}
