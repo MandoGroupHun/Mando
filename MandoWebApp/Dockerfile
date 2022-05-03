@@ -43,8 +43,6 @@ ENV Kestrel:EndPointDefaults:Protocols=Http1AndHttp2
 
 WORKDIR /app
 COPY --from=build-env /app/ ./
-# For some reason copying client app is not done by csproj publish
-COPY --from=build-env /app/ClientApp/dist/ ./wwwroot
 
 # Install dotnet-ef to run DB migrations upon container startup
 RUN dotnet tool install --global dotnet-ef
