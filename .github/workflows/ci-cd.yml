@@ -44,6 +44,8 @@ jobs:
           DB_APP_PASSWORD: ${{ secrets.DB_APP_PASSWORD }}
           DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
         run: |
+            echo "DB_APP_PASSWORD: ${DB_APP_PASSWORD}"
+            echo "DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}"
             cd ./MandoWebApp
             docker-compose pull
             docker-compose up -d
