@@ -67,7 +67,7 @@ namespace MandoWebApp.Services.UserManangement
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error duuring role update");
+                _logger.LogError(ex, "Error during role update");
 
                 return Result.Failure("Error during role update");
             }

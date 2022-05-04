@@ -69,17 +69,45 @@ public class ProductController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddPendingBuildingProduct([FromBody] CreatePendingBuildingProductInputModel createPendingBuildingProduct)
     {
-        var addResult = await _productService.AddPendingBuildingProduct(new PendingBuildingProduct
+        var isAdmin = HttpContext.User.GetHighestRole() >= Roles.Priorities[Roles.Administrator];
+
+        Result addResult;
+        if (isAdmin &&
+            !string.IsNullOrWhiteSpace(createPendingBuildingProduct.HuProductName) &&
+            !string.IsNullOrWhiteSpace(createPendingBuildingProduct.EnProductName))
         {
-            BuildingID = createPendingBuildingProduct.BuildingId,
-            HuProductName = createPendingBuildingProduct.HuProductName,
-            EnProductName = createPendingBuildingProduct.EnProductName,
-            CategoryID = createPendingBuildingProduct.CategoryId,
-            Quantity = createPendingBuildingProduct.Quantity,
-            SizeType = createPendingBuildingProduct.SizeType,
-            Size = !string.IsNullOrWhiteSpace(createPendingBuildingProduct.Size) ? createPendingBuildingProduct.Size : string.Empty,
-            UnitID = createPendingBuildingProduct.UnitId
-        });
+            var buildingProduct = new BuildingProduct
+            {
+                BuildingID = createPendingBuildingProduct.BuildingId,
+                Quantity = createPendingBuildingProduct.Quantity,
+                Size = !string.IsNullOrWhiteSpace(createPendingBuildingProduct.Size) ? createPendingBuildingProduct.Size : string.Empty,
+            };
+
+            var product = new Product
+            {
+                HUName = createPendingBuildingProduct.HuProductName,
+                ENName = createPendingBuildingProduct.EnProductName,
+                CategoryID = createPendingBuildingProduct.CategoryId,
+                UnitID = createPendingBuildingProduct.UnitId,
+                SizeType = createPendingBuildingProduct.SizeType
+            };
+
+            addResult = await _productService.AddProductAndBuildingProduct(product, buildingProduct);
+        }
+        else
+        {
+            addResult = await _productService.AddPendingBuildingProduct(new PendingBuildingProduct
+            {
+                BuildingID = createPendingBuildingProduct.BuildingId,
+                HuProductName = createPendingBuildingProduct.HuProductName,
+                EnProductName = createPendingBuildingProduct.EnProductName,
+                CategoryID = createPendingBuildingProduct.CategoryId,
+                Quantity = createPendingBuildingProduct.Quantity,
+                SizeType = createPendingBuildingProduct.SizeType,
+                Size = !string.IsNullOrWhiteSpace(createPendingBuildingProduct.Size) ? createPendingBuildingProduct.Size : string.Empty,
+                UnitID = createPendingBuildingProduct.UnitId
+            });
+        }
 
         return addResult.IsSuccess
             ? Ok()

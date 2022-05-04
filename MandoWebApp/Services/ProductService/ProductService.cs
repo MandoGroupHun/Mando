@@ -183,6 +183,7 @@ namespace MandoWebApp.Services.ProductService
                 UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
                 Category = categories.First(u => u.ID == x.CategoryID).Name(lang),
                 CategoryId = x.CategoryID,
+                BuildingId = x.BuildingID,
                 SizeType = x.SizeType,
                 Size = x.Size,
                 RecordedAt = x.RecordedAt,
@@ -198,6 +199,27 @@ namespace MandoWebApp.Services.ProductService
                 _dbContext.Products.Add(product);
 
                 await UpdatePendingBuildingProductToAccepted(pendingBuildingProductId);
+
+                await _dbContext.SaveChangesAsync();
+
+                buildingProduct.ProductID = product.ID;
+                await AddBuildingProduct(buildingProduct);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception during creation of new bulding product");
+
+                return Result.Failure("Error during bulding product creation");
+            }
+
+            return Result.Success();
+        }
+
+        public async Task<Result> AddProductAndBuildingProduct(Product product, BuildingProduct buildingProduct)
+        {
+            try
+            {
+                _dbContext.Products.Add(product);
 
                 await _dbContext.SaveChangesAsync();
 

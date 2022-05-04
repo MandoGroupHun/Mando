@@ -8,6 +8,8 @@
 
         public int CategoryId { get; set; }
 
+        public int BuildingId { get; set; }
+
         public string HuProductName { get; set; }
 
         public string EnProductName { get; set; }
