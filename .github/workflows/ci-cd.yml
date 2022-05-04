@@ -40,6 +40,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Bring up stack
+        env:
+          DB_APP_PASSWORD: ${{ secrets.DB_APP_PASSWORD }}
+          DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
         run: |
             cd ./MandoWebApp
             docker-compose pull

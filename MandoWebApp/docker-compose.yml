@@ -21,7 +21,7 @@ services:
       - Db__Port=3306
       - Db__Database=mando
       - Db__Uid=app
-      - Db__Password=pwd
+      - Db__Password=${DB_APP_PASSWORD}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
@@ -37,11 +37,10 @@ services:
     networks:
       - traefik
     environment:
-      #- MYSQL_ROOT_PASSWORD=rootpwd
-      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MYSQL_DATABASE=mando
       - MYSQL_USER=app
-      - MYSQL_PASSWORD=pwd
+      - MYSQL_PASSWORD=${DB_APP_PASSWORD}
 
   traefik:
     container_name: traefik
