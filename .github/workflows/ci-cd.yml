@@ -43,6 +43,7 @@ jobs:
         env:
           DB_APP_PASSWORD: ${{ secrets.DB_APP_PASSWORD }}
           DB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+          EMAIL_SENDGRID_API_KEY: ${{ secrets.EMAIL_SENDGRID_API_KEY }}
         run: |
             cd ./MandoWebApp
             docker-compose pull
