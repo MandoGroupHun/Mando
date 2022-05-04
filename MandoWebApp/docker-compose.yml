@@ -23,7 +23,7 @@ services:
       - Db__Uid=app
       - Db__Password=${DB_APP_PASSWORD}
       - Email__FromName=Mando
-      - Email__FromEmail=mando@hrvthmrk.com
+      - Email__FromEmail=r.tamas.szabo+mando@gmail.com
       - Email__SendGridKey=${EMAIL_SENDGRID_API_KEY}
       - Email__IsEnabled=true
     labels:
