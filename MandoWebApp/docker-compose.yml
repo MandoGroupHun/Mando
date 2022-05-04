@@ -41,6 +41,8 @@ services:
       - MYSQL_DATABASE=mando
       - MYSQL_USER=app
       - MYSQL_PASSWORD=${DB_APP_PASSWORD}
+    volumes:
+      - /data/mando/db:/var/lib/mysql
 
   traefik:
     container_name: traefik
