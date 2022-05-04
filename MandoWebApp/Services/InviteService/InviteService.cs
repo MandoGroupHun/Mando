@@ -4,14 +4,14 @@ using MandoWebApp.Models;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 
-namespace MandoWebApp.Services
+namespace MandoWebApp.Services.InviteService
 {
-    public class InviteManager : IInviteManager
+    public class InviteService : IInviteService
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly ILogger<InviteManager> _logger;
+        private readonly ILogger<InviteService> _logger;
 
-        public InviteManager(ApplicationDbContext dbContext, ILogger<InviteManager> logger)
+        public InviteService(ApplicationDbContext dbContext, ILogger<InviteService> logger)
         {
             _logger = logger;
             _dbContext = dbContext;
