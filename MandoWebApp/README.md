@@ -7,24 +7,37 @@
 * Run `npm install` from an elevated commadn prompt from inside the `MandoWebApp/ClientApp` (this may be done automatically if you run VS as administrator 🤔)
 * Start application
 
-## Docker build
+## CI/CD
 
-Build the application by running the following command in `./MandoWebApp` directory.
+Every contributions to main branch will trigger a new build and deployment to production, as described in `.github/workflows/cd-cd.yml` file.
 
+## Production stack
+
+The production stack is described in `docker-compose.yml` file. Run it simply with the below command in `./MandoWebApp` directory.
 ```
-docker build -t mando .
+docker-compose up
+```
+Press `Ctrl+C` to stop it.
+
+### Secret management
+
+Add build time secrets [here](https://github.com/MandoGroupHun/Mando/settings/secrets/actions/new).
+Reference them in `ci-cd.yml` as needed:
+```
+with:
+    username: ${{ secrets.DOCKERHUB_TOKEN }}
 ```
 
-Run it simply with
+Add runtime secrets [here](https://github.com/MandoGroupHun/Mando/settings/environments/476737565/edit).
+Make them available for the environment in `ci-cd.yml` like
 ```
-docker run -it -p 8080:80 mando:latest
+env:
+    DB_APP_PASSWORD: ${{ secrets.DB_APP_PASSWORD }}
 ```
-
-### TODO
-- Figure HTTPS redirection and provide Kestrel cert. Errors when accessing app:
+Reference runtime secrets in `docker-compose.yml` to make them available for the app
 ```
-"Message":"Failed to determine the https port for redirect."
-"Exception":"System.InvalidOperationException: No signing credential is configured"
+environment:
+    - Db__Password=${DB_APP_PASSWORD}
 ```
 
 ## MariaDB setup
