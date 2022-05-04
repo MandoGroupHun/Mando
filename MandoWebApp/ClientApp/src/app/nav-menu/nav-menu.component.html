@@ -16,7 +16,11 @@
             <a class="nav-link" [routerLink]="['/products']">{{ 'NAVMENU.NEW_DONATION' | translate }}</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link" [routerLink]="['/pending-donations']">{{ 'NAVMENU.PENDING_DONATIONS' | translate }}</a>
+            <a class="nav-link" [routerLink]="['/pending-donations']">
+              {{ 'NAVMENU.PENDING_DONATIONS' | translate }}
+              <span *ngIf="!!pendingDonationCount && pendingDonationCount > 0" class="badge bg-secondary ml-1">{{
+                pendingDonationCount }}</span>
+            </a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link" [routerLink]="['/supplies']">{{ 'NAVMENU.SUPPLIES' | translate }}</a>
@@ -27,10 +31,16 @@
               {{ 'NAVMENU.ADMIN' | translate }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" [routerLink]="['/usermanagement']">{{ 'NAVMENU.ADMIN_MENU.USER_MANAGEMENT' |
-                  translate }}</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/invites']">{{ 'NAVMENU.ADMIN_MENU.INVITES' | translate
-                  }}</a></li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/usermanagement']">
+                  {{ 'NAVMENU.ADMIN_MENU.USER_MANAGEMENT' | translate }}
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/invites']">
+                  {{ 'NAVMENU.ADMIN_MENU.INVITES' | translate }}
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -39,8 +49,10 @@
               <img class="current-lang-icon" src="{{'assets/images/' + getCurrentLanguage() + '.svg'}}" />
             </a>
             <ul class="dropdown-menu lang-dropdown" aria-labelledby="langDropdown">
-              <li><img src="{{'assets/images/' + lang + '.svg'}}" class="dropdown-item lang-icon"
-                  *ngFor="let lang of getLanguages()" (click)="setLanguage(lang)" /></li>
+              <li>
+                <img src="{{'assets/images/' + lang + '.svg'}}" class="dropdown-item lang-icon"
+                  *ngFor="let lang of getLanguages()" (click)="setLanguage(lang)" />
+              </li>
             </ul>
           </li>
         </ul>

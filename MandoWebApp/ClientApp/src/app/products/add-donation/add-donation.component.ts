@@ -9,6 +9,7 @@ import { LocalizedMessageService } from '../../_services/localized-message.servi
 import { Unit } from '../../models/unit';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Category } from '../../models/category';
+import { ProductService } from 'src/app/_services/product.service';
 
 @Component({
     selector: 'app-add-donation',
@@ -43,6 +44,7 @@ export class AddDonationComponent implements OnDestroy {
     constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string,
         private messageService: LocalizedMessageService,
         private translateService: TranslateService,
+        private productService: ProductService,
         @Optional() public dialogRef: DynamicDialogRef,
         @Optional() public dialogConfig: DynamicDialogConfig) {
         this.isPendingDonation = !!dialogRef;
@@ -88,31 +90,33 @@ export class AddDonationComponent implements OnDestroy {
                     this.buildings = buildings;
                     this.units = units;
                     this.categories = categories;
-                    
+
                     const sizeTypeNumbered = this.translateService.get('ADDDONATION.SIZETYPE.NUMBERED');
                     const sizeTypeTShirt = this.translateService.get('ADDDONATION.SIZETYPE.CHARACTER');
                     const sizeTypeChild = this.translateService.get('ADDDONATION.SIZETYPE.CHILD');
-                
-                    forkJoin([sizeTypeNumbered, sizeTypeTShirt, sizeTypeChild]).subscribe({
-                      next: ([numbered, tshirt, child]) => {
-                        this.sizeTypes = [SizeType.Child, SizeType.Numbered, SizeType.TShirt].map(((x) => {
-                            return { name: x === SizeType.Child ? child :
-                                x === SizeType.Numbered ? numbered : tshirt, id: x };
-                        }));
 
-                        if (!!this.dialogConfig) {
-                            this.isNewProduct = true;
-                            this.selectedCategory = this.categories.find(x => x.categoryId === this.dialogConfig.data.categoryId);
-                            this.productsByCategory = this.products.filter(x => x.category === this.selectedCategory?.name);
-                            this.newEnProductName = this.dialogConfig.data.enProductName;
-                            this.newHuProductName = this.dialogConfig.data.huProductName;
-                            this.quantity = this.dialogConfig.data.quantity;
-                            this.selectedUnit = this.units.find(x => x.unitId === this.dialogConfig.data.unitId);
-                            this.selectedSizeType = this.sizeTypes.find(x => x.id === this.dialogConfig.data.sizeType);
-                            this.size = this.dialogConfig.data.size;
-                            this.pendingDonationId = this.dialogConfig.data.pendingDonationId;
-                        }
-                      }, error: error => console.error(error)
+                    forkJoin([sizeTypeNumbered, sizeTypeTShirt, sizeTypeChild]).subscribe({
+                        next: ([numbered, tshirt, child]) => {
+                            this.sizeTypes = [SizeType.Child, SizeType.Numbered, SizeType.TShirt].map(((x) => {
+                                return {
+                                    name: x === SizeType.Child ? child :
+                                        x === SizeType.Numbered ? numbered : tshirt, id: x
+                                };
+                            }));
+
+                            if (!!this.dialogConfig) {
+                                this.isNewProduct = true;
+                                this.selectedCategory = this.categories.find(x => x.categoryId === this.dialogConfig.data.categoryId);
+                                this.productsByCategory = this.products.filter(x => x.category === this.selectedCategory?.name);
+                                this.newEnProductName = this.dialogConfig.data.enProductName;
+                                this.newHuProductName = this.dialogConfig.data.huProductName;
+                                this.quantity = this.dialogConfig.data.quantity;
+                                this.selectedUnit = this.units.find(x => x.unitId === this.dialogConfig.data.unitId);
+                                this.selectedSizeType = this.sizeTypes.find(x => x.id === this.dialogConfig.data.sizeType);
+                                this.size = this.dialogConfig.data.size;
+                                this.pendingDonationId = this.dialogConfig.data.pendingDonationId;
+                            }
+                        }, error: error => console.error(error)
                     });
 
                     this.isLoading = false;
@@ -171,14 +175,14 @@ export class AddDonationComponent implements OnDestroy {
     }
 
     private createNewPendingDonation(): void {
-        this.http.post<boolean>(this.baseUrl + 'product/addpendingbuildingproduct', {
+        this.productService.addPendingBuildingProduct({
             categoryId: this.selectedCategory!.categoryId,
             huProductName: this.newHuProductName,
             enProductName: this.newEnProductName,
             buildingId: this.selectedBuilding!.buildingId,
             quantity: this.quantity,
             sizeType: this.selectedSizeType?.id,
-            size: !!this.selectedSizeType ? this.size : null,
+            size: !!this.selectedSizeType ? this.size : undefined,
             unitId: this.selectedUnit!.unitId
         }).subscribe({
             next: () => {
@@ -215,14 +219,14 @@ export class AddDonationComponent implements OnDestroy {
     }
 
     public getSizeToolTip(): string {
-        switch(this.selectedProduct?.sizeType ?? this.selectedSizeType?.id) { 
-            case SizeType.Numbered: { 
-               return '32, 36, 44';
-            } 
-            case SizeType.TShirt: { 
-               return 'S, M, L, XL';
-            } 
-            case SizeType.Child: { 
+        switch (this.selectedProduct?.sizeType ?? this.selectedSizeType?.id) {
+            case SizeType.Numbered: {
+                return '32, 36, 44';
+            }
+            case SizeType.TShirt: {
+                return 'S, M, L, XL';
+            }
+            case SizeType.Child: {
                 return '126, 134';
             }
             default: {

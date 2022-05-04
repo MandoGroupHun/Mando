@@ -34,6 +34,7 @@ import { PendingDonationsComponent } from './products/pending-donations/pending-
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { ProductService } from './_services/product.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -95,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true },
     MessageService,
     LocalizedMessageService,
+    ProductService,
     ConfirmationService
   ],
   bootstrap: [AppComponent]

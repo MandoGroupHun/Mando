@@ -1,5 +1,5 @@
 ﻿using MandoWebApp.Models;
-using MandoWebApp.Services;
+using MandoWebApp.Services.InviteService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +11,9 @@ namespace MandoWebApp.Controllers;
 public class InviteController : ControllerBase
 {
     private readonly ILogger<InviteController> _logger;
-    private readonly IInviteManager _inviteService;
+    private readonly IInviteService _inviteService;
 
-    public InviteController(ILogger<InviteController> logger, IInviteManager inviteService)
+    public InviteController(ILogger<InviteController> logger, IInviteService inviteService)
     {
         _logger = logger;
         _inviteService = inviteService;

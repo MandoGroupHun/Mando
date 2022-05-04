@@ -1,20 +1,26 @@
 ﻿using CSharpFunctionalExtensions;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 
-namespace MandoWebApp.Services
+namespace MandoWebApp.Services.InviteService
 {
-    public class InviteManager : IInviteManager
+    public class InviteService : IInviteService
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly ILogger<InviteManager> _logger;
+        private readonly ILogger<InviteService> _logger;
+        private readonly IEmailSender _emailSender;
 
-        public InviteManager(ApplicationDbContext dbContext, ILogger<InviteManager> logger)
+        private readonly string _url;
+
+        public InviteService(ApplicationDbContext dbContext, ILogger<InviteService> logger, IEmailSender emailSender, IConfiguration configuration)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _emailSender = emailSender;
+            _url = configuration["Url"];
         }
 
         /// <summary>
@@ -29,6 +35,10 @@ namespace MandoWebApp.Services
                 _dbContext.Add(newInvite);
 
                 await _dbContext.SaveChangesAsync();
+
+                await _emailSender.SendEmailAsync(newInvite.Email,
+                    "Meghívó a Mando alkalmazásba",
+                    $"https://{_url}/Identity/Account/Register?inviteId={newInvite.InviteId}");
             }
             catch (DbUpdateException ex) when (ex.InnerException is MySqlException inner && inner.Message.Contains("Duplicate"))
             {

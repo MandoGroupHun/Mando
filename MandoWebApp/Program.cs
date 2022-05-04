@@ -3,9 +3,9 @@ using IdentityModel;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Options;
-using MandoWebApp.Services;
 using MandoWebApp.Services.BuildingService;
 using MandoWebApp.Services.EmailSender;
+using MandoWebApp.Services.InviteService;
 using MandoWebApp.Services.ProductService;
 using MandoWebApp.Services.UserManangement;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
@@ -129,7 +129,7 @@ static void RegisterOptions(WebApplicationBuilder builder)
 
 static void RegisterServices(WebApplicationBuilder builder)
 {
-    builder.Services.AddTransient<IInviteManager, InviteManager>();
+    builder.Services.AddTransient<IInviteService, InviteService>();
     builder.Services.AddTransient<IEmailSender, EmailSender>();
     builder.Services.AddTransient<IProductService, ProductService>();
     builder.Services.AddTransient<IUserManagementService, UserManagementService>();
