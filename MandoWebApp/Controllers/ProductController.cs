@@ -138,6 +138,12 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
+    public Task<int> PendingDonationCount()
+    {
+        return _productService.GetPendingDonationCountAsync();
+    }
+
+    [HttpGet]
     public Task<List<CategoryModel>> Categories()
     {
         return _productService.GetCategoriesAsync();

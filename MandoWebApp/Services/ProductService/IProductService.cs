@@ -13,6 +13,7 @@ namespace MandoWebApp.Services.ProductService
         Task<List<UnitModel>> GetUnitsAsync();
         Task<Result> AddPendingBuildingProduct(PendingBuildingProduct pendingBuildingProduct);
         Task<List<PendingDonationModel>> GetPendingDonationsAsync();
+        Task<int> GetPendingDonationCountAsync();
         Task<Result> AcceptPendingBuildingProduct(long pendingBuildingProductId, Product product, BuildingProduct buildingProduct);
         Task<Result> AcceptPendingBuildingProduct(long pendingBuildingProductId, BuildingProduct buildingProduct);
         Task<Result> DeletePendingBuildingProduct(long pendingBuildingProductId);

@@ -161,6 +161,11 @@ namespace MandoWebApp.Services.ProductService
             return Result.Success();
         }
 
+        public Task<int> GetPendingDonationCountAsync()
+        {
+            return _dbContext.PendingBuildingProducts.Where(x => !x.IsProcessed).CountAsync();
+        }
+
         public async Task<List<PendingDonationModel>> GetPendingDonationsAsync()
         {
             var units = await _dbContext.Units.ToListAsync();
