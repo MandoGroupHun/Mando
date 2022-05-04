@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LoginMenuComponent } from './login-menu.component';
 import { AuthorizeService } from '../authorize.service';
 import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('LoginMenuComponent', () => {
   let component: LoginMenuComponent;
@@ -10,10 +11,10 @@ describe('LoginMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule], 
-      declarations: [ LoginMenuComponent ]
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      declarations: [LoginMenuComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
