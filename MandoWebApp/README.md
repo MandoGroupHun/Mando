@@ -7,6 +7,26 @@
 * Run `npm install` from an elevated commadn prompt from inside the `MandoWebApp/ClientApp` (this may be done automatically if you run VS as administrator 🤔)
 * Start application
 
+## Docker build
+
+Build the application by running the following command in `./MandoWebApp` directory.
+
+```
+docker build -t mando .
+```
+
+Run it simply with
+```
+docker run -it -p 8080:80 mando:latest
+```
+
+### TODO
+- Figure HTTPS redirection and provide Kestrel cert. Errors when accessing app:
+```
+"Message":"Failed to determine the https port for redirect."
+"Exception":"System.InvalidOperationException: No signing credential is configured"
+```
+
 ## MariaDB setup
 
 * Download [MariaDB Server 10.6.](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.6.7) (That's the latest version supported by [Pomelo.EntityFrameworkCore.MySql](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#supported-database-servers-and-versions))
