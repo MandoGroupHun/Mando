@@ -4,6 +4,7 @@ export class PendingDonation {
     pendingDonationId!: number;
     category!: string;
     categoryId!: number;
+    buildingId!: number;
     productName: string | undefined;
     huProductName: string | undefined;
     enProductName: string | undefined;

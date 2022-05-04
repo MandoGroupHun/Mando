@@ -24,6 +24,7 @@
       "SUCCESS_DETAIL": "Adomány sikeresen hozzáadva",
       "ERROR_DETAIL": "Adomány hozzáadása sikertelen",
       "DELETE_QUESTION": "Biztosan törölni akarod ezt az adományt?",
+      "ACCEPT_QUESTION": "Biztosan el akarod fogadni adományt?",
       "SUCCESS_DELETE": "Adomány sikeresen törölve",
       "ERROR_DELETE": "Adomány törlése sikertelen"
     }

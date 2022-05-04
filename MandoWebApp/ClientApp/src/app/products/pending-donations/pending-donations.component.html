@@ -36,6 +36,7 @@
           <th class="col-md-3">{{ 'PENDING_DONATIONS.TABLE.USERNAME' | translate }}</th>
           <th style="width: 8rem"></th>
           <th style="width: 8rem"></th>
+          <th style="width: 8rem"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-pendingdonation>
@@ -48,10 +49,13 @@
           <td class="col-md-3">{{ pendingdonation.recordedAt | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
           <td class="col-md-3">{{ pendingdonation.userName }}</td>
           <td style="text-align: center">
-            <button pButton type="button" (click)="showEditDialog(pendingdonation)" class="p-button-secondary" icon="pi pi-cog"></button>
+            <button pButton type="button" (click)="acceptPendingDonation(pendingdonation)" class="p-button-secondary" icon="pi pi-check" [disabled]="isAcceptDisabled(pendingdonation)"></button>
           </td>
           <td style="text-align: center">
-            <button pButton type="button" (click)="showRemovePendingDonation(pendingdonation)" class="p-button-secondary" icon="pi pi-times"></button>
+            <button pButton type="button" (click)="editPendingDonation(pendingdonation)" class="p-button-secondary" icon="pi pi-pencil"></button>
+          </td>
+          <td style="text-align: center">
+            <button pButton type="button" (click)="deletePendingDonation(pendingdonation)" class="p-button-secondary" icon="pi pi-times"></button>
           </td>
         </tr>
       </ng-template>

@@ -50,7 +50,7 @@ export class PendingDonationsComponent implements OnDestroy {
     });
   }
 
-  showEditDialog(pendingDonation: PendingDonation) {
+  editPendingDonation(pendingDonation: PendingDonation) {
     this.translateService.get('PENDING_DONATIONS.EDIT_DONATION').subscribe({
       next: (message) => {
         const ref = this.dialogService.open(AddDonationComponent, {
@@ -62,7 +62,8 @@ export class PendingDonationsComponent implements OnDestroy {
               unitId: pendingDonation.unitId,
               quantity: pendingDonation.quantity,
               sizeType: pendingDonation.sizeType,
-              size: pendingDonation.size
+              size: pendingDonation.size,
+              buildingId: pendingDonation.buildingId
           },
           header: message,
           width: '50%'
@@ -76,30 +77,64 @@ export class PendingDonationsComponent implements OnDestroy {
     });
       }, error: error => console.error(error)
     });
-}
+  }
 
-showRemovePendingDonation(pendingDonation: PendingDonation) {
-  this.translateService.get('MESSAGE.PENDING_DONATIONS.DELETE_QUESTION').subscribe({
-    next: (message) => {
-      this.confirmationService.confirm({
-        message: message,
-        accept: () => {
-          this.http.delete<any>(this.baseUrl + `product/declinePendingBuildingProduct?pendingBuildingProductId=${pendingDonation.pendingDonationId}`).subscribe({
+  deletePendingDonation(pendingDonation: PendingDonation) {
+    this.translateService.get('MESSAGE.PENDING_DONATIONS.DELETE_QUESTION').subscribe({
+      next: (message) => {
+        this.confirmationService.confirm({
+          message: message,
+          accept: () => {
+            this.http.delete<any>(this.baseUrl + `product/declinePendingBuildingProduct?pendingBuildingProductId=${pendingDonation.pendingDonationId}`).subscribe({
+              next: () => {
+                this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.PENDING_DONATIONS.SUCCESS_DELETE' });
+                this.loadPendingDonations();
+              }, error: (error: HttpErrorResponse) => {
+                this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.PENDING_DONATIONS.ERROR_DELETE' }, extractFirstErrorMessage(error));
+              }
+            });
+          }
+        });
+      }, error: error => console.error(error)
+    });
+  }
+
+  acceptPendingDonation(pendingDonation: PendingDonation) {
+    this.translateService.get('MESSAGE.PENDING_DONATIONS.ACCEPT_QUESTION').subscribe({
+      next: (message) => {
+        this.confirmationService.confirm({
+          message: message,
+          accept: () => {
+            this.http.post<boolean>(this.baseUrl + 'product/acceptpendingbuildingproduct', {
+              pendingBuildingProductId: pendingDonation.pendingDonationId,
+              categoryId: pendingDonation.categoryId,
+              huProductName: pendingDonation.huProductName,
+              enProductName: pendingDonation.enProductName,
+              buildingId: pendingDonation.buildingId,
+              quantity: pendingDonation.quantity,
+              sizeType: pendingDonation.sizeType,
+              size: pendingDonation.size,
+              unitId: pendingDonation.unitId
+          }).subscribe({
             next: () => {
-              this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.PENDING_DONATIONS.SUCCESS_DELETE' });
-              this.loadPendingDonations();
-            }, error: (error: HttpErrorResponse) => {
-              this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.PENDING_DONATIONS.ERROR_DELETE' }, extractFirstErrorMessage(error));
-            }
-          });
-        }
-      });
-    }, error: error => console.error(error)
-  });
-}
+                this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
+                this.loadPendingDonations();
+              }, error: (error: HttpErrorResponse) => {
+                this.messageService.add({ severity: 'error', summary: 'MESSAGE.ERROR', detail: 'MESSAGE.ADDDONATION.ERROR_DETAIL' }, extractFirstErrorMessage(error));
+              }
+            });
+          }
+        });
+      }, error: error => console.error(error)
+    });
+  }
 
+  isAcceptDisabled(pendingDonation: PendingDonation) {
+    return !pendingDonation.huProductName || pendingDonation.huProductName.trim() === '' ||
+      !pendingDonation.enProductName || pendingDonation.enProductName.trim() === '';
+  }
 
-ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.ngUnsubscribe.next(null);
     this.ngUnsubscribe.complete();
   }

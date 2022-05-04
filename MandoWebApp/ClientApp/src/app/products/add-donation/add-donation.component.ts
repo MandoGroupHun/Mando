@@ -115,6 +115,7 @@ export class AddDonationComponent implements OnDestroy {
                                 this.selectedSizeType = this.sizeTypes.find(x => x.id === this.dialogConfig.data.sizeType);
                                 this.size = this.dialogConfig.data.size;
                                 this.pendingDonationId = this.dialogConfig.data.pendingDonationId;
+                                this.selectedBuilding = this.buildings.find(x => x.buildingId === this.dialogConfig.data.buildingId);
                             }
                         }, error: error => console.error(error)
                     });
