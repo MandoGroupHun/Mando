@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Profile } from 'oidc-client';
 import { firstValueFrom } from 'rxjs';
 import { AuthorizeService, isInRole } from '../../api-authorization/authorize.service';
+import { ProductService } from '../_services/product.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -15,19 +16,30 @@ export class NavMenuComponent {
   pendingDonationCount: number | undefined = undefined;
   public user: Profile | null = null;
 
-  constructor(public authorizeService: AuthorizeService, @Inject('BASE_URL') public baseUrl: string, private http: HttpClient, public translateService: TranslateService) {
+  constructor(public authorizeService: AuthorizeService,
+    @Inject('BASE_URL') private baseUrl: string,
+    private http: HttpClient,
+    private productService: ProductService,
+    public translateService: TranslateService) {
+    this.productService.newPendingProductEmitter.subscribe({
+      next: () => {
+        this.getPendingDonationCount();
+      }
+    });
+
     authorizeService.getUser().subscribe({
       next: user => {
         this.user = user;
-
-        if (this.isPriviliged()) {
-          this.getPendingDonationCount();
-        }
+        this.getPendingDonationCount();
       }
     });
   }
 
   private getPendingDonationCount(): void {
+    if (!this.isPriviliged()) {
+      return;
+    }
+
     this.http.get<number>(this.baseUrl + 'product/pendingdonationcount').subscribe({
       next: result => this.pendingDonationCount = result,
       error: (error: HttpErrorResponse) => console.error(error)
