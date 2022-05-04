@@ -57,3 +57,5 @@ jobs:
               echo "ERROR: mando-app container is in state: ${CONTAINER_STATUS}"
               exit 1
             fi
+            echo "Cleaning up obsolate images..."
+            docker image prune --force
