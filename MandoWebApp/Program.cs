@@ -134,4 +134,8 @@ static void RegisterServices(WebApplicationBuilder builder)
     builder.Services.AddTransient<IProductService, ProductService>();
     builder.Services.AddTransient<IUserManagementService, UserManagementService>();
     builder.Services.AddTransient<IBuildingService, BuildingService>();
+
+    builder.Services
+        .AddFluentEmail(builder.Configuration["Email:FromEmail"])
+        .AddRazorRenderer();
 }
