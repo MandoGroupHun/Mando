@@ -158,11 +158,11 @@ export class AddDonationComponent implements OnDestroy {
     }
 
     private createNewDonation(): void {
-        this.http.post<boolean>(this.baseUrl + 'product/addbuildingproduct', {
+        this.productService.addBuildingProduct({
             productId: this.selectedProduct!.productId,
             buildingId: this.selectedBuilding!.buildingId,
             quantity: this.quantity,
-            size: !!this.selectedProduct!.sizeType ? this.size : null
+            size: !!this.selectedProduct!.sizeType ? this.size : undefined
         }).subscribe({
             next: () => {
                 this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
@@ -198,7 +198,7 @@ export class AddDonationComponent implements OnDestroy {
     }
 
     private acceptPendingDonation(): void {
-        this.http.post<boolean>(this.baseUrl + 'product/acceptpendingbuildingproduct', {
+        this.productService.acceptPendingBuildingProduct({
             pendingBuildingProductId: this.pendingDonationId,
             categoryId: this.selectedCategory!.categoryId,
             huProductName: this.newHuProductName,
@@ -206,9 +206,9 @@ export class AddDonationComponent implements OnDestroy {
             buildingId: this.selectedBuilding!.buildingId,
             quantity: this.quantity,
             sizeType: this.selectedSizeType?.id,
-            size: !!this.selectedSizeType ? this.size : null,
+            size: !!this.selectedSizeType ? this.size : undefined,
             unitId: this.selectedUnit!.unitId,
-            productId: !this.isNewProduct ? this.selectedProduct?.productId : null
+            productId: !this.isNewProduct ? this.selectedProduct?.productId : undefined
         }).subscribe({
             next: () => {
                 this.dialogRef.close(true);

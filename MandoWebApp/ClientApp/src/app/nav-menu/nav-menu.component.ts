@@ -21,7 +21,7 @@ export class NavMenuComponent {
     private http: HttpClient,
     private productService: ProductService,
     public translateService: TranslateService) {
-    this.productService.newPendingProductEmitter.subscribe({
+    this.productService.pendingProductCountEmitter.subscribe({
       next: () => {
         this.getPendingDonationCount();
       }

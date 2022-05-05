@@ -9,6 +9,7 @@ import { AddDonationComponent } from '../add-donation/add-donation.component';
 import { LocalizedMessageService } from '../../_services/localized-message.service';
 import { ConfirmationService } from 'primeng/api';
 import { extractFirstErrorMessage } from '../../utilities/error-util';
+import { ProductService } from 'src/app/_services/product.service';
 
 @Component({
   selector: 'app-pending-donations',
@@ -24,6 +25,7 @@ export class PendingDonationsComponent implements OnDestroy {
     private translateService: TranslateService,
     private messageService: LocalizedMessageService,
     public dialogService: DialogService,
+    private productService: ProductService,
     private confirmationService: ConfirmationService) {
     this.loadPendingDonations();
     this.translateService.onLangChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.loadPendingDonations());
@@ -55,26 +57,26 @@ export class PendingDonationsComponent implements OnDestroy {
       next: (message) => {
         const ref = this.dialogService.open(AddDonationComponent, {
           data: {
-              pendingDonationId: pendingDonation.pendingDonationId,
-              categoryId: pendingDonation.categoryId,
-              huProductName: pendingDonation.huProductName,
-              enProductName: pendingDonation.enProductName,
-              unitId: pendingDonation.unitId,
-              quantity: pendingDonation.quantity,
-              sizeType: pendingDonation.sizeType,
-              size: pendingDonation.size,
-              buildingId: pendingDonation.buildingId
+            pendingDonationId: pendingDonation.pendingDonationId,
+            categoryId: pendingDonation.categoryId,
+            huProductName: pendingDonation.huProductName,
+            enProductName: pendingDonation.enProductName,
+            unitId: pendingDonation.unitId,
+            quantity: pendingDonation.quantity,
+            sizeType: pendingDonation.sizeType,
+            size: pendingDonation.size,
+            buildingId: pendingDonation.buildingId
           },
           header: message,
           width: '50%'
-      });
-  
-      ref.onClose.subscribe((success: boolean) => {
-        if (success) {
-          this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.PENDING_DONATIONS.SUCCESS_DETAIL' });
-          this.loadPendingDonations();
-        }
-    });
+        });
+
+        ref.onClose.subscribe((success: boolean) => {
+          if (success) {
+            this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.PENDING_DONATIONS.SUCCESS_DETAIL' });
+            this.loadPendingDonations();
+          }
+        });
       }, error: error => console.error(error)
     });
   }
@@ -85,7 +87,7 @@ export class PendingDonationsComponent implements OnDestroy {
         this.confirmationService.confirm({
           message: message,
           accept: () => {
-            this.http.delete<any>(this.baseUrl + `product/declinePendingBuildingProduct?pendingBuildingProductId=${pendingDonation.pendingDonationId}`).subscribe({
+            this.productService.deletePendingBuildingProduct(pendingDonation.pendingDonationId).subscribe({
               next: () => {
                 this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.PENDING_DONATIONS.SUCCESS_DELETE' });
                 this.loadPendingDonations();
@@ -105,7 +107,7 @@ export class PendingDonationsComponent implements OnDestroy {
         this.confirmationService.confirm({
           message: message,
           accept: () => {
-            this.http.post<boolean>(this.baseUrl + 'product/acceptpendingbuildingproduct', {
+            this.productService.acceptPendingBuildingProduct({
               pendingBuildingProductId: pendingDonation.pendingDonationId,
               categoryId: pendingDonation.categoryId,
               huProductName: pendingDonation.huProductName,
@@ -114,9 +116,10 @@ export class PendingDonationsComponent implements OnDestroy {
               quantity: pendingDonation.quantity,
               sizeType: pendingDonation.sizeType,
               size: pendingDonation.size,
-              unitId: pendingDonation.unitId
-          }).subscribe({
-            next: () => {
+              unitId: pendingDonation.unitId,
+              productId: undefined
+            }).subscribe({
+              next: () => {
                 this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
                 this.loadPendingDonations();
               }, error: (error: HttpErrorResponse) => {
