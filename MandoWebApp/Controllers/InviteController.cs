@@ -26,12 +26,12 @@ public class InviteController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Invite newInvite)
+    public async Task<IActionResult> Post([FromBody] Invite newInvite, [FromQuery] string lang = "hu")
     {
         newInvite.Status = InviteStatus.New;
         newInvite.CreatedAt = DateTime.UtcNow;
 
-        var addResult = await _inviteService.AddInvite(newInvite);
+        var addResult = await _inviteService.AddInvite(newInvite, lang);
 
         return addResult.IsSuccess
             ? Ok(addResult.Value)

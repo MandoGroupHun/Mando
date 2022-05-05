@@ -34,6 +34,7 @@
     "LOADING": "Loading...",
     "NEW_INVITE": "New Invite",
     "PENDING_INVITES": "Pending Invites",
+    "LANG": "Language",
     "TABLE": {
       "STATUS_HEADER": "Status",
       "CREATED_AT": "Created At"

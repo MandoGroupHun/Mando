@@ -10,9 +10,10 @@ import { LocalizedMessageService } from '../_services/localized-message.service'
 export class InvitesComponent {
   public inviteEmail: string | undefined = undefined;
   public invites: Invite[] = [];
+  public selectedLang: string = "HU";
+  public emailLangs = ["HU", "EN"];
 
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string, private messageService: LocalizedMessageService) {
-
     this.loadInvites();
   }
 
@@ -25,7 +26,7 @@ export class InvitesComponent {
   }
 
   public createInvite(): void {
-    this.http.post<boolean>(this.baseUrl + 'invite', { email: this.inviteEmail })
+    this.http.post<boolean>(this.baseUrl + `invite?lang=${this.selectedLang}`, { email: this.inviteEmail })
       .subscribe({
         next: newAdded => {
           if (newAdded) {

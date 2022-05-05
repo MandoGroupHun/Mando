@@ -5,8 +5,14 @@
 <p [hidden]="invites"><em>{{ 'INVITES.LOADING' | translate }}</em></p>
 <div [hidden]="!invites">
   <form class="mt-4 d-flex justify-content-between" (ngSubmit)="createInvite()" #newInviteForm="ngForm">
-    <input class="w-50" id="input-email" pInputText type="email" [(ngModel)]="inviteEmail" name="email"
-      placeholder="Email" />
+    <div class="d-flex justify-content-start w-75">
+      <input class="w-50 mx-1" id="input-email" pInputText type="email" [(ngModel)]="inviteEmail" name="email"
+        placeholder="Email" />
+      <label class="ml-3 my-auto">{{ 'INVITES.LANG' | translate }}:</label>
+      <p-selectButton class="mx-1" [options]="emailLangs" [(ngModel)]="selectedLang"
+        [ngModelOptions]="{standalone: true}">
+      </p-selectButton>
+    </div>
     <div><button type="submit" pButton>{{ 'INVITES.NEW_INVITE' | translate }}</button></div>
   </form>
   <hr />

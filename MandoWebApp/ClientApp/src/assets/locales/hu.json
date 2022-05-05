@@ -34,6 +34,7 @@
     "LOADING": "Betöltés...",
     "NEW_INVITE": "Új Meghívó",
     "PENDING_INVITES": "Függőben levő meghívók",
+    "LANG": "Nyelv",
     "TABLE": {
       "STATUS_HEADER": "Állapot",
       "CREATED_AT": "Létrehozva"
@@ -87,7 +88,7 @@
     "NEW_DONATION_ENG": "Adomány megnevezése (angolul)",
     "QUANTITY": "Mennyiség",
     "SIZE": "Méret",
-    "SAVE": "Mentés",  
+    "SAVE": "Mentés",
     "SIZETYPE": {
       "NAME": "Méret típus",
       "NUMBERED": "Számozott",
