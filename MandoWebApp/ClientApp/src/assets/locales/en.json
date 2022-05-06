@@ -49,7 +49,8 @@
     "ADMIN": "Admin",
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "User Management",
-      "INVITES": "Invites"
+      "INVITES": "Invites",
+      "UNIT_MANAGEMENT": "Unit Management"
     },
     "PENDING_DONATIONS": "Pending donations"
   },
