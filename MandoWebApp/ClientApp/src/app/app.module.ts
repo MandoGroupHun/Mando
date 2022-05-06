@@ -15,7 +15,6 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddProductBuildingComponent } from './products/add-product-building.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -28,6 +27,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LocalizedMessageService } from './_services/localized-message.service';
 import { LanguageInterceptor } from './_services/language.interceptor';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { AddDonationComponent } from './products/add-donation/add-donation.component';
+import { TooltipModule } from 'primeng/tooltip';
+import { PendingDonationsComponent } from './products/pending-donations/pending-donations.component';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { ProductService } from './_services/product.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -41,8 +48,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeComponent,
     InvitesComponent,
     UserManagementComponent,
-    AddProductBuildingComponent,
-    SuppliesComponent
+    AddDonationComponent,
+    SuppliesComponent,
+    PendingDonationsComponent
+  ],
+  entryComponents: [
+    AddDonationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -67,19 +78,26 @@ export function HttpLoaderFactory(http: HttpClient) {
     DropdownModule,
     InputNumberModule,
     ProgressSpinnerModule,
+    ToggleButtonModule,
+    TooltipModule,
+    DynamicDialogModule,
+    ConfirmDialogModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
       { path: 'usermanagement', component: UserManagementComponent, canActivate: [AuthorizeGuard] },
-      { path: 'products', component: AddProductBuildingComponent, canActivate: [AuthorizeGuard] },
+      { path: 'products', component: AddDonationComponent, canActivate: [AuthorizeGuard] },
       { path: 'supplies', component: SuppliesComponent, canActivate: [AuthorizeGuard] },
+      { path: 'pending-donations', component: PendingDonationsComponent, canActivate: [AuthorizeGuard] }
     ])
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LanguageInterceptor, multi: true },
     MessageService,
-    LocalizedMessageService
+    LocalizedMessageService,
+    ProductService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Security.Claims;
+using CSharpFunctionalExtensions;
 using MandoWebApp.Models.ViewModels;
 
 namespace MandoWebApp.Services.UserManangement
@@ -7,5 +8,6 @@ namespace MandoWebApp.Services.UserManangement
     {
         Task<UserManagement> GetUsersAndRoles();
         Task<Result> UpdateRolesAsync(UserManagementItem updatedUser, int updaterPriority);
+        string? GetUserId(ClaimsPrincipal user);
     }
 }

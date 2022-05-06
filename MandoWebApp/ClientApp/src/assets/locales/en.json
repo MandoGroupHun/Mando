@@ -15,6 +15,18 @@
     "USER_MANAGEMENT": {
       "SUCCESS_DETAIL": "User updated!",
       "ERROR_DETAIL": "We failed to update the user. Details: "
+    },
+    "ADDDONATION": {
+      "SUCCESS_DETAIL": "Donation saved successfully",
+      "ERROR_DETAIL": "Donation cannot be saved"
+    },
+    "PENDING_DONATION": {
+      "SUCCESS_DETAIL": "Donation saved successfully",
+      "ERROR_DETAIL": "Donation cannot be saved",
+      "DELETE_QUESTION": "Do you want to delete this donation?",
+      "ACCEPT_QUESTION": "Do you want to accept this donation?",
+      "SUCCESS_DELETE": "Donation deleted successfully",
+      "ERROR_DELETE": "Donation cannot be deleted"
     }
   },
   "INVITES": {
@@ -38,7 +50,8 @@
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "User Management",
       "INVITES": "Invites"
-    }
+    },
+    "PENDING_DONATIONS": "Pending donations"
   },
   "SUPPLIES": {
     "HEADER": "Supplies",
@@ -64,5 +77,46 @@
       },
       "SAVE": "Save"
     }
+  },
+  "ADDDONATION": {
+    "LOCATION": "Location",
+    "CATEGORY": "Category",
+    "CHOOSE_CATEGORY": "Choose a category",
+    "DONATION": "Name of the donation",
+    "NEW_DONATION_HUN": "Name of the donation (hungarian)",
+    "NEW_DONATION_ENG": "Name of the donation (english)",
+    "QUANTITY": "Quantity",
+    "SIZE": "Size",
+    "SAVE": "Save",
+    "SIZETYPE": {
+      "NAME": "Size type",
+      "NUMBERED": "Numbered",
+      "CHARACTER": "Characters",
+      "CHILD": "Child"
+    },
+    "NEWPRODUCT": {
+      "ON": "If you can't find the donation in the list, click here:",
+      "OFF": "If you want to choose an existing donation, click here:"
+    },
+    "CHOOSE_UNIT": "Choose a unit",
+    "CHOOSE_SIZETYPE": "Choose a size type",
+    "CHOOSE_SIZE": "Enter the size",
+    "UNIT": "Unit"
+  },
+  "PENDING_DONATIONS": {
+    "HEADER": "Pending Donations",
+    "LOADING": "Loading...",
+    "TABLE": {
+      "SEARCH_KEYWORD": "Search keyword",
+      "PRODUCTNAME": "Name",
+      "CATEGORY": "Category",
+      "QUANTITY": "Quantity",
+      "SIZETYPE": "Size type",
+      "SIZE": "Size",
+      "RECORDEDAT": "Date",
+      "USERNAME": "User"
+    },
+    "CONFIRMATION": "Confirmation",
+    "EDIT_DONATION": "Edit Donation"
   }
 }

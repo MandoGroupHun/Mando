@@ -7,6 +7,39 @@
 * Run `npm install` from an elevated commadn prompt from inside the `MandoWebApp/ClientApp` (this may be done automatically if you run VS as administrator 🤔)
 * Start application
 
+## CI/CD
+
+Every contributions to main branch will trigger a new build and deployment to production, as described in `.github/workflows/cd-cd.yml` file.
+
+## Production stack
+
+The production stack is described in `docker-compose.yml` file. Run it simply with the below command in `./MandoWebApp` directory.
+```
+docker-compose up
+```
+Press `Ctrl+C` to stop it.
+
+### Secret management
+
+Add build time secrets [here](https://github.com/MandoGroupHun/Mando/settings/secrets/actions/new).
+Reference them in `ci-cd.yml` as needed:
+```
+with:
+    username: ${{ secrets.DOCKERHUB_TOKEN }}
+```
+
+Add runtime secrets [here](https://github.com/MandoGroupHun/Mando/settings/environments/476737565/edit).
+Make them available for the environment in `ci-cd.yml` like
+```
+env:
+    DB_APP_PASSWORD: ${{ secrets.DB_APP_PASSWORD }}
+```
+Reference runtime secrets in `docker-compose.yml` to make them available for the app
+```
+environment:
+    - Db__Password=${DB_APP_PASSWORD}
+```
+
 ## MariaDB setup
 
 * Download [MariaDB Server 10.6.](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.6.7) (That's the latest version supported by [Pomelo.EntityFrameworkCore.MySql](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#supported-database-servers-and-versions))

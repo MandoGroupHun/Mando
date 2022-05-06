@@ -1,0 +1,44 @@
+<p-toast [breakpoints]="{'420px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+<p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
+<div *ngIf="!isLoading" class="container">
+    <div class="form-group">
+        <label class="form-label" for="dropdownBuilding">{{ 'ADDDONATION.LOCATION' | translate }}</label>
+        <p-dropdown class="form-control" id="dropdownBuilding" [options]="buildings" [(ngModel)]="selectedBuilding" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="dropdownCategory">{{ 'ADDDONATION.CATEGORY' | translate }}</label>
+        <p-dropdown class="form-control" id="dropdownCategory" [options]="categories" [(ngModel)]="selectedCategory" (onChange)="onCategoryChange($event)" [placeholder]="'ADDDONATION.CHOOSE_CATEGORY' | translate" optionLabel="name"></p-dropdown>
+    </div>
+    <div class="form-group" *ngIf="!!selectedCategory">
+        <label class="form-label" for="product" *ngIf="!isNewProduct">{{ 'ADDDONATION.DONATION' | translate }}</label>
+        <label class="form-label" for="product" *ngIf="isNewProduct">{{ 'ADDDONATION.NEW_DONATION_HUN' | translate }}</label>
+        <p-autoComplete *ngIf="!isNewProduct" class="form-control" id="product" [(ngModel)]="selectedProduct" [showEmptyMessage]="true" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="name" [minLength]="1" [dropdown]="true" emptyMessage="Nincs találat"></p-autoComplete>
+        <br *ngIf="isNewProduct"><input *ngIf="isNewProduct" id="product" type="text" pInputText [(ngModel)]="newHuProductName"/>
+        <div>
+            <label *ngIf="!isNewProduct">{{ 'ADDDONATION.NEWPRODUCT.ON' | translate }}</label>
+            <label *ngIf="isNewProduct">{{ 'ADDDONATION.NEWPRODUCT.OFF' | translate }}</label>
+            &nbsp;<p-toggleButton [(ngModel)]="isNewProduct" onIcon="pi pi-minus" offIcon="pi pi-plus" (onChange)="newProductChanged($event)"></p-toggleButton>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="!!selectedCategory && isNewProduct">
+        <label class="form-label" for="product">{{ 'ADDDONATION.NEW_DONATION_ENG' | translate }}</label><br>
+        <input *ngIf="isNewProduct" id="product" type="text" pInputText [(ngModel)]="newEnProductName"/>
+    </div>
+    <div class="form-group" *ngIf="isNewProduct">
+        <label class="form-label" for="dropdownUnit">{{ 'ADDDONATION.UNIT' | translate }}</label><br>
+        <p-dropdown class="form-control" id="dropdownUnit" [options]="units" [(ngModel)]="selectedUnit" [placeholder]="'ADDDONATION.CHOOSE_UNIT' | translate" optionLabel="name" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="form-group" *ngIf="!!selectedProduct || (isNewProduct && !!selectedUnit)">
+        <label class="form-label" for="inputQuantity">{{ 'ADDDONATION.QUANTITY' | translate }}</label>
+        <p-inputNumber class="form-control" id="inputQuantity" [(ngModel)]="quantity" mode="decimal" [showButtons]="true" inputId="minmax-buttons" spellcheck="false" [min]="0" [max]="100" [suffix]="getSuffix()"></p-inputNumber>
+    </div>
+    <div class="form-group" *ngIf="isNewProduct">
+        <label class="form-label" for="dropdownSizeType">{{ 'ADDDONATION.SIZETYPE.NAME' | translate }}</label><br>
+        <p-dropdown class="form-control" id="dropdownSizeType" [options]="sizeTypes" [(ngModel)]="selectedSizeType" [placeholder]="'ADDDONATION.CHOOSE_SIZETYPE' | translate" optionLabel="name" [showClear]="true"></p-dropdown>
+    </div>
+    <div class="form-group" *ngIf="!!selectedProduct?.sizeType || !!selectedSizeType">
+        <label class="form-label" for="inputSize">{{ 'ADDDONATION.SIZE' | translate }}</label><br>
+        <input id="inputSize" type="text" pInputText [(ngModel)]="size" [pTooltip]="getSizeToolTip()" [placeholder]="'ADDDONATION.CHOOSE_SIZE' | translate" tooltipEvent="focus"/>
+    </div>
+    <p-button type="submit" [label]="'ADDDONATION.SAVE' | translate" icon="pi pi-check" iconPos="left" [disabled]="shouldDisableSaveButton()" (onClick)="createBuildingProduct()"></p-button>
+</div>

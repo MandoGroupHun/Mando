@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using MandoWebApp.Models;
 
-namespace MandoWebApp.Services
+namespace MandoWebApp.Services.InviteService
 {
-    public interface IInviteManager
+    public interface IInviteService
     {
         public Invite? GetInvite(string inviteId);
         public Task<Result> UpdateInviteStatusAsync(string inviteId, InviteStatus status);

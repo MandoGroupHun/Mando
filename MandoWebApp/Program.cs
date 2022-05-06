@@ -3,15 +3,16 @@ using IdentityModel;
 using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Options;
-using MandoWebApp.Services;
 using MandoWebApp.Services.BuildingService;
 using MandoWebApp.Services.EmailSender;
+using MandoWebApp.Services.InviteService;
 using MandoWebApp.Services.ProductService;
 using MandoWebApp.Services.UnitService;
 using MandoWebApp.Services.UserManangement;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +74,18 @@ builder.Services.Configure<JwtBearerOptions>(
         options.MapInboundClaims = false;
     });
 
+// Prevent HTTPS redirection loop with traefik in production
+// Solution: https://laimis.medium.com/couple-issues-with-https-redirect-asp-net-core-7021cf383e00
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+  {
+      options.ForwardedHeaders = 
+          ForwardedHeaders.XForwardedFor | 
+          ForwardedHeaders.XForwardedProto;
+
+      options.KnownNetworks.Clear();
+      options.KnownProxies.Clear();
+  });
+
 RegisterOptions(builder);
 
 RegisterServices(builder);
@@ -90,6 +103,7 @@ else
     app.UseHsts();
 }
 
+app.UseForwardedHeaders();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -111,12 +125,12 @@ static void RegisterOptions(WebApplicationBuilder builder)
 {
     builder.Services.AddOptions<MandoAuthOptions>().BindConfiguration("Authentication");
     builder.Services.AddOptions<EmailOptions>().BindConfiguration("Email");
-    builder.Services.AddOptions<DbOptions>().BindConfiguration("MariaDB");
+    builder.Services.AddOptions<DbOptions>().BindConfiguration("Db");
 }
 
 static void RegisterServices(WebApplicationBuilder builder)
 {
-    builder.Services.AddTransient<IInviteManager, InviteManager>();
+    builder.Services.AddTransient<IInviteService, InviteService>();
     builder.Services.AddTransient<IEmailSender, EmailSender>();
     builder.Services.AddTransient<IProductService, ProductService>();
     builder.Services.AddTransient<IUserManagementService, UserManagementService>();
