@@ -35,6 +35,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ProductService } from './_services/product.service';
+import { UnitService } from './_services/unit.service';
 import { UnitsComponent } from './units/units.component';
 
 // AoT requires an exported function for factories
@@ -100,6 +101,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MessageService,
     LocalizedMessageService,
     ProductService,
+    UnitService,
     ConfirmationService
   ],
   bootstrap: [AppComponent]
