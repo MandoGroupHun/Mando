@@ -27,6 +27,10 @@
       "ACCEPT_QUESTION": "Do you want to accept this donation?",
       "SUCCESS_DELETE": "Donation deleted successfully",
       "ERROR_DELETE": "Donation cannot be deleted"
+    },
+    "UNITS": {
+      "SUCCESS_DETAIL": "Unit saved successfully",
+      "ERROR_DETAIL": "Unit cannot be saved"
     }
   },
   "INVITES": {
@@ -119,5 +123,10 @@
     },
     "CONFIRMATION": "Confirmation",
     "EDIT_DONATION": "Edit Donation"
+  },
+  "UNITS": {
+    "HU_UNIT_NAME": "Unit name in hungarian",
+    "EN_UNIT_NAME": "Unit name in english",
+    "SAVE": "Save"
   }
 }

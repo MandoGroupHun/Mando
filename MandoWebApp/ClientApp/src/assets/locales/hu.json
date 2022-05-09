@@ -27,6 +27,10 @@
       "ACCEPT_QUESTION": "Biztosan el akarod fogadni adományt?",
       "SUCCESS_DELETE": "Adomány sikeresen törölve",
       "ERROR_DELETE": "Adomány törlése sikertelen"
+    },
+    "UNITS": {
+      "SUCCESS_DETAIL": "Egység sikeresen hozzáadva",
+      "ERROR_DETAIL": "Egység hozzáadása sikertelen"
     }
   },
   "INVITES": {
@@ -119,5 +123,10 @@
     },
     "CONFIRMATION": "Megerősítés",
     "EDIT_DONATION": "Adomány szerkesztése"
+  },
+  "UNITS": {
+    "HU_UNIT_NAME": "Egység neve magyarul",
+    "EN_UNIT_NAME": "Egység neve angolul",
+    "SAVE": "Mentés"
   }
 }
