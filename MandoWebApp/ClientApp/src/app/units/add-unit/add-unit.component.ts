@@ -1,14 +1,14 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
-import { LocalizedMessageService } from '../_services/localized-message.service';
-import { UnitService } from '../_services/unit.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Inject } from '@angular/core';
+import { LocalizedMessageService } from '../../_services/localized-message.service';
+import { UnitService } from '../../_services/unit.service';
 
 @Component({
-  selector: 'app-units',
-  templateUrl: './units.component.html',
-  styleUrls: ['./units.component.css']
+  selector: 'app-add-unit',
+  templateUrl: './add-unit.component.html',
+  styleUrls: ['./add-unit.component.css']
 })
-export class UnitsComponent {
+export class AddUnitComponent {
 
   public newUnitHuName: string | undefined;
   public newUnitEnName: string | undefined;

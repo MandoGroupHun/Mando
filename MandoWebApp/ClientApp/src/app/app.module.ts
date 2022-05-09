@@ -36,7 +36,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ProductService } from './_services/product.service';
 import { UnitService } from './_services/unit.service';
-import { UnitsComponent } from './units/units.component';
+import { AddUnitComponent } from './units/add-unit/add-unit.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -53,7 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddDonationComponent,
     SuppliesComponent,
     PendingDonationsComponent,
-    UnitsComponent
+    AddUnitComponent
   ],
   entryComponents: [
     AddDonationComponent
@@ -92,7 +92,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       { path: 'products', component: AddDonationComponent, canActivate: [AuthorizeGuard] },
       { path: 'supplies', component: SuppliesComponent, canActivate: [AuthorizeGuard] },
       { path: 'pending-donations', component: PendingDonationsComponent, canActivate: [AuthorizeGuard] },
-      { path: 'units', component: UnitsComponent, canActivate: [AuthorizeGuard] }
+      { path: 'add-unit', component: AddUnitComponent, canActivate: [AuthorizeGuard] }
     ])
   ],
   providers: [
