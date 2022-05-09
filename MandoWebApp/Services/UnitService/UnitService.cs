@@ -33,7 +33,7 @@ namespace MandoWebApp.Services.UnitService
             {
                 _logger.LogError(ex, "Exception during creation of new unit");
 
-                return Result.Failure("Error during bulding product creation");
+                return Result.Failure("Error during new unit creation");
             }
 
             return Result.Success();

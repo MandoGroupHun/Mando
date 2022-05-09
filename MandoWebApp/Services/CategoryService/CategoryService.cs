@@ -23,7 +23,7 @@ namespace MandoWebApp.Services.CategoryService
 
                 if (existingCategory is not null)
                 {
-                    return Result.Failure("The unit already exists.");
+                    return Result.Failure("The category already exists.");
                 }
 
                 await _dbContext.AddAsync(category);
@@ -31,9 +31,9 @@ namespace MandoWebApp.Services.CategoryService
             } 
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception during creation of new unit");
+                _logger.LogError(ex, "Exception during creation of new category");
 
-                return Result.Failure("Error during bulding product creation");
+                return Result.Failure("Error during new category creation");
             }
 
             return Result.Success();
