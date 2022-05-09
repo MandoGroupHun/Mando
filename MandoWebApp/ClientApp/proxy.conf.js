@@ -11,6 +11,7 @@ const PROXY_CONFIG = [
       "/product",
       "/building",
       "/unit",
+      "/category",
       "/_configuration",
       "/.well-known",
       "/Identity",

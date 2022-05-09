@@ -1,0 +1,13 @@
+<p-toast [breakpoints]="{'420px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+
+<div class="form-group">
+    <label class="form-label" for="huName">{{ 'CATEGORIES.HU_CATEGORY_NAME' | translate }}</label><br>
+    <input id="huName" type="text" pInputText [(ngModel)]="newCategoryHuName"/>
+</div>
+
+<div class="form-group">
+    <label class="form-label" for="enName">{{ 'CATEGORIES.EN_CATEGORY_NAME' | translate }}</label><br>
+    <input id="enName" type="text" pInputText [(ngModel)]="newCategoryEnName"/>
+</div>
+
+<p-button type="submit" [label]="'CATEGORIES.SAVE' | translate" icon="pi pi-check" iconPos="left" (onClick)="createCategory()"></p-button>

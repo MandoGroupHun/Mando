@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AddUnit } from '../models/api-inputs/add-unit';
+import { AddCategory } from '../models/api-inputs/add-category';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UnitService {
+export class CategoryService {
 
   constructor(@Inject('BASE_URL') public baseUrl: string, private http: HttpClient) {}
 
-  public addUnit(input: AddUnit): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'unit/addunit', input);
+  public addCategory(input: AddCategory): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'category/addcategory', input);
   }
 }

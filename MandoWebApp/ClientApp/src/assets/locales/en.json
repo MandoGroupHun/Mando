@@ -31,6 +31,10 @@
     "UNITS": {
       "SUCCESS_DETAIL": "Unit saved successfully",
       "ERROR_DETAIL": "Unit cannot be saved"
+    },
+    "CATEGORIES": {
+      "SUCCESS_DETAIL": "Category saved successfully",
+      "ERROR_DETAIL": "Category cannot be saved"
     }
   },
   "INVITES": {
@@ -54,7 +58,8 @@
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "User Management",
       "INVITES": "Invites",
-      "UNIT_MANAGEMENT": "Unit Management"
+      "UNIT_MANAGEMENT": "Unit Management",
+      "CATEGORY_MANAGEMENT": "Category Management"
     },
     "PENDING_DONATIONS": "Pending donations"
   },
@@ -127,6 +132,11 @@
   "UNITS": {
     "HU_UNIT_NAME": "Unit name in hungarian",
     "EN_UNIT_NAME": "Unit name in english",
+    "SAVE": "Save"
+  },
+  "CATEGORIES": {
+    "HU_CATEGORY_NAME": "Category name in hungarian",
+    "EN_CATEGORY_NAME": "Category name in english",
     "SAVE": "Save"
   }
 }

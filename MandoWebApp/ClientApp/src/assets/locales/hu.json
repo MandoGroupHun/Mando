@@ -31,6 +31,10 @@
     "UNITS": {
       "SUCCESS_DETAIL": "Egység sikeresen hozzáadva",
       "ERROR_DETAIL": "Egység hozzáadása sikertelen"
+    },
+    "CATEGORIES": {
+      "SUCCESS_DETAIL": "Kategória sikeresen hozzáadva",
+      "ERROR_DETAIL": "Kategória  hozzáadása sikertelen"
     }
   },
   "INVITES": {
@@ -54,7 +58,8 @@
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "Felhasználók kezelése",
       "INVITES": "Meghívók",
-      "UNIT_MANAGEMENT": "Egységek kezelése"
+      "UNIT_MANAGEMENT": "Egységek kezelése",
+      "CATEGORY_MANAGEMENT": "Kategóriák kezelése"
     },
     "PENDING_DONATIONS": "Átnézésre váró adományok"
   },
@@ -127,6 +132,11 @@
   "UNITS": {
     "HU_UNIT_NAME": "Egység neve magyarul",
     "EN_UNIT_NAME": "Egység neve angolul",
+    "SAVE": "Mentés"
+  },
+  "CATEGORIES": {
+    "HU_CATEGORY_NAME": "Kategória neve magyarul",
+    "EN_CATEGORY_NAME": "Kategória neve angolul",
     "SAVE": "Mentés"
   }
 }
