@@ -4,6 +4,7 @@ using MandoWebApp.Data;
 using MandoWebApp.Models;
 using MandoWebApp.Options;
 using MandoWebApp.Services.BuildingService;
+using MandoWebApp.Services.CategoryService;
 using MandoWebApp.Services.EmailSender;
 using MandoWebApp.Services.InviteService;
 using MandoWebApp.Services.ProductService;
@@ -136,4 +137,5 @@ static void RegisterServices(WebApplicationBuilder builder)
     builder.Services.AddTransient<IUserManagementService, UserManagementService>();
     builder.Services.AddTransient<IBuildingService, BuildingService>();
     builder.Services.AddTransient<IUnitService, UnitService>();
+    builder.Services.AddTransient<ICategoryService, CategoryService>();
 }
