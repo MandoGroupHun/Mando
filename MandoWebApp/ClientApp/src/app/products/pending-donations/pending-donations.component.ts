@@ -14,11 +14,12 @@ import { ProductService } from 'src/app/_services/product.service';
 @Component({
   selector: 'app-pending-donations',
   templateUrl: './pending-donations.component.html',
+  styleUrls: ['./pending-donations.component.css'],
   providers: [DialogService]
 })
 export class PendingDonationsComponent implements OnDestroy {
   public pendingDonations: PendingDonation[] = [];
-
+  
   private ngUnsubscribe = new Subject;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') public baseUrl: string,
@@ -67,8 +68,7 @@ export class PendingDonationsComponent implements OnDestroy {
             size: pendingDonation.size,
             buildingId: pendingDonation.buildingId
           },
-          header: message,
-          width: '50%'
+          header: message
         });
 
         ref.onClose.subscribe((success: boolean) => {
