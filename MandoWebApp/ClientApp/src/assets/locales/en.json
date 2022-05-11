@@ -130,13 +130,13 @@
     "EDIT_DONATION": "Edit Donation"
   },
   "UNITS": {
-    "HU_UNIT_NAME": "Unit name in hungarian",
-    "EN_UNIT_NAME": "Unit name in english",
+    "HU_UNIT_NAME": "Unit name in Hungarian",
+    "EN_UNIT_NAME": "Unit name in English",
     "SAVE": "Save"
   },
   "CATEGORIES": {
-    "HU_CATEGORY_NAME": "Category name in hungarian",
-    "EN_CATEGORY_NAME": "Category name in english",
+    "HU_CATEGORY_NAME": "Category name in Hungarian",
+    "EN_CATEGORY_NAME": "Category name in English",
     "SAVE": "Save"
   }
 }

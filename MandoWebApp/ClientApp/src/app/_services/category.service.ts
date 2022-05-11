@@ -11,6 +11,6 @@ export class CategoryService {
   constructor(@Inject('BASE_URL') public baseUrl: string, private http: HttpClient) {}
 
   public addCategory(input: AddCategory): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'category/addcategory', input);
+    return this.http.post<any>(this.baseUrl + 'category/add', input);
   }
 }

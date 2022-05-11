@@ -19,7 +19,7 @@ namespace MandoWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCategory([FromBody] CreateCategoryInputModel createCategory)
+        public async Task<IActionResult> Add([FromBody] CreateCategoryInputModel createCategory)
         {
             var addResult = await _categoryService.AddCategoryAsync(new Category
             {

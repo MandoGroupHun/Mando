@@ -19,7 +19,7 @@ namespace MandoWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUnit([FromBody] CreateUnitInputModel createUnit)
+        public async Task<IActionResult> Add([FromBody] CreateUnitInputModel createUnit)
         {
             var addResult = await _unitService.AddUnitAsync(new Unit
             {
