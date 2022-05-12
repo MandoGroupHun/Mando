@@ -27,6 +27,14 @@
       "ACCEPT_QUESTION": "Do you want to accept this donation?",
       "SUCCESS_DELETE": "Donation deleted successfully",
       "ERROR_DELETE": "Donation cannot be deleted"
+    },
+    "UNITS": {
+      "SUCCESS_DETAIL": "Unit saved successfully",
+      "ERROR_DETAIL": "Unit cannot be saved"
+    },
+    "CATEGORIES": {
+      "SUCCESS_DETAIL": "Category saved successfully",
+      "ERROR_DETAIL": "Category cannot be saved"
     }
   },
   "INVITES": {
@@ -49,7 +57,9 @@
     "ADMIN": "Admin",
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "User Management",
-      "INVITES": "Invites"
+      "INVITES": "Invites",
+      "UNIT_MANAGEMENT": "Unit Management",
+      "CATEGORY_MANAGEMENT": "Category Management"
     },
     "PENDING_DONATIONS": "Pending donations"
   },
@@ -118,5 +128,15 @@
     },
     "CONFIRMATION": "Confirmation",
     "EDIT_DONATION": "Edit Donation"
+  },
+  "UNITS": {
+    "HU_UNIT_NAME": "Unit name in Hungarian",
+    "EN_UNIT_NAME": "Unit name in English",
+    "SAVE": "Save"
+  },
+  "CATEGORIES": {
+    "HU_CATEGORY_NAME": "Category name in Hungarian",
+    "EN_CATEGORY_NAME": "Category name in English",
+    "SAVE": "Save"
   }
 }

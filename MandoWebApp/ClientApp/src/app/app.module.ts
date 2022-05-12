@@ -35,6 +35,10 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ProductService } from './_services/product.service';
+import { UnitService } from './_services/unit.service';
+import { AddUnitComponent } from './units/add-unit/add-unit.component';
+import { AddCategoryComponent } from './categories/add-category/add-category/add-category.component';
+import { CategoryService } from './_services/category.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -50,7 +54,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserManagementComponent,
     AddDonationComponent,
     SuppliesComponent,
-    PendingDonationsComponent
+    PendingDonationsComponent,
+    AddUnitComponent,
+    AddCategoryComponent
   ],
   entryComponents: [
     AddDonationComponent
@@ -88,7 +94,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       { path: 'usermanagement', component: UserManagementComponent, canActivate: [AuthorizeGuard] },
       { path: 'products', component: AddDonationComponent, canActivate: [AuthorizeGuard] },
       { path: 'supplies', component: SuppliesComponent, canActivate: [AuthorizeGuard] },
-      { path: 'pending-donations', component: PendingDonationsComponent, canActivate: [AuthorizeGuard] }
+      { path: 'pending-donations', component: PendingDonationsComponent, canActivate: [AuthorizeGuard] },
+      { path: 'add-unit', component: AddUnitComponent, canActivate: [AuthorizeGuard] },
+      { path: 'add-category', component: AddCategoryComponent, canActivate: [AuthorizeGuard] }
     ])
   ],
   providers: [
@@ -97,6 +105,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MessageService,
     LocalizedMessageService,
     ProductService,
+    UnitService,
+    CategoryService,
     ConfirmationService
   ],
   bootstrap: [AppComponent]

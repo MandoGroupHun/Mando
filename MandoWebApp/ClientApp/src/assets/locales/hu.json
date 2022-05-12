@@ -27,6 +27,14 @@
       "ACCEPT_QUESTION": "Biztosan el akarod fogadni adományt?",
       "SUCCESS_DELETE": "Adomány sikeresen törölve",
       "ERROR_DELETE": "Adomány törlése sikertelen"
+    },
+    "UNITS": {
+      "SUCCESS_DETAIL": "Egység sikeresen hozzáadva",
+      "ERROR_DETAIL": "Egység hozzáadása sikertelen"
+    },
+    "CATEGORIES": {
+      "SUCCESS_DETAIL": "Kategória sikeresen hozzáadva",
+      "ERROR_DETAIL": "Kategória  hozzáadása sikertelen"
     }
   },
   "INVITES": {
@@ -49,7 +57,9 @@
     "ADMIN": "Admin",
     "ADMIN_MENU": {
       "USER_MANAGEMENT": "Felhasználók kezelése",
-      "INVITES": "Meghívók"
+      "INVITES": "Meghívók",
+      "UNIT_MANAGEMENT": "Egységek kezelése",
+      "CATEGORY_MANAGEMENT": "Kategóriák kezelése"
     },
     "PENDING_DONATIONS": "Átnézésre váró adományok"
   },
@@ -118,5 +128,15 @@
     },
     "CONFIRMATION": "Megerősítés",
     "EDIT_DONATION": "Adomány szerkesztése"
+  },
+  "UNITS": {
+    "HU_UNIT_NAME": "Egység neve magyarul",
+    "EN_UNIT_NAME": "Egység neve angolul",
+    "SAVE": "Mentés"
+  },
+  "CATEGORIES": {
+    "HU_CATEGORY_NAME": "Kategória neve magyarul",
+    "EN_CATEGORY_NAME": "Kategória neve angolul",
+    "SAVE": "Mentés"
   }
 }

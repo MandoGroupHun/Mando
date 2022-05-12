@@ -10,6 +10,8 @@ const PROXY_CONFIG = [
       "/usermanagement",
       "/product",
       "/building",
+      "/unit",
+      "/category",
       "/_configuration",
       "/.well-known",
       "/Identity",
