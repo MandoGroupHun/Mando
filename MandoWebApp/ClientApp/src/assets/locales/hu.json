@@ -130,13 +130,13 @@
     "EDIT_DONATION": "Adomány szerkesztése"
   },
   "UNITS": {
-    "HU_UNIT_NAME": "Egység neve Magyarul",
-    "EN_UNIT_NAME": "Egység neve Angolul",
+    "HU_UNIT_NAME": "Egység neve magyarul",
+    "EN_UNIT_NAME": "Egység neve angolul",
     "SAVE": "Mentés"
   },
   "CATEGORIES": {
-    "HU_CATEGORY_NAME": "Kategória neve Magyarul",
-    "EN_CATEGORY_NAME": "Kategória neve Angolul",
+    "HU_CATEGORY_NAME": "Kategória neve magyarul",
+    "EN_CATEGORY_NAME": "Kategória neve angolul",
     "SAVE": "Mentés"
   }
 }
