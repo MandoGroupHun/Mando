@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Profile } from 'oidc-client';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { AuthorizeService, isInRole } from '../../api-authorization/authorize.service';
 import { ProductService } from '../_services/product.service';
 
@@ -44,6 +44,10 @@ export class NavMenuComponent {
       next: result => this.pendingDonationCount = result,
       error: (error: HttpErrorResponse) => console.error(error)
     });
+  }
+
+  public isLoggedIn(): boolean {
+    return !!this.user;
   }
 
   public isPriviliged(): boolean {

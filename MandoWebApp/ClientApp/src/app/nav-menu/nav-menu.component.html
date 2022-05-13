@@ -9,18 +9,25 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedIn()">
+            <a class="nav-link" [routerLink]="['/supplies']">{{ 'NAVMENU.SUPPLIES' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedIn()">
             <a class="nav-link" [routerLink]="['/products']">{{ 'NAVMENU.NEW_DONATION' | translate }}</a>
           </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isPriviliged()">
+            <a class="nav-link" [routerLink]="['/add-unit']">{{ 'NAVMENU.UNIT_MANAGEMENT' | translate }}</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isPriviliged()">
+            <a class="nav-link" [routerLink]="['/add-category']">{{ 'NAVMENU.CATEGORY_MANAGEMENT' | translate
+              }}</a>
+          </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link" [routerLink]="['/pending-donations']">
+            <a class="nav-link" [routerLink]="['/pending-donations']" *ngIf="isPriviliged()">
               {{ 'NAVMENU.PENDING_DONATIONS' | translate }}
               <span *ngIf="!!pendingDonationCount && pendingDonationCount > 0" class="badge bg-secondary ml-1">{{
                 pendingDonationCount }}</span>
             </a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link" [routerLink]="['/supplies']">{{ 'NAVMENU.SUPPLIES' | translate }}</a>
           </li>
           <li class="nav-item dropdown" *ngIf="isPriviliged()">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -38,18 +45,11 @@
                   {{ 'NAVMENU.ADMIN_MENU.INVITES' | translate }}
                 </a>
               </li>
-              <li>
-                <a class="dropdown-item" [routerLink]="['/add-unit']">
-                  {{ 'NAVMENU.ADMIN_MENU.UNIT_MANAGEMENT' | translate }}
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" [routerLink]="['/add-category']">
-                  {{ 'NAVMENU.ADMIN_MENU.CATEGORY_MANAGEMENT' | translate }}
-                </a>
-              </li>
             </ul>
           </li>
+        </ul>
+        <app-login-menu></app-login-menu>
+        <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="langDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
@@ -63,7 +63,6 @@
             </ul>
           </li>
         </ul>
-        <app-login-menu></app-login-menu>
       </div>
     </div>
   </nav>

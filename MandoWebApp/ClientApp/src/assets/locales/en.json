@@ -53,12 +53,12 @@
     "LOGIN": "Login",
     "NEW_DONATION": "Register new donation",
     "SUPPLIES": "Supplies",
-    "ADMIN": "Admin",
+    "UNIT_MANAGEMENT": "Units",
+    "CATEGORY_MANAGEMENT": "Categories",
+    "ADMIN": "Manage",
     "ADMIN_MENU": {
-      "USER_MANAGEMENT": "User Management",
-      "INVITES": "Invites",
-      "UNIT_MANAGEMENT": "Unit Management",
-      "CATEGORY_MANAGEMENT": "Category Management"
+      "USER_MANAGEMENT": "Users",
+      "INVITES": "Invites"
     },
     "PENDING_DONATIONS": "Pending donations"
   },

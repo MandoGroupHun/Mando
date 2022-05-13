@@ -53,12 +53,12 @@
     "LOGIN": "Belépés",
     "NEW_DONATION": "Új adomány",
     "SUPPLIES": "Készlet",
+    "UNIT_MANAGEMENT": "Egységek",
+    "CATEGORY_MANAGEMENT": "Kategóriák",
     "ADMIN": "Admin",
     "ADMIN_MENU": {
-      "USER_MANAGEMENT": "Felhasználók kezelése",
-      "INVITES": "Meghívók",
-      "UNIT_MANAGEMENT": "Egységek kezelése",
-      "CATEGORY_MANAGEMENT": "Kategóriák kezelése"
+      "USER_MANAGEMENT": "Felhasználók",
+      "INVITES": "Meghívók"
     },
     "PENDING_DONATIONS": "Átnézésre váró adományok"
   },
