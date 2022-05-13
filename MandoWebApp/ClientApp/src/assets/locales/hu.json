@@ -51,7 +51,6 @@
     "LOGOUT": "Kilépés",
     "REGISTER": "Regisztráció",
     "LOGIN": "Belépés",
-    "HOME": "Otthon",
     "NEW_DONATION": "Új adomány",
     "SUPPLIES": "Készlet",
     "ADMIN": "Admin",
@@ -97,7 +96,7 @@
     "NEW_DONATION_ENG": "Adomány megnevezése (angolul)",
     "QUANTITY": "Mennyiség",
     "SIZE": "Méret",
-    "SAVE": "Mentés",  
+    "SAVE": "Mentés",
     "SIZETYPE": {
       "NAME": "Méret típus",
       "NUMBERED": "Számozott",
