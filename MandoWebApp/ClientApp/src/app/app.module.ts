@@ -5,7 +5,6 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
 import { InvitesComponent } from './invites/invites.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
@@ -49,7 +48,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
     InvitesComponent,
     UserManagementComponent,
     AddDonationComponent,
@@ -89,7 +87,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DynamicDialogModule,
     ConfirmDialogModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: SuppliesComponent, canActivate: [AuthorizeGuard], pathMatch: 'full' },
       { path: 'invites', component: InvitesComponent, canActivate: [AuthorizeGuard] },
       { path: 'usermanagement', component: UserManagementComponent, canActivate: [AuthorizeGuard] },
       { path: 'products', component: AddDonationComponent, canActivate: [AuthorizeGuard] },
