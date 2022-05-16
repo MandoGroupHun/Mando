@@ -5,6 +5,6 @@ export interface AddPendingBuildingProduct {
     quantity: number;
     size: string | undefined;
     categoryId: number;
-    sizeType: string | undefined;
+    sizeTypeId: number | undefined;
     unitId: number;
 }

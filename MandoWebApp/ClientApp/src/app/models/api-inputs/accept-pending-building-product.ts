@@ -5,7 +5,7 @@ export interface AcceptPendingBuildingProduct {
     enProductName: string | undefined;
     buildingId: number;
     quantity: number;
-    sizeType: string | undefined;
+    sizeTypeId: number | undefined;
     size: string | undefined;
     unitId: number;
     productId: number | undefined;

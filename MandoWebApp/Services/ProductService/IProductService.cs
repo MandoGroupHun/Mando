@@ -19,5 +19,6 @@ namespace MandoWebApp.Services.ProductService
         Task<Result> DeletePendingBuildingProduct(long pendingBuildingProductId);
         Task<Result> AddProductAndBuildingProduct(Product product, BuildingProduct buildingProduct);
         Task<List<CategoryModel>> GetCategoriesAsync();
+        Task<List<SizeTypeModel>> GetSizeTypes();
     }
 }

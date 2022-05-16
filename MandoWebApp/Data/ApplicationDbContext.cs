@@ -36,4 +36,5 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     public DbSet<PendingBuildingProduct> PendingBuildingProducts { get; set; }
     public DbSet<Unit> Units { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<SizeType> SizeTypes { get; set; }
 }

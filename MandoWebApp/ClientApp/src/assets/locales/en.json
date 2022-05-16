@@ -97,12 +97,7 @@
     "QUANTITY": "Quantity",
     "SIZE": "Size",
     "SAVE": "Save",
-    "SIZETYPE": {
-      "NAME": "Size type",
-      "NUMBERED": "Numbered",
-      "CHARACTER": "Characters",
-      "CHILD": "Child"
-    },
+    "SIZETYPE": "Size type",
     "NEWPRODUCT": {
       "ON": "If you can't find the donation in the list, click here:",
       "OFF": "If you want to choose an existing donation, click here:"

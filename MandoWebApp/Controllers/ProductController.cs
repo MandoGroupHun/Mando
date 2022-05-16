@@ -40,6 +40,12 @@ public class ProductController : ControllerBase
         return _productService.GetSuppliesAsync();
     }
 
+    [HttpGet]
+    public Task<List<SizeTypeModel>> SizeTypes()
+    {
+        return _productService.GetSizeTypes();
+    }
+
     [HttpPost]
     public async Task<IActionResult> SupplyUpdate(SupplyModel supply)
     {
@@ -89,7 +95,7 @@ public class ProductController : ControllerBase
                 ENName = createPendingBuildingProduct.EnProductName,
                 CategoryID = createPendingBuildingProduct.CategoryId,
                 UnitID = createPendingBuildingProduct.UnitId,
-                SizeType = createPendingBuildingProduct.SizeType
+                SizeTypeID = createPendingBuildingProduct.SizeTypeId
             };
 
             addResult = await _productService.AddProductAndBuildingProduct(product, buildingProduct);
@@ -103,7 +109,7 @@ public class ProductController : ControllerBase
                 EnProductName = createPendingBuildingProduct.EnProductName,
                 CategoryID = createPendingBuildingProduct.CategoryId,
                 Quantity = createPendingBuildingProduct.Quantity,
-                SizeType = createPendingBuildingProduct.SizeType,
+                SizeTypeID = createPendingBuildingProduct.SizeTypeId,
                 Size = !string.IsNullOrWhiteSpace(createPendingBuildingProduct.Size) ? createPendingBuildingProduct.Size : string.Empty,
                 UnitID = createPendingBuildingProduct.UnitId
             });
@@ -138,7 +144,7 @@ public class ProductController : ControllerBase
                 ENName = acceptPendingBuildingProduct.EnProductName,
                 CategoryID = acceptPendingBuildingProduct.CategoryId,
                 UnitID = acceptPendingBuildingProduct.UnitId,
-                SizeType = acceptPendingBuildingProduct.SizeType
+                SizeTypeID = acceptPendingBuildingProduct.SizeTypeId
             };
 
             addResult = await _productService.AcceptPendingBuildingProduct(acceptPendingBuildingProduct.PendingBuildingProductId, product, buildingProduct);

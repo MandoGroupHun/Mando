@@ -22,7 +22,7 @@ namespace MandoWebApp.Models
 
         public int Quantity { get; set; }
 
-        public SizeType? SizeType { get; set; }
+        public int? SizeTypeID { get; set; }
 
         [Column(TypeName = "varchar(3)")]
         public string Size { get; set; }

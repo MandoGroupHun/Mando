@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, Optional } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Product, SizeType } from '../../models/product';
+import { Product } from '../../models/product';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { Building } from '../../models/building';
 import { extractFirstErrorMessage } from '../../utilities/error-util';
@@ -10,6 +10,7 @@ import { Unit } from '../../models/unit';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Category } from '../../models/category';
 import { ProductService } from 'src/app/_services/product.service';
+import { SizeType } from '../../models/sizetype';
 
 @Component({
     selector: 'app-add-donation',
@@ -18,14 +19,17 @@ import { ProductService } from 'src/app/_services/product.service';
 })
 export class AddDonationComponent implements OnDestroy {
     public products: Product[] = [];
+    public selectedProduct: Product | undefined;
     public buildings: Building[] = [];
+    public selectedBuilding: Building | undefined;
     public units: Unit[] = [];
+    public selectedUnit: Unit | undefined;
+    public categories: Category[] = [];
+    public selectedCategory: Category | undefined;
+    public sizeTypes: SizeType[] = [];
+    public selectedSizeType: SizeType | undefined;
     public productsByCategory: Product[] = [];
     public filteredProducts: Product[] = [];
-    public categories: Category[] = [];
-    public selectedProduct: Product | undefined;
-    public selectedBuilding: Building | undefined;
-    public selectedUnit: Unit | undefined;
     public quantity = 1;
     public size: string | undefined;
     public newHuProductName: string | undefined;
@@ -33,9 +37,6 @@ export class AddDonationComponent implements OnDestroy {
     public saveInProgress = false;
     public isLoading = true;
     public isNewProduct = false;
-    public sizeTypes: { name: string; id: SizeType }[] = [];
-    public selectedSizeType: { name: string; id: SizeType } | undefined;
-    public selectedCategory: Category | undefined;
     public isPendingDonation = false;
     public pendingDonationId: number | undefined;
 
@@ -82,43 +83,30 @@ export class AddDonationComponent implements OnDestroy {
         const units$ = this.http.get<Unit[]>(this.baseUrl + 'product/units');
         const buildings$ = this.http.get<Building[]>(this.baseUrl + 'building/buildings');
         const categories$ = this.http.get<Category[]>(this.baseUrl + 'product/categories');
+        const sizeTypes$ = this.http.get<SizeType[]>(this.baseUrl + 'product/sizetypes');
 
-        forkJoin([products$, buildings$, units$, categories$])
+        forkJoin([products$, buildings$, units$, categories$, sizeTypes$])
             .subscribe({
-                next: ([products, buildings, units, categories]) => {
+                next: ([products, buildings, units, categories, sizeTypes]) => {
                     this.products = products;
                     this.buildings = buildings;
                     this.units = units;
                     this.categories = categories;
+                    this.sizeTypes = sizeTypes;
 
-                    const sizeTypeNumbered = this.translateService.get('ADDDONATION.SIZETYPE.NUMBERED');
-                    const sizeTypeTShirt = this.translateService.get('ADDDONATION.SIZETYPE.CHARACTER');
-                    const sizeTypeChild = this.translateService.get('ADDDONATION.SIZETYPE.CHILD');
-
-                    forkJoin([sizeTypeNumbered, sizeTypeTShirt, sizeTypeChild]).subscribe({
-                        next: ([numbered, tshirt, child]) => {
-                            this.sizeTypes = [SizeType.Child, SizeType.Numbered, SizeType.TShirt].map(((x) => {
-                                return {
-                                    name: x === SizeType.Child ? child :
-                                        x === SizeType.Numbered ? numbered : tshirt, id: x
-                                };
-                            }));
-
-                            if (!!this.dialogConfig) {
-                                this.isNewProduct = true;
-                                this.selectedCategory = this.categories.find(x => x.categoryId === this.dialogConfig.data.categoryId);
-                                this.productsByCategory = this.products.filter(x => x.category === this.selectedCategory?.name);
-                                this.newEnProductName = this.dialogConfig.data.enProductName;
-                                this.newHuProductName = this.dialogConfig.data.huProductName;
-                                this.quantity = this.dialogConfig.data.quantity;
-                                this.selectedUnit = this.units.find(x => x.unitId === this.dialogConfig.data.unitId);
-                                this.selectedSizeType = this.sizeTypes.find(x => x.id === this.dialogConfig.data.sizeType);
-                                this.size = this.dialogConfig.data.size;
-                                this.pendingDonationId = this.dialogConfig.data.pendingDonationId;
-                                this.selectedBuilding = this.buildings.find(x => x.buildingId === this.dialogConfig.data.buildingId);
-                            }
-                        }, error: error => console.error(error)
-                    });
+                    if (!!this.dialogConfig) {
+                        this.isNewProduct = true;
+                        this.selectedCategory = this.categories.find(x => x.categoryId === this.dialogConfig.data.categoryId);
+                        this.productsByCategory = this.products.filter(x => x.category === this.selectedCategory?.name);
+                        this.newEnProductName = this.dialogConfig.data.enProductName;
+                        this.newHuProductName = this.dialogConfig.data.huProductName;
+                        this.quantity = this.dialogConfig.data.quantity;
+                        this.selectedUnit = this.units.find(x => x.unitId === this.dialogConfig.data.unitId);
+                        this.selectedSizeType = this.sizeTypes.find(x => x.sizeTypeId === this.dialogConfig.data.sizeTypeId);
+                        this.size = this.dialogConfig.data.size;
+                        this.pendingDonationId = this.dialogConfig.data.pendingDonationId;
+                        this.selectedBuilding = this.buildings.find(x => x.buildingId === this.dialogConfig.data.buildingId);
+                    }
 
                     this.isLoading = false;
                 }, error: (error: HttpErrorResponse) => {
@@ -162,7 +150,7 @@ export class AddDonationComponent implements OnDestroy {
             productId: this.selectedProduct!.productId,
             buildingId: this.selectedBuilding!.buildingId,
             quantity: this.quantity,
-            size: !!this.selectedProduct!.sizeType ? this.size : undefined
+            size: !!this.selectedSizeType ? this.size : undefined
         }).subscribe({
             next: () => {
                 this.messageService.add({ severity: 'success', summary: 'MESSAGE.SUCCESS', detail: 'MESSAGE.ADDDONATION.SUCCESS_DETAIL' });
@@ -182,7 +170,7 @@ export class AddDonationComponent implements OnDestroy {
             enProductName: this.newEnProductName,
             buildingId: this.selectedBuilding!.buildingId,
             quantity: this.quantity,
-            sizeType: this.selectedSizeType?.id,
+            sizeTypeId: this.selectedSizeType?.sizeTypeId,
             size: !!this.selectedSizeType ? this.size : undefined,
             unitId: this.selectedUnit!.unitId
         }).subscribe({
@@ -205,7 +193,7 @@ export class AddDonationComponent implements OnDestroy {
             enProductName: this.newEnProductName,
             buildingId: this.selectedBuilding!.buildingId,
             quantity: this.quantity,
-            sizeType: this.selectedSizeType?.id,
+            sizeTypeId: this.selectedSizeType?.sizeTypeId,
             size: !!this.selectedSizeType ? this.size : undefined,
             unitId: this.selectedUnit!.unitId,
             productId: !this.isNewProduct ? this.selectedProduct?.productId : undefined
@@ -220,20 +208,9 @@ export class AddDonationComponent implements OnDestroy {
     }
 
     public getSizeToolTip(): string {
-        switch (this.selectedProduct?.sizeType ?? this.selectedSizeType?.id) {
-            case SizeType.Numbered: {
-                return '32, 36, 44';
-            }
-            case SizeType.TShirt: {
-                return 'S, M, L, XL';
-            }
-            case SizeType.Child: {
-                return '126, 134';
-            }
-            default: {
-                return '';
-            }
-        }
+        const sizeTypeId = this.selectedProduct?.sizeTypeId ?? this.selectedSizeType?.sizeTypeId;
+
+        return this.sizeTypes.find(x => x.sizeTypeId === sizeTypeId)?.examples ?? '';
     }
 
     public newProductChanged(e: any) {
@@ -253,7 +230,7 @@ export class AddDonationComponent implements OnDestroy {
 
     public shouldDisableSaveButton(): boolean {
         return this.saveInProgress || !this.selectedBuilding || !this.selectedCategory ||
-            (!this.isNewProduct && (!this.selectedProduct || (!!this.selectedProduct.sizeType && (!this.size || this.size.trim() === '')))) ||
+            (!this.isNewProduct && (!this.selectedProduct || (!!this.selectedProduct.sizeTypeId && (!this.size || this.size.trim() === '')))) ||
             (this.isNewProduct && (!this.selectedUnit || (!!this.selectedSizeType && (!this.size || this.size.trim() === '')) ||
                 (!this.isPendingDonation && ((!this.newHuProductName || this.newHuProductName.trim() === '') && (!this.newEnProductName || this.newEnProductName.trim() === ''))) ||
                 (this.isPendingDonation && ((!this.newHuProductName || this.newHuProductName.trim() === '') || (!this.newEnProductName || this.newEnProductName.trim() === '')))));
