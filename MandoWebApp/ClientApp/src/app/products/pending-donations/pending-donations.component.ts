@@ -64,7 +64,7 @@ export class PendingDonationsComponent implements OnDestroy {
             enProductName: pendingDonation.enProductName,
             unitId: pendingDonation.unitId,
             quantity: pendingDonation.quantity,
-            sizeType: pendingDonation.sizeType,
+            sizeTypeId: pendingDonation.sizeTypeId,
             size: pendingDonation.size,
             buildingId: pendingDonation.buildingId
           },
@@ -114,7 +114,7 @@ export class PendingDonationsComponent implements OnDestroy {
               enProductName: pendingDonation.enProductName,
               buildingId: pendingDonation.buildingId,
               quantity: pendingDonation.quantity,
-              sizeType: pendingDonation.sizeType,
+              sizeTypeId: pendingDonation.sizeTypeId,
               size: pendingDonation.size,
               unitId: pendingDonation.unitId,
               productId: undefined

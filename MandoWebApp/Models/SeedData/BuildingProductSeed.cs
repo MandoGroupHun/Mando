@@ -47,7 +47,7 @@ namespace MandoWebApp.Models.SeedData
                 CategoryID = 1,
                 ENName = "Toothbrush",
                 HUName = "Fogkefe",
-                SizeType = null,
+                SizeTypeID = null,
                 UnitID = 2
             },
             new Product
@@ -56,7 +56,7 @@ namespace MandoWebApp.Models.SeedData
                 CategoryID = 2,
                 ENName = "Female shirt",
                 HUName = "Női ing",
-                SizeType = SizeType.TShirt,
+                SizeTypeID = 2,
                 UnitID = 1
             },
             new Product
@@ -65,7 +65,7 @@ namespace MandoWebApp.Models.SeedData
                 CategoryID = 2,
                 ENName = "Male shirt",
                 HUName = "Férfi ing",
-                SizeType = SizeType.Numbered,
+                SizeTypeID = 1,
                 UnitID = 1
             },
             new Product
@@ -74,7 +74,7 @@ namespace MandoWebApp.Models.SeedData
                 CategoryID = 3,
                 ENName = "Painkiller",
                 HUName = "Fájdalomcsillapító",
-                SizeType = null,
+                SizeTypeID = null,
                 UnitID = 2
             });
 
@@ -108,6 +108,28 @@ namespace MandoWebApp.Models.SeedData
                 ProductID = 4,
                 Quantity = 10,
                 Size = string.Empty
+            });
+
+            builder.Entity<SizeType>().HasData(new SizeType
+            {
+                ID = 1,
+                HUName = "Szám",
+                ENName = "Number",
+                Examples = "32, 36, 44"
+            },
+            new SizeType
+            {
+                ID = 2,
+                HUName = "Betű",
+                ENName = "Character",
+                Examples = "S, M, L, XL"
+            },
+            new SizeType
+            {
+                ID = 3,
+                HUName = "Gyerek",
+                ENName = "Child",
+                Examples = "126, 134"
             });
         }
     }

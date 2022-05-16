@@ -97,12 +97,7 @@
     "QUANTITY": "Mennyiség",
     "SIZE": "Méret",
     "SAVE": "Mentés",
-    "SIZETYPE": {
-      "NAME": "Méret típus",
-      "NUMBERED": "Számozott",
-      "CHARACTER": "Betűs",
-      "CHILD": "Gyerek"
-    },
+    "SIZETYPE": "Méret típus",
     "NEWPRODUCT": {
       "ON": "Ha nem találod az adományt a listában, kattints ide:",
       "OFF": "Ha meglévő adományt szeretnél hozzáadni, kattints ide:"

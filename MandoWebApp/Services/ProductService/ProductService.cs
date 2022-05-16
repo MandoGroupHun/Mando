@@ -36,7 +36,7 @@ namespace MandoWebApp.Services.ProductService
                 Name = x.Name(lang),
                 UnitName = units.First(u => u.ID == x.UnitID).Name(lang),
                 Category = categories.First(u => u.ID == x.CategoryID).Name(lang),
-                SizeType = x.SizeType
+                SizeTypeId = x.SizeTypeID,
             }).ToList();
         }
 
@@ -173,6 +173,7 @@ namespace MandoWebApp.Services.ProductService
             var lang = _httpContextAccessor.HttpContext?.GetLang()!;
             var users = await _userManagementService.GetUsersAndRoles();
             var categories = await _dbContext.Categories.ToListAsync();
+            var sizeTypes = await _dbContext.SizeTypes.ToListAsync();
 
             return pendingBuildingProducts.Select(x => new PendingDonationModel
             {
@@ -184,7 +185,8 @@ namespace MandoWebApp.Services.ProductService
                 Category = categories.First(u => u.ID == x.CategoryID).Name(lang),
                 CategoryId = x.CategoryID,
                 BuildingId = x.BuildingID,
-                SizeType = x.SizeType,
+                SizeTypeId = x.SizeTypeID,
+                SizeTypeName = sizeTypes.FirstOrDefault(u => u.ID == x.SizeTypeID)?.Name(lang),
                 Size = x.Size,
                 RecordedAt = x.RecordedAt,
                 Quantity = x.Quantity,
@@ -298,6 +300,19 @@ namespace MandoWebApp.Services.ProductService
             {
                 CategoryId = x.ID,
                 Name = x.Name(lang)
+            }).ToList();
+        }
+
+        public async Task<List<SizeTypeModel>> GetSizeTypes()
+        {
+            var sizeTypes = await _dbContext.SizeTypes.ToListAsync();
+            var lang = _httpContextAccessor.HttpContext?.GetLang()!;
+
+            return sizeTypes.Select(x => new SizeTypeModel
+            {
+                SizeTypeId = x.ID,
+                Name = x.Name(lang),
+                Examples = x.Examples
             }).ToList();
         }
     }

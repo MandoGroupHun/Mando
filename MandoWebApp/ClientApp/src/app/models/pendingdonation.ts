@@ -1,5 +1,3 @@
-import { SizeType } from "./product";
-
 export class PendingDonation {
     pendingDonationId!: number;
     category!: string;
@@ -9,7 +7,8 @@ export class PendingDonation {
     huProductName: string | undefined;
     enProductName: string | undefined;
     quantity!: number;
-    sizeType: SizeType | undefined;
+    sizeTypeId: number | undefined;
+    sizeTypeName: string | undefined;
     size: string | undefined;
     unitId!: number;
     unitName!: string;

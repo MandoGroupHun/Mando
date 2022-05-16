@@ -16,7 +16,9 @@
 
         public int Quantity { get; set; }
 
-        public SizeType? SizeType { get; set; }
+        public string SizeTypeName { get; set; }
+
+        public int? SizeTypeId { get; set; }
 
         public string Size { get; set; }
 
